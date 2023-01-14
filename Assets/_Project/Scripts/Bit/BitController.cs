@@ -19,6 +19,10 @@ public class BitController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float jumpMaxHeight = 3f;
+    [SerializeField] private float wallJumpMaxHeight = 3f;
+    [SerializeField] private float wallJumpDuration = 0.4f;
+    private float _wallJumpTimer;
+    private bool _isWallJumpCompleted;
 
     [Header("Collision Check")]
     [SerializeField] private Collider2D wallCheckCollider;
@@ -27,10 +31,10 @@ public class BitController : MonoBehaviour
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float distance;
 
-
+    //State Machine
     private States _currentState;
-
-
+    private States _lastState;
+    private States _nextState;
     private bool _firstCicle = false;
 
     private void Update()
@@ -43,31 +47,23 @@ public class BitController : MonoBehaviour
 
     private void CheckConditions()
     {
-        if (_firstCicle)
-        {
-            _firstCicle = false;
-        }
-
         switch (_currentState)
         {
             case States.Idle:
 
                 if (InputManager.Instance.WalkRawValue() != 0)
                 {
-                    _currentState = States.Walk;
-                    _firstCicle = true;
+                    _nextState = States.Walk;
                 }
 
                 if (!IsGrounded())
                 {
-                    _currentState = States.Falling;
-                    _firstCicle = true;
+                    _nextState = States.Falling;
                 }
 
                 if (InputManager.Instance.JumpWasPressed())
                 {
-                    _currentState = States.Jump;
-                    _firstCicle = true;
+                    _nextState = States.Jump;
                 }
 
                 break;
@@ -75,20 +71,15 @@ public class BitController : MonoBehaviour
 
                 if (InputManager.Instance.WalkWasReleased())
                 {
-                    _currentState = States.Idle;
-                    _firstCicle = true;
-
+                    _nextState = States.Idle;
                 }
                 if (InputManager.Instance.JumpWasPressed())
                 {
-                    _currentState = States.Jump;
-                    _firstCicle = true;
-
+                    _nextState = States.Jump;
                 }
                 if (!IsGrounded())
                 {
-                    _currentState = States.Falling;
-                    _firstCicle = true;
+                    _nextState = States.Falling;
                 }
 
                 break;
@@ -96,8 +87,12 @@ public class BitController : MonoBehaviour
 
                 if (rb.velocity.y <= 0)
                 {
-                    _currentState = States.Falling;
-                    _firstCicle = true;
+                    _nextState = States.Falling;
+                }
+
+                if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
+                {
+                    _nextState = States.WallJump;
                 }
 
                 break;
@@ -105,18 +100,46 @@ public class BitController : MonoBehaviour
 
                 if (IsGrounded())
                 {
-                    _currentState = States.Idle;
-                    _firstCicle = true;
+                    _nextState = States.Idle;
+                }
+
+                if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
+                {
+                    _nextState = States.WallJump;
                 }
 
                 break;
             case States.WallJump:
-                break;
-            default:
 
-                _currentState = States.Idle;
+                if (rb.velocity.y <= 0)
+                {
+                    _nextState = States.Falling;
+                }
+
+                if (!_isWallJumpCompleted) break;
+
+                if (IsTouchingWall())
+                {
+                    _nextState = States.Falling;
+                }
 
                 break;
+            case States.None:
+
+                _nextState = States.Idle;
+
+                break;
+        }
+
+        if (_nextState != _currentState)
+        {
+            _firstCicle = true;
+            _lastState = _currentState;
+            _currentState = _nextState;
+        }
+        else
+        {
+            _firstCicle = false;
         }
     }
 
@@ -137,6 +160,7 @@ public class BitController : MonoBehaviour
                 Falling();
                 break;
             case States.WallJump:
+                WallJump();
                 break;
         }
     }
@@ -168,7 +192,44 @@ public class BitController : MonoBehaviour
 
     private void Falling()
     {
-        Walk();
+        if (_lastState != States.WallJump)
+        {
+            Walk();
+        }
+
+        //if last state is wall jump only modify velocity if Walk has pressed
+        else if (!InputManager.Instance.WalkWasPressed())
+        {
+            Walk();
+        }
+    }
+
+    private void WallJump()
+    {
+        //Timer
+        if (!_firstCicle)
+        {
+            _wallJumpTimer -= Time.deltaTime;
+            if (_wallJumpTimer < 0)
+            {
+                _isWallJumpCompleted = true;
+            }
+            return;
+        }
+
+        //jumpForce = squareRoot(jumpMaxHeight * gravity * -2) * mass
+        var jumpForce = Mathf.Sqrt(wallJumpMaxHeight * (Physics2D.gravity.y * rb.gravityScale) * -2) *
+                        rb.mass;
+        rb.velocity = Vector2.zero;
+
+        var direction = sr.flipX == true
+            ? new Vector2(1f, 1f).normalized
+            : new Vector2(-1f, 1f).normalized;
+        rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
+
+        //SetTimer
+        _isWallJumpCompleted = false;
+        _wallJumpTimer = wallJumpDuration;
     }
 
     private bool IsGrounded()
