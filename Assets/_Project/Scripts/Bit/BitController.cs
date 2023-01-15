@@ -116,7 +116,7 @@ public class BitController : MonoBehaviour
         {
             return States.Idle;
         }
-        if (InputManager.Instance.JumpWasPressed())
+        if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
         {
             return States.Jump;
         }
