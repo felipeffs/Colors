@@ -41,7 +41,6 @@ public class BitController : MonoBehaviour
         CheckConditions();
         RunState();
         Flip();
-        Debug.Log(_currentState);
     }
 
     private void CheckConditions()
@@ -133,6 +132,7 @@ public class BitController : MonoBehaviour
             _firstCicle = true;
             _lastState = _currentState;
             _currentState = _nextState;
+            Debug.Log(_currentState);
         }
         else
         {
