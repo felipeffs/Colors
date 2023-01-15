@@ -49,14 +49,14 @@ public class BitController : MonoBehaviour
         {
             case States.Idle:
 
-                if (InputManager.Instance.WalkRawValue() != 0)
-                {
-                    _nextState = States.Walk;
-                }
-
                 if (!IsGrounded())
                 {
                     _nextState = States.Falling;
+                }
+                
+                if (InputManager.Instance.WalkRawValue() != 0)
+                {
+                    _nextState = States.Walk;
                 }
 
                 if (InputManager.Instance.JumpWasPressed())
@@ -67,6 +67,10 @@ public class BitController : MonoBehaviour
                 break;
             case States.Walk:
 
+                if (!IsGrounded())
+                {
+                    _nextState = States.Falling;
+                }
                 if (InputManager.Instance.WalkWasReleased())
                 {
                     _nextState = States.Idle;
@@ -75,22 +79,17 @@ public class BitController : MonoBehaviour
                 {
                     _nextState = States.Jump;
                 }
-                if (!IsGrounded())
-                {
-                    _nextState = States.Falling;
-                }
 
                 break;
             case States.Jump:
 
-                if (rb.velocity.y <= 0)
-                {
-                    _nextState = States.Falling;
-                }
-
                 if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
                 {
                     _nextState = States.WallJump;
+                }
+                if (rb.velocity.y <= 0)
+                {
+                    _nextState = States.Falling;
                 }
 
                 break;
