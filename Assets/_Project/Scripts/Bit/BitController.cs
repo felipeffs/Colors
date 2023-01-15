@@ -200,7 +200,7 @@ public class BitController : MonoBehaviour
         }
 
         //if last state is wall jump only modify velocity if Walk has pressed
-        else if (!InputManager.Instance.WalkWasPressed())
+        else if (InputManager.Instance.WalkRawValue() != 0)
         {
             Walk();
         }
