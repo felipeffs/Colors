@@ -255,6 +255,8 @@ MonoBehaviour:
   rb: {fileID: 706158533}
   walkSpeed: 5
   jumpMaxHeight: 3
+  wallJumpMaxHeight: 3
+  wallJumpDuration: 0.4
   wallCheckCollider: {fileID: 1175572931}
   groundCheckCollider: {fileID: 581719030}
   wallLayers:
@@ -263,7 +265,6 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  distance: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,7 +1911,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2572751, y: -0.12337208}
+  m_Offset: {x: 0.2572751, y: -0.074852705}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1921,7 +1922,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.06030941, y: 0.742352}
+  m_Size: {x: 0.06030941, y: 0.4213779}
   m_EdgeRadius: 0
 --- !u!1 &1189758198
 GameObject:
@@ -1952,6 +1953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394522d185dcbe04bb71ccc442ecfcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bufferWindow: 0.4
 --- !u!4 &1189758200
 Transform:
   m_ObjectHideFlags: 0

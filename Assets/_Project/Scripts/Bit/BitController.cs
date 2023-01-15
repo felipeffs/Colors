@@ -20,7 +20,7 @@ public class BitController : MonoBehaviour
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float jumpMaxHeight = 3f;
     [SerializeField] private float wallJumpMaxHeight = 3f;
-    [SerializeField] private float wallJumpDuration = 0.4f;
+    [SerializeField] private float wallJumpDuration = .4f;
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted;
 
@@ -29,7 +29,6 @@ public class BitController : MonoBehaviour
     [SerializeField] private Collider2D groundCheckCollider;
     [SerializeField] private LayerMask wallLayers;
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float distance;
 
     //State Machine
     private States _currentState;
@@ -102,7 +101,6 @@ public class BitController : MonoBehaviour
                 {
                     _nextState = States.Idle;
                 }
-
                 if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
                 {
                     _nextState = States.WallJump;
@@ -111,12 +109,12 @@ public class BitController : MonoBehaviour
                 break;
             case States.WallJump:
 
+                if (!_isWallJumpCompleted) break;
+
                 if (rb.velocity.y <= 0)
                 {
                     _nextState = States.Falling;
                 }
-
-                if (!_isWallJumpCompleted) break;
 
                 if (IsTouchingWall())
                 {
@@ -130,7 +128,6 @@ public class BitController : MonoBehaviour
 
                 break;
         }
-
         if (_nextState != _currentState)
         {
             _firstCicle = true;
@@ -234,14 +231,15 @@ public class BitController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(groundCheckCollider.bounds.center, groundCheckCollider.bounds.size, 0f, Vector2.down, distance, groundLayers);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(groundCheckCollider.bounds.center, groundCheckCollider.bounds.size, 0f, Vector2.down, 0f, groundLayers);
         return raycastHit.collider != null;
     }
 
     private bool IsTouchingWall()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(wallCheckCollider.bounds.center, wallCheckCollider.bounds.size, 0f, Vector2.right, distance, wallLayers);
-        return raycastHit.collider != null;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(wallCheckCollider.bounds.center, wallCheckCollider.bounds.size, 0f, Vector2.right, 0f, wallLayers);
+        var isTouching = raycastHit.collider != null;
+        return isTouching;
     }
 
     private void Flip()
