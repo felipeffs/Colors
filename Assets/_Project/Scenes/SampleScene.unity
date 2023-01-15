@@ -266,7 +266,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   jumpBufferWindow: 0.4
-  _coyoteWindow: 0.4
+  _coyoteWindow: 0.2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

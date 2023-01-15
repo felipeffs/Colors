@@ -36,7 +36,7 @@ public class BitController : MonoBehaviour
     private States _nextState;
     private bool _firstCicle = false;
 
-    [Header("Input Buffer")]
+    [Header("Jump Buffer")]
     [SerializeField] private float jumpBufferWindow;
     private bool _jumpBuffered;
     private float _jumpBufferTimer;
@@ -55,27 +55,15 @@ public class BitController : MonoBehaviour
 
     private void RunState()
     {
-        switch (_currentState)
+        _nextState = _currentState switch
         {
-            case States.Idle:
-                Idle();
-                break;
-            case States.Walk:
-                Walk();
-                break;
-            case States.Jump:
-                Jump();
-                break;
-            case States.Falling:
-                Falling();
-                break;
-            case States.WallJump:
-                WallJump();
-                break;
-            case States.None:
-                _nextState = States.Idle;
-                break;
-        }
+            States.Idle => Idle(),
+            States.Walk => Walk(),
+            States.Jump => Jump(),
+            States.Falling => Falling(),
+            States.WallJump => WallJump(),
+            _ => States.Idle
+        };
 
         // Change State
         if (_nextState != _currentState)
@@ -100,17 +88,17 @@ public class BitController : MonoBehaviour
         // Transitions
         if (!IsGrounded())
         {
-            _nextState = States.Falling;
+            return States.Falling;
         }
 
         if (InputManager.Instance.WalkRawValue() != 0)
         {
-            _nextState = States.Walk;
+            return States.Walk;
         }
 
         if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
         {
-            _nextState = States.Jump;
+            return States.Jump;
         }
         return States.Idle;
     }
@@ -122,26 +110,20 @@ public class BitController : MonoBehaviour
         //Transitions
         if (!IsGrounded())
         {
-            _nextState = States.Falling;
+            return States.Falling;
         }
         if (InputManager.Instance.WalkWasReleased())
         {
-            _nextState = States.Idle;
+            return States.Idle;
         }
         if (InputManager.Instance.JumpWasPressed())
         {
-            _nextState = States.Jump;
+            return States.Jump;
         }
         return States.Walk;
     }
 
-    private void MoveHorizontally()
-    {
-        var horintalMovement = InputManager.Instance.WalkRawValue();
-        rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
-    }
-
-    private void Jump()
+    private States Jump()
     {
         if (_firstCicle)
         {
@@ -153,20 +135,21 @@ public class BitController : MonoBehaviour
 
             ConsumeCoyoteTime();
         }
+        MoveHorizontally();
 
         //Transitions
         if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
         {
-            _nextState = States.WallJump;
+            return States.WallJump;
         }
         if (rb.velocity.y <= 0)
         {
-            _nextState = States.Falling;
+            return States.Falling;
         }
-        MoveHorizontally();
+        return States.Jump;
     }
 
-    private void Falling()
+    private States Falling()
     {
         UpdateCoyoteTimer();
 
@@ -184,22 +167,24 @@ public class BitController : MonoBehaviour
         //Transitions
         if (IsGrounded())
         {
-            _nextState = States.Idle;
+            return States.Idle;
         }
 
         else if (_coyoteJump)
         {
             Debug.Log("coyoteJump");
-            _nextState = States.Jump;
+            return States.Jump;
         }
 
         if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
         {
-            _nextState = States.WallJump;
+            return States.WallJump;
         }
+
+        return States.Falling;
     }
 
-    private void WallJump()
+    private States WallJump()
     {
 
         if (_firstCicle)
@@ -229,17 +214,25 @@ public class BitController : MonoBehaviour
         }
 
         //Transitions
-        if (!_isWallJumpCompleted) return;
+        if (!_isWallJumpCompleted) return States.WallJump;
 
         if (rb.velocity.y <= 0)
         {
-            _nextState = States.Falling;
+            return States.Falling;
         }
 
         if (IsTouchingWall())
         {
-            _nextState = States.Falling;
+            return States.Falling;
         }
+
+        return States.WallJump;
+    }
+
+    private void MoveHorizontally()
+    {
+        var horintalMovement = InputManager.Instance.WalkRawValue();
+        rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
     }
 
     private bool IsGrounded()
