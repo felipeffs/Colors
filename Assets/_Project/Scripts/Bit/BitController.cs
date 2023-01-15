@@ -41,6 +41,11 @@ public class BitController : MonoBehaviour
     private bool _jumpBuffered;
     private float _jumpBufferTimer;
 
+    [Header("Coyote Time")]
+    [SerializeField] private float _coyoteWindow = .4f;
+    private float _coyoteTimer;
+    private bool _coyoteJump;
+
     private void Update()
     {
         JumpBuffer();
@@ -105,6 +110,13 @@ public class BitController : MonoBehaviour
                 {
                     _nextState = States.Idle;
                 }
+
+                else if (_coyoteJump)
+                {
+                    Debug.Log("coyoteJump");
+                    _nextState = States.Jump;
+                }
+
                 if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
                 {
                     _nextState = States.WallJump;
@@ -170,6 +182,8 @@ public class BitController : MonoBehaviour
     private void Idle()
     {
         rb.velocity = Vector2.zero;
+
+        _coyoteTimer = _coyoteWindow;
     }
 
     private void Walk()
@@ -187,6 +201,8 @@ public class BitController : MonoBehaviour
                             rb.mass;
             rb.velocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            ConsumeCoyoteTime();
         }
 
         Walk();
@@ -194,6 +210,8 @@ public class BitController : MonoBehaviour
 
     private void Falling()
     {
+        UpdateCoyoteTimer();
+
         if (_lastState != States.WallJump)
         {
             Walk();
@@ -232,6 +250,8 @@ public class BitController : MonoBehaviour
         //SetTimer
         _isWallJumpCompleted = false;
         _wallJumpTimer = wallJumpDuration;
+
+        ConsumeCoyoteTime();
     }
 
     private bool IsGrounded()
@@ -277,5 +297,25 @@ public class BitController : MonoBehaviour
             _jumpBuffered = true;
             _jumpBufferTimer = jumpBufferWindow;
         }
+    }
+
+
+    private void UpdateCoyoteTimer()
+    {
+        if (_coyoteTimer > 0)
+        {
+            _coyoteTimer -= Time.deltaTime;
+            if (InputManager.Instance.JumpWasPressed())
+            {
+                Debug.Log("Vai pular no ar ein");
+                _coyoteJump = true;
+            }
+        }
+    }
+
+    public void ConsumeCoyoteTime()
+    {
+        _coyoteJump = false;
+        _coyoteTimer = 0;
     }
 }
