@@ -49,112 +49,8 @@ public class BitController : MonoBehaviour
     private void Update()
     {
         JumpBuffer();
-        CheckConditions();
         RunState();
         Flip();
-    }
-
-    private void CheckConditions()
-    {
-        switch (_currentState)
-        {
-            case States.Idle:
-
-                if (!IsGrounded())
-                {
-                    _nextState = States.Falling;
-                }
-
-                if (InputManager.Instance.WalkRawValue() != 0)
-                {
-                    _nextState = States.Walk;
-                }
-
-                if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
-                {
-                    _nextState = States.Jump;
-                }
-
-                break;
-            case States.Walk:
-
-                if (!IsGrounded())
-                {
-                    _nextState = States.Falling;
-                }
-                if (InputManager.Instance.WalkWasReleased())
-                {
-                    _nextState = States.Idle;
-                }
-                if (InputManager.Instance.JumpWasPressed())
-                {
-                    _nextState = States.Jump;
-                }
-
-                break;
-            case States.Jump:
-
-                if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
-                {
-                    _nextState = States.WallJump;
-                }
-                if (rb.velocity.y <= 0)
-                {
-                    _nextState = States.Falling;
-                }
-
-                break;
-            case States.Falling:
-
-                if (IsGrounded())
-                {
-                    _nextState = States.Idle;
-                }
-
-                else if (_coyoteJump)
-                {
-                    Debug.Log("coyoteJump");
-                    _nextState = States.Jump;
-                }
-
-                if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
-                {
-                    _nextState = States.WallJump;
-                }
-
-                break;
-            case States.WallJump:
-
-                if (!_isWallJumpCompleted) break;
-
-                if (rb.velocity.y <= 0)
-                {
-                    _nextState = States.Falling;
-                }
-
-                if (IsTouchingWall())
-                {
-                    _nextState = States.Falling;
-                }
-
-                break;
-            case States.None:
-
-                _nextState = States.Idle;
-
-                break;
-        }
-        if (_nextState != _currentState)
-        {
-            _firstCicle = true;
-            _lastState = _currentState;
-            _currentState = _nextState;
-            Debug.Log(_currentState);
-        }
-        else
-        {
-            _firstCicle = false;
-        }
     }
 
     private void RunState()
@@ -176,17 +72,70 @@ public class BitController : MonoBehaviour
             case States.WallJump:
                 WallJump();
                 break;
+            case States.None:
+                _nextState = States.Idle;
+                break;
+        }
+
+        // Change State
+        if (_nextState != _currentState)
+        {
+            _firstCicle = true;
+            _lastState = _currentState;
+            _currentState = _nextState;
+            Debug.Log(_currentState);
+        }
+        else
+        {
+            _firstCicle = false;
         }
     }
 
-    private void Idle()
+    private States Idle()
     {
         rb.velocity = Vector2.zero;
 
         _coyoteTimer = _coyoteWindow;
+
+        // Transitions
+        if (!IsGrounded())
+        {
+            _nextState = States.Falling;
+        }
+
+        if (InputManager.Instance.WalkRawValue() != 0)
+        {
+            _nextState = States.Walk;
+        }
+
+        if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
+        {
+            _nextState = States.Jump;
+        }
+        return States.Idle;
     }
 
-    private void Walk()
+    private States Walk()
+    {
+        MoveHorizontally();
+
+        //Transitions
+        if (!IsGrounded())
+        {
+            _nextState = States.Falling;
+        }
+        if (InputManager.Instance.WalkWasReleased())
+        {
+            _nextState = States.Idle;
+        }
+        if (InputManager.Instance.JumpWasPressed())
+        {
+            _nextState = States.Jump;
+        }
+        return States.Walk;
+    }
+
+    private void MoveHorizontally()
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
         rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
@@ -205,7 +154,16 @@ public class BitController : MonoBehaviour
             ConsumeCoyoteTime();
         }
 
-        Walk();
+        //Transitions
+        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
+        {
+            _nextState = States.WallJump;
+        }
+        if (rb.velocity.y <= 0)
+        {
+            _nextState = States.Falling;
+        }
+        MoveHorizontally();
     }
 
     private void Falling()
@@ -214,44 +172,74 @@ public class BitController : MonoBehaviour
 
         if (_lastState != States.WallJump)
         {
-            Walk();
+            MoveHorizontally();
         }
 
         //if last state is wall jump only modify velocity if Walk has pressed
         else if (InputManager.Instance.WalkRawValue() != 0)
         {
-            Walk();
+            MoveHorizontally();
+        }
+
+        //Transitions
+        if (IsGrounded())
+        {
+            _nextState = States.Idle;
+        }
+
+        else if (_coyoteJump)
+        {
+            Debug.Log("coyoteJump");
+            _nextState = States.Jump;
+        }
+
+        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
+        {
+            _nextState = States.WallJump;
         }
     }
 
     private void WallJump()
     {
-        //Timer
-        if (!_firstCicle)
+
+        if (_firstCicle)
         {
-            _wallJumpTimer -= Time.deltaTime;
-            if (_wallJumpTimer < 0)
-            {
-                _isWallJumpCompleted = true;
-            }
-            return;
+            //jumpForce = squareRoot(jumpMaxHeight * gravity * -2) * mass
+            var jumpForce = Mathf.Sqrt(wallJumpMaxHeight * (Physics2D.gravity.y * rb.gravityScale) * -2) *
+                            rb.mass;
+            rb.velocity = Vector2.zero;
+
+            var direction = sr.flipX == true
+                ? new Vector2(1f, 1f).normalized
+                : new Vector2(-1f, 1f).normalized;
+            rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
+
+            //SetTimer
+            _isWallJumpCompleted = false;
+            _wallJumpTimer = wallJumpDuration;
+
+            ConsumeCoyoteTime();
         }
 
-        //jumpForce = squareRoot(jumpMaxHeight * gravity * -2) * mass
-        var jumpForce = Mathf.Sqrt(wallJumpMaxHeight * (Physics2D.gravity.y * rb.gravityScale) * -2) *
-                        rb.mass;
-        rb.velocity = Vector2.zero;
+        //Timer
+        _wallJumpTimer -= Time.deltaTime;
+        if (_wallJumpTimer < 0)
+        {
+            _isWallJumpCompleted = true;
+        }
 
-        var direction = sr.flipX == true
-            ? new Vector2(1f, 1f).normalized
-            : new Vector2(-1f, 1f).normalized;
-        rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
+        //Transitions
+        if (!_isWallJumpCompleted) return;
 
-        //SetTimer
-        _isWallJumpCompleted = false;
-        _wallJumpTimer = wallJumpDuration;
+        if (rb.velocity.y <= 0)
+        {
+            _nextState = States.Falling;
+        }
 
-        ConsumeCoyoteTime();
+        if (IsTouchingWall())
+        {
+            _nextState = States.Falling;
+        }
     }
 
     private bool IsGrounded()
@@ -307,7 +295,6 @@ public class BitController : MonoBehaviour
             _coyoteTimer -= Time.deltaTime;
             if (InputManager.Instance.JumpWasPressed())
             {
-                Debug.Log("Vai pular no ar ein");
                 _coyoteJump = true;
             }
         }
