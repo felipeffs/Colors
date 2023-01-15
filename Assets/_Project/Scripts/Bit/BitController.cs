@@ -36,8 +36,14 @@ public class BitController : MonoBehaviour
     private States _nextState;
     private bool _firstCicle = false;
 
+    [Header("Input Buffer")]
+    [SerializeField] private float jumpBufferWindow;
+    private bool _jumpBuffered;
+    private float _jumpBufferTimer;
+
     private void Update()
     {
+        JumpBuffer();
         CheckConditions();
         RunState();
         Flip();
@@ -53,13 +59,13 @@ public class BitController : MonoBehaviour
                 {
                     _nextState = States.Falling;
                 }
-                
+
                 if (InputManager.Instance.WalkRawValue() != 0)
                 {
                     _nextState = States.Walk;
                 }
 
-                if (InputManager.Instance.JumpWasPressed())
+                if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
                 {
                     _nextState = States.Jump;
                 }
@@ -83,7 +89,7 @@ public class BitController : MonoBehaviour
                 break;
             case States.Jump:
 
-                if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
+                if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
                 {
                     _nextState = States.WallJump;
                 }
@@ -99,7 +105,7 @@ public class BitController : MonoBehaviour
                 {
                     _nextState = States.Idle;
                 }
-                if (IsTouchingWall() && InputManager.Instance.JumpWasPressed())
+                if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
                 {
                     _nextState = States.WallJump;
                 }
@@ -252,6 +258,24 @@ public class BitController : MonoBehaviour
         {
             sr.flipX = false;
             wallCheckCollider.transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    private void JumpBuffer()
+    {
+        if (_jumpBufferTimer > 0)
+        {
+            _jumpBufferTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _jumpBuffered = false;
+        }
+
+        if (!IsGrounded() && InputManager.Instance.JumpWasPressed())
+        {
+            _jumpBuffered = true;
+            _jumpBufferTimer = jumpBufferWindow;
         }
     }
 }

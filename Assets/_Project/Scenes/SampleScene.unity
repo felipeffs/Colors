@@ -265,6 +265,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
+  jumpBufferWindow: 0.4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,7 +1954,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394522d185dcbe04bb71ccc442ecfcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bufferWindow: 0.4
 --- !u!4 &1189758200
 Transform:
   m_ObjectHideFlags: 0
