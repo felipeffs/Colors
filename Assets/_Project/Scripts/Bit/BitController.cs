@@ -21,6 +21,8 @@ public class BitController : MonoBehaviour
     [SerializeField] private float jumpMaxHeight = 3f;
     [SerializeField] private float wallJumpMaxHeight = 3f;
     [SerializeField] private float wallJumpDuration = .4f;
+    [SerializeField] private float fallAcceleration = 3f;
+    [SerializeField] private float maxFallSpeed = 20f;
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted;
 
@@ -153,6 +155,18 @@ public class BitController : MonoBehaviour
     {
         UpdateCoyoteTimer();
 
+        //Fall Aceleration and Speed Limiter
+        var newYVelocity = rb.velocity.y - fallAcceleration * Time.deltaTime;
+        if (newYVelocity >= -maxFallSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, newYVelocity);
+        }
+        else
+        {
+            rb.velocity = new Vector2(rb.velocity.x, newYVelocity);
+        }
+
+        //Move Horizontally
         if (_lastState != States.WallJump)
         {
             MoveHorizontally();

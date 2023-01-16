@@ -257,6 +257,8 @@ MonoBehaviour:
   jumpMaxHeight: 3
   wallJumpMaxHeight: 3
   wallJumpDuration: 0.4
+  fallAcceleration: 15
+  maxFallSpeed: 20
   wallCheckCollider: {fileID: 1175572931}
   groundCheckCollider: {fileID: 581719030}
   wallLayers:
