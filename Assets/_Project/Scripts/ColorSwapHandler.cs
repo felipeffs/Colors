@@ -16,9 +16,14 @@ public class ColorSwapHandler : MonoBehaviour
         Color2
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        ChangeActiveColor(initialColor);
+        LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnRestartLevel -= LevelManager_OnRestartLevel;
     }
 
     private void Update()
@@ -28,20 +33,27 @@ public class ColorSwapHandler : MonoBehaviour
 
     public void ChangeActiveColor()
     {
-        _activeColor = _activeColor switch
+        var newColor = _activeColor switch
         {
             ColorID.Color1 => ColorID.Color2,
             ColorID.Color2 => ColorID.Color1,
             _ => ColorID.Color1
         };
 
-        ChangeActiveColor(_activeColor);
+        ChangeActiveColor(newColor);
     }
 
     private void ChangeActiveColor(ColorID newColor)
     {
-        OnColorSwap?.Invoke(newColor);
+        _activeColor = newColor;
 
-        Camera.main.backgroundColor = (newColor == ColorID.Color1) ? Color2 : Color1;
+        OnColorSwap?.Invoke(_activeColor);
+
+        Camera.main.backgroundColor = (_activeColor == ColorID.Color1) ? Color2 : Color1;
+    }
+
+    private void LevelManager_OnRestartLevel()
+    {
+        ChangeActiveColor(initialColor);
     }
 }

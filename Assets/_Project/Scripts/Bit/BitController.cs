@@ -1,16 +1,10 @@
 using UnityEngine;
+using System;
 
-public class BitController : MonoBehaviour
+public class BitController : MonoBehaviour, IReceiveDamage
 {
-    private enum States
-    {
-        None,
-        Idle,
-        Walk,
-        Jump,
-        Falling,
-        WallJump
-    }
+    public static event Action OnPlayerDeath;
+    private GameObject _parent;
 
     [Header("Visual")]
     [SerializeField] private SpriteRenderer sr;
@@ -33,6 +27,17 @@ public class BitController : MonoBehaviour
     [SerializeField] private LayerMask groundLayers;
 
     //State Machine
+    private enum States
+    {
+        None,
+        Dead,
+        Idle,
+        Walk,
+        Jump,
+        Falling,
+        WallJump
+    }
+
     private States _currentState;
     private States _lastState;
     private States _nextState;
@@ -48,6 +53,14 @@ public class BitController : MonoBehaviour
     private float _coyoteTimer;
     private bool _coyoteJump;
 
+    // Dead
+    private bool _isDead;
+
+    private void Awake()
+    {
+        _parent = gameObject.transform.parent.gameObject;
+    }
+
     private void Update()
     {
         JumpBuffer();
@@ -59,6 +72,7 @@ public class BitController : MonoBehaviour
     {
         _nextState = _currentState switch
         {
+            States.Dead => Dead(),
             States.Idle => Idle(),
             States.Walk => Walk(),
             States.Jump => Jump(),
@@ -102,7 +116,8 @@ public class BitController : MonoBehaviour
         {
             return States.Jump;
         }
-        return States.Idle;
+
+        return GlobalTransitions(States.Idle);
     }
 
     private States Walk()
@@ -122,7 +137,7 @@ public class BitController : MonoBehaviour
         {
             return States.Jump;
         }
-        return States.Walk;
+        return GlobalTransitions(States.Walk);
     }
 
     private States Jump()
@@ -148,7 +163,7 @@ public class BitController : MonoBehaviour
         {
             return States.Falling;
         }
-        return States.Jump;
+        return GlobalTransitions(States.Jump);
     }
 
     private States Falling()
@@ -195,7 +210,7 @@ public class BitController : MonoBehaviour
             return States.WallJump;
         }
 
-        return States.Falling;
+        return GlobalTransitions(States.Falling);
     }
 
     private States WallJump()
@@ -240,7 +255,24 @@ public class BitController : MonoBehaviour
             return States.Falling;
         }
 
-        return States.WallJump;
+        return GlobalTransitions(States.WallJump);
+    }
+
+    private States Dead()
+    {
+        if (_firstCicle)
+        {
+            OnPlayerDeath?.Invoke();
+            _parent.SetActive(false);
+        }
+
+        //Transitions
+        return _isDead ? States.Dead : States.Idle;
+    }
+
+    private States GlobalTransitions(States currentState)
+    {
+        return _isDead ? States.Dead : currentState;
     }
 
     private void MoveHorizontally()
@@ -307,9 +339,37 @@ public class BitController : MonoBehaviour
         }
     }
 
-    public void ConsumeCoyoteTime()
+    private void ConsumeCoyoteTime()
     {
         _coyoteJump = false;
         _coyoteTimer = 0;
+    }
+
+    public void Reset(Vector3 newPosition)
+    {
+        //
+        _isDead = false;
+
+        //Change Position
+        _parent.transform.position = newPosition;
+
+        //Reset Physics
+        rb.velocity = Vector2.zero;
+
+        //Reset JumpBuffer
+        _jumpBuffered = false;
+        _jumpBufferTimer = 0;
+
+        //Reset CoyoteTime
+        ConsumeCoyoteTime();
+
+        //Reset Flip
+        sr.flipX = false;
+        wallCheckCollider.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _isDead = true;
     }
 }

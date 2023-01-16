@@ -167,6 +167,45 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Level"",
+            ""id"": ""55b2818e-74b3-4e1a-9bcf-fa083cc50957"",
+            ""actions"": [
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fef811b-a766-491a-991e-8eb2257ad706"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""82d06404-63c6-4fef-abf0-c5e910ffb587"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ab25e21-69f5-432e-8b42-1032355e40a2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -176,6 +215,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Bit_Walk = m_Bit.FindAction("Walk", throwIfNotFound: true);
         m_Bit_Jump = m_Bit.FindAction("Jump", throwIfNotFound: true);
         m_Bit_SwapColor = m_Bit.FindAction("SwapColor", throwIfNotFound: true);
+        // Level
+        m_Level = asset.FindActionMap("Level", throwIfNotFound: true);
+        m_Level_Restart = m_Level.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -280,10 +322,47 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         }
     }
     public BitActions @Bit => new BitActions(this);
+
+    // Level
+    private readonly InputActionMap m_Level;
+    private ILevelActions m_LevelActionsCallbackInterface;
+    private readonly InputAction m_Level_Restart;
+    public struct LevelActions
+    {
+        private @PlayerInputs m_Wrapper;
+        public LevelActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Restart => m_Wrapper.m_Level_Restart;
+        public InputActionMap Get() { return m_Wrapper.m_Level; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LevelActions set) { return set.Get(); }
+        public void SetCallbacks(ILevelActions instance)
+        {
+            if (m_Wrapper.m_LevelActionsCallbackInterface != null)
+            {
+                @Restart.started -= m_Wrapper.m_LevelActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_LevelActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_LevelActionsCallbackInterface.OnRestart;
+            }
+            m_Wrapper.m_LevelActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
+            }
+        }
+    }
+    public LevelActions @Level => new LevelActions(this);
     public interface IBitActions
     {
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwapColor(InputAction.CallbackContext context);
+    }
+    public interface ILevelActions
+    {
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

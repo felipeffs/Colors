@@ -3,8 +3,8 @@ using UnityEngine;
 public class ColorSwapper : MonoBehaviour
 {
     [SerializeField] private ColorSwapHandler.ColorID TileColor;
-    
-    private void Start()
+
+    private void Awake()
     {
         ColorSwapHandler.OnColorSwap += ColorSwapHandler_OnColorSwap;
     }

@@ -22,11 +22,13 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         _controls.Bit.Enable();
+        _controls.Level.Enable();
     }
 
     private void OnDisable()
     {
         _controls.Bit.Disable();
+        _controls.Level.Disable();
     }
 
     public float WalkRawValue()
@@ -61,7 +63,7 @@ public class InputManager : MonoBehaviour
 
     public bool RestartWasPressed()
     {
-        return _controls.Bit.SwapColor.WasPressedThisFrame();
+        return _controls.Level.Restart.WasPressedThisFrame();
     }
 
     public bool CloseGameWasPressed()
