@@ -105,9 +105,9 @@ MonoBehaviour:
   sr: {fileID: 1633308349683068584}
   rb: {fileID: 1633308350327348582}
   walkSpeed: 5
-  jumpMaxHeight: 3
+  jumpMaxHeight: 4
   wallJumpMaxHeight: 3
-  wallJumpDuration: 0.4
+  wallJumpDuration: 0.3
   fallAcceleration: 15
   maxFallSpeed: 20
   wallCheckCollider: {fileID: 1633308348515750752}
