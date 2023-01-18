@@ -81,6 +81,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
             _ => States.Idle
         };
 
+        _nextState = GlobalTransitions(_nextState);
+
         // Change State
         if (_nextState != _currentState)
         {
@@ -117,7 +119,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             return States.Jump;
         }
 
-        return GlobalTransitions(States.Idle);
+        return States.Idle;
     }
 
     private States Walk()
@@ -137,7 +139,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             return States.Jump;
         }
-        return GlobalTransitions(States.Walk);
+        return States.Walk;
     }
 
     private States Jump()
@@ -163,7 +165,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             return States.Falling;
         }
-        return GlobalTransitions(States.Jump);
+        return States.Jump;
     }
 
     private States Falling()
@@ -210,7 +212,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             return States.WallJump;
         }
 
-        return GlobalTransitions(States.Falling);
+        return States.Falling;
     }
 
     private States WallJump()
@@ -255,7 +257,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             return States.Falling;
         }
 
-        return GlobalTransitions(States.WallJump);
+        return States.WallJump;
     }
 
     private States Dead()
