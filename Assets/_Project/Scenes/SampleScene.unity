@@ -333,10 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cfdae4768261746a1cdcf90a7b59fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  deathCollider: {fileID: 2144873945}
   restartText: {fileID: 316248216}
   startPoint: {fileID: 124507106}
 --- !u!1 &413726793
@@ -2200,7 +2196,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

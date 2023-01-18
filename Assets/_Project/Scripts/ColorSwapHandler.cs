@@ -16,7 +16,7 @@ public class ColorSwapHandler : MonoBehaviour
         Color2
     }
 
-    private void OnEnable()
+    private void Awake()
     {
         LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
     }
