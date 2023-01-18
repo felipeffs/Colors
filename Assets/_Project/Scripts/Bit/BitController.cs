@@ -6,8 +6,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
     public static event Action OnPlayerDeath;
     private GameObject _parent;
 
-    [Header("Visual")]
-    [SerializeField] private SpriteRenderer sr;
+    [Header("Animator")]
+    [SerializeField] private BitAnimator animator;
 
     [Header("Physics")]
     [SerializeField] private Rigidbody2D rb;
@@ -27,7 +27,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     [SerializeField] private LayerMask groundLayers;
 
     //State Machine
-    private enum States
+    public enum States
     {
         None,
         Dead,
@@ -89,6 +89,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             _firstCicle = true;
             _lastState = _currentState;
             _currentState = _nextState;
+            animator.Play(_currentState);
             Debug.Log(_currentState);
         }
         else
@@ -225,7 +226,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
                             rb.mass;
             rb.velocity = Vector2.zero;
 
-            var direction = sr.flipX == true
+            var direction = animator.isFliped == true
                 ? new Vector2(1f, 1f).normalized
                 : new Vector2(-1f, 1f).normalized;
             rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
@@ -300,12 +301,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         if (rb.velocity.x < 0)
         {
-            sr.flipX = true;
+            animator.VisualFlip(true);
             wallCheckCollider.transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (rb.velocity.x > 0)
         {
-            sr.flipX = false;
+            animator.VisualFlip(false);
             wallCheckCollider.transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -366,7 +367,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         ConsumeCoyoteTime();
 
         //Reset Flip
-        sr.flipX = false;
+        animator.VisualFlip(false);
         wallCheckCollider.transform.localScale = new Vector3(1, 1, 1);
     }
 
