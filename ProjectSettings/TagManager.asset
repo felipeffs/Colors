@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Particles
+    uniqueID: 2110693457
+    locked: 0
+  - name: Scene
+    uniqueID: 2103797347
+    locked: 0
+  - name: Player
+    uniqueID: 2221758943
+    locked: 0

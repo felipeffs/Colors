@@ -65,7 +65,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         JumpBuffer();
         RunState();
-        Flip();
     }
 
     private void RunState()
@@ -86,10 +85,15 @@ public class BitController : MonoBehaviour, IReceiveDamage
         // Change State
         if (_nextState != _currentState)
         {
+            //animation stop
+            animator.Action(false, _currentState);
+
             _firstCicle = true;
             _lastState = _currentState;
             _currentState = _nextState;
-            animator.Play(_currentState);
+
+            //animation play
+            animator.Action(true, _currentState);
             Debug.Log(_currentState);
         }
         else
@@ -236,6 +240,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             _wallJumpTimer = wallJumpDuration;
 
             ConsumeCoyoteTime();
+            Flip();
         }
 
         //Timer
@@ -282,6 +287,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
         rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
+        Flip();
     }
 
     private bool IsGrounded()
