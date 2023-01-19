@@ -69,8 +69,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -94,6 +94,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -2243,8 +2255,8 @@ TextureImporter:
       Pallete1_95: -1976613897
       Pallete1_14: 1268659523
       Pallete1_79: -460611396
-      Pallete1_25: -1243854336
       Pallete1_42: -1865371398
+      Pallete1_25: -1243854336
       Pallete1_96: 1785595785
       Pallete1_37: -280748580
       Pallete1_63: -306083588
@@ -2291,9 +2303,9 @@ TextureImporter:
       Pallete1_24: -1776872401
       Pallete1_43: -1142021962
       Pallete1_66: -501811261
+      Pallete1_80: 1804657243
       Pallete1_38: -540254319
       Pallete1_48: 2087728028
-      Pallete1_80: 1804657243
       Pallete1_12: -175108203
       Pallete1_7: -1496697443
       Pallete1_13: 1607351285
