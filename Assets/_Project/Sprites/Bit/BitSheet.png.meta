@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 08266d2d36a87bd469cdd74dd0441f26
+guid: e56c07163432b75428e89dacc5302b42
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BitSheet_0
+      name: BitSheet 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a2afb0db6b6bc449bffc3702b706cf3
-      internalID: -28488500
+      spriteID: 64887b843032ba949a84adbaa420b45e
+      internalID: -1073820854
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_1
+      name: BitSheet 1_1
       rect:
         serializedVersion: 2
         x: 16
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31daabac827c1cf488511274b7c794aa
-      internalID: 1734891748
+      spriteID: 534003096f5ca2847bb664cc78a18dc8
+      internalID: -21172549
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_2
+      name: BitSheet 1_2
       rect:
         serializedVersion: 2
         x: 32
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd4a6d99ba7fd6549b88b99a751212db
-      internalID: -807972819
+      spriteID: 1dcc26d5d802b6f4f9caed61d4b53a59
+      internalID: 106971982
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_3
+      name: BitSheet 1_3
       rect:
         serializedVersion: 2
         x: 48
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a4afc9cec2c3054f9a28c5b10ae9532
-      internalID: -1054357191
+      spriteID: 253b48731f5d43445a308e5f004381c3
+      internalID: 1600129778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_4
+      name: BitSheet 1_4
       rect:
         serializedVersion: 2
         x: 0
@@ -215,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a949cd752d68387418539156205ba4b7
-      internalID: 826200079
+      spriteID: e7cc23145bd0c6548b31d78bc19f8be7
+      internalID: -1450545441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_5
+      name: BitSheet 1_5
       rect:
         serializedVersion: 2
         x: 16
@@ -236,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 512f7727f89280e4ea064e60517de89f
-      internalID: -119179235
+      spriteID: f8807e7b9f54bd243a84d4b7411eeb19
+      internalID: 2083666825
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_6
+      name: BitSheet 1_6
       rect:
         serializedVersion: 2
         x: 32
@@ -257,14 +257,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 128f29aa1313ffc48bfecbee612ecee8
-      internalID: -415616814
+      spriteID: 2a562a9193be81748a466f034bc31155
+      internalID: 1640282871
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_7
+      name: BitSheet 1_7
       rect:
         serializedVersion: 2
         x: 48
@@ -278,14 +278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 043f14cf27f31cd4297d29b496d95e1e
-      internalID: -605538479
+      spriteID: fb2b6a2c03d0bbd48bea8949b447dfe0
+      internalID: 388923736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_8
+      name: BitSheet 1_8
       rect:
         serializedVersion: 2
         x: 0
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e30903d36ece6c4ea70231c2236f439
-      internalID: 860464794
+      spriteID: 49c42c67a75499844b53f008f8a13197
+      internalID: -180617819
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_9
+      name: BitSheet 1_9
       rect:
         serializedVersion: 2
         x: 16
@@ -320,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c75eb3a0075f5694b9bf9d8fc20627d7
-      internalID: 1287969799
+      spriteID: 0293f61b53138a143b8997f558110e9a
+      internalID: -1035649857
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_10
+      name: BitSheet 1_10
       rect:
         serializedVersion: 2
         x: 32
@@ -341,14 +341,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70e879f73dcc5b94a89e509eb3c2eb1c
-      internalID: -2107340991
+      spriteID: 2555238dbe0bce1408d283397b8d89af
+      internalID: 2105570142
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_11
+      name: BitSheet 1_11
       rect:
         serializedVersion: 2
         x: 48
@@ -362,14 +362,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce8abd58cb57d7842808c3c386ba7c29
-      internalID: -438167374
+      spriteID: 88ffa3085856c15408d0c82a4d860486
+      internalID: 1825185953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_12
+      name: BitSheet 1_12
       rect:
         serializedVersion: 2
         x: 0
@@ -383,14 +383,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2817f16d9914b8c4a8ae2f046ed5b42f
-      internalID: -1755616465
+      spriteID: 0c35de94af26e8f4993a14480e5ca8fc
+      internalID: -1023250417
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_13
+      name: BitSheet 1_13
       rect:
         serializedVersion: 2
         x: 16
@@ -404,14 +404,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ab1a00084996bc45b47a68eeeb62c82
-      internalID: 277303892
+      spriteID: 8b16471997dced444952564dc3ba9fd8
+      internalID: 254846681
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_14
+      name: BitSheet 1_14
       rect:
         serializedVersion: 2
         x: 32
@@ -425,14 +425,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f149a2494809b7847941ba6f4796b050
-      internalID: 1289792760
+      spriteID: b01e6ba1d0d0ded40b313bc7697df9a6
+      internalID: 1790405428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_15
+      name: BitSheet 1_15
       rect:
         serializedVersion: 2
         x: 48
@@ -446,14 +446,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e8e61cfbb85f7a44adf13566719c187
-      internalID: -515072120
+      spriteID: 130e2f0fcfc54424a8b706870e295304
+      internalID: -1419704517
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BitSheet_16
+      name: BitSheet 1_16
       rect:
         serializedVersion: 2
         x: 0
@@ -467,8 +467,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2141c9e235f177745b1a4a10841dc1f5
-      internalID: -614367656
+      spriteID: 2872e9f09e5735e45b88d366de8f3987
+      internalID: 150544791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BitSheet 1_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eb8ed224705d22468ed2a51d1578c61
+      internalID: -1637495430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BitSheet 1_18
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 490f585e8543a6e41adcf059e5dc3804
+      internalID: 35492087
       vertices: []
       indices: 
       edges: []
@@ -484,23 +526,25 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BitSheet_8: 860464794
-      BitSheet_14: 1289792760
-      BitSheet_12: -1755616465
-      BitSheet_16: -614367656
-      BitSheet_3: -1054357191
-      BitSheet_9: 1287969799
-      BitSheet_6: -415616814
-      BitSheet_4: 826200079
-      BitSheet_5: -119179235
-      BitSheet_1: 1734891748
-      BitSheet_2: -807972819
-      BitSheet_11: -438167374
-      BitSheet_15: -515072120
-      BitSheet_0: -28488500
-      BitSheet_7: -605538479
-      BitSheet_13: 277303892
-      BitSheet_10: -2107340991
+      BitSheet 1_6: 1640282871
+      BitSheet 1_15: -1419704517
+      BitSheet 1_1: -21172549
+      BitSheet 1_18: 35492087
+      BitSheet 1_7: 388923736
+      BitSheet 1_5: 2083666825
+      BitSheet 1_10: 2105570142
+      BitSheet 1_16: 150544791
+      BitSheet 1_4: -1450545441
+      BitSheet 1_3: 1600129778
+      BitSheet 1_13: 254846681
+      BitSheet 1_11: 1825185953
+      BitSheet 1_14: 1790405428
+      BitSheet 1_17: -1637495430
+      BitSheet 1_9: -1035649857
+      BitSheet 1_8: -180617819
+      BitSheet 1_0: -1073820854
+      BitSheet 1_2: 106971982
+      BitSheet 1_12: -1023250417
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
