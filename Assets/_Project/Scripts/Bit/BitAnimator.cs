@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class BitAnimator : MonoBehaviour
 {
@@ -59,10 +60,18 @@ public class BitAnimator : MonoBehaviour
 
     }
 
+    IEnumerator CO_Fall()
+    {
+        anim.CrossFade(JumpToFall, 0, 0);
+        yield return new WaitForSeconds(10f / 60f);
+        anim.CrossFade(FallLoop, 0, 0);
+    }
+
     private void IdleState(bool play)
     {
         if (play)
         {
+            StopAllCoroutines();
             anim.CrossFade(Idle, 0, 0);
         }
     }
@@ -99,8 +108,7 @@ public class BitAnimator : MonoBehaviour
 
         if (play)
         {
-            anim.CrossFade(JumpToFall, 0, 0);
-            anim.CrossFade(FallLoop, 0, 0);
+            StartCoroutine(CO_Fall());
         }
         else
         {
