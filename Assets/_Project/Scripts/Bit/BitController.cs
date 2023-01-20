@@ -86,7 +86,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (_nextState != _currentState)
         {
             //animation stop
-            animator.Action(false, _currentState);
+            animator.Action(false, _currentState, _nextState);
 
             _firstCicle = true;
             _lastState = _currentState;
@@ -136,7 +136,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             return States.Falling;
         }
-        if (InputManager.Instance.WalkWasReleased())
+        if (InputManager.Instance.WalkRawValue() == 0)
         {
             return States.Idle;
         }

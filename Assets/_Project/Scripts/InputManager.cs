@@ -33,7 +33,11 @@ public class InputManager : MonoBehaviour
 
     public float WalkRawValue()
     {
-        return _controls.Bit.Walk.ReadValue<float>();
+        if (_controls.Bit.Walk.ReadValue<float>() > 0)
+            return 1f;
+        else if (_controls.Bit.Walk.ReadValue<float>() < 0)
+            return -1f;
+        return 0f;
     }
 
     public bool WalkWasPressed()
