@@ -120,8 +120,8 @@ TextureImporter:
       name: WorldTileset_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 128
+        x: 96
+        y: 144
         width: 16
         height: 16
       alignment: 0
@@ -141,8 +141,8 @@ TextureImporter:
       name: WorldTileset_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
+        x: 112
+        y: 144
         width: 16
         height: 16
       alignment: 0
@@ -162,8 +162,8 @@ TextureImporter:
       name: WorldTileset_2
       rect:
         serializedVersion: 2
-        x: 48
-        y: 128
+        x: 128
+        y: 144
         width: 16
         height: 16
       alignment: 0
@@ -183,8 +183,8 @@ TextureImporter:
       name: WorldTileset_3
       rect:
         serializedVersion: 2
-        x: 16
-        y: 112
+        x: 144
+        y: 144
         width: 16
         height: 16
       alignment: 0
@@ -204,8 +204,8 @@ TextureImporter:
       name: WorldTileset_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 112
+        x: 16
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -225,8 +225,8 @@ TextureImporter:
       name: WorldTileset_5
       rect:
         serializedVersion: 2
-        x: 48
-        y: 112
+        x: 32
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -246,8 +246,8 @@ TextureImporter:
       name: WorldTileset_6
       rect:
         serializedVersion: 2
-        x: 16
-        y: 96
+        x: 48
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -267,8 +267,8 @@ TextureImporter:
       name: WorldTileset_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
+        x: 16
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -288,8 +288,8 @@ TextureImporter:
       name: WorldTileset_8
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
+        x: 32
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -301,6 +301,90 @@ TextureImporter:
       bones: []
       spriteID: c04d524e8913c9747bb0f48161b57ced
       internalID: 28104241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldTileset_9
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a22a357c7fb0e0458c5f91f22d43189
+      internalID: 1328691866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldTileset_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fee9fe2003c221409fcefd3c0007489
+      internalID: -578782682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldTileset_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e604c9543993a84e8810bdec02f4f71
+      internalID: 1241806153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldTileset_12
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 192fccbc88a4d454b86aea087b636992
+      internalID: -964675035
       vertices: []
       indices: 
       edges: []
@@ -318,13 +402,17 @@ TextureImporter:
     nameFileIdTable:
       WorldTileset_4: 14485153
       WorldTileset_5: 1105434051
+      WorldTileset_10: -578782682
       WorldTileset_7: -972334641
+      WorldTileset_9: 1328691866
+      WorldTileset_11: 1241806153
       WorldTileset_0: 996898756
       WorldTileset_6: 1861919984
       WorldTileset_3: -2090154435
       WorldTileset_8: 28104241
       WorldTileset_1: 910711192
       WorldTileset_2: -1487930764
+      WorldTileset_12: -964675035
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6931365585910459130}
   - component: {fileID: 8818149434973641856}
   m_Layer: 0
-  m_Name: FinishFlag
+  m_Name: PortalBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1629166576, guid: 062c045077bd5d7468f19967b62c8452, type: 3}
+  m_Sprite: {fileID: 910711192, guid: c5bd642fddce5da41a8bbfb408ca3994, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
