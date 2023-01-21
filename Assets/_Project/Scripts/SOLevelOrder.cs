@@ -11,9 +11,9 @@ public class SOLevelOrder : ScriptableObject
 
     public void LoadNextLevel()
     {
-        var nextLevelIndex = GetCurrentScene() + 1;
+        var nextLevelIndex = GetCurrentSceneIndex() + 1;
 
-        if (nextLevelIndex >= levelsList.Count)
+        if (nextLevelIndex >= levelsList.Count || nextLevelIndex <= -1)
         {
             SceneManager.LoadScene(menuScene);
         }
@@ -23,8 +23,17 @@ public class SOLevelOrder : ScriptableObject
         }
     }
 
-    private int GetCurrentScene()
+    private int GetCurrentSceneIndex()
     {
-        return SceneManager.GetActiveScene().buildIndex;
+        var sceneName = SceneManager.GetActiveScene().name;
+        for (int i = 0; i < levelsList.Count; i++)
+        {
+            if (levelsList[i].SceneName == sceneName)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
