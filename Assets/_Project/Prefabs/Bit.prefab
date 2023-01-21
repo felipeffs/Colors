@@ -197,7 +197,7 @@ SpriteRenderer:
   m_SortingLayerID: -2073208353
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1073820854, guid: e56c07163432b75428e89dacc5302b42, type: 3}
+  m_Sprite: {fileID: -55836925, guid: e56c07163432b75428e89dacc5302b42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -227,6 +227,8 @@ MonoBehaviour:
   jumpEffect: 1
   walkEffect: 1
   fallEffect: 1
+  jumpToFallDuration: 10
+  jumpImpulseDuration: 10
 --- !u!95 &2796149839472858665
 Animator:
   serializedVersion: 5
