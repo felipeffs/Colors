@@ -70,8 +70,8 @@ public class InputManager : MonoBehaviour
         return _controls.Level.Restart.WasPressedThisFrame();
     }
 
-    public bool CloseGameWasPressed()
+    public bool ExitWasPressed()
     {
-        return _controls.Bit.SwapColor.WasPerformedThisFrame();
+        return _controls.Level.Exit.WasPerformedThisFrame();
     }
 }

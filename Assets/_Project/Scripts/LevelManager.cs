@@ -32,6 +32,10 @@ public class LevelManager : MonoBehaviour
         {
             RestartLevel();
         }
+        if (InputManager.Instance.ExitWasPressed())
+        {
+            CloseGame();
+        }
     }
 
     private void RestartLevel()
@@ -57,6 +61,11 @@ public class LevelManager : MonoBehaviour
 
         _bitController.Reset(newPosition);
         _bit.SetActive(true);
+    }
+
+    public void CloseGame()
+    {
+        Application.Quit();
     }
 }
 
