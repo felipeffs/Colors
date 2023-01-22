@@ -6,6 +6,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
     public static event Action OnPlayerDeath;
     private GameObject _parent;
 
+    [Header("Components")]
+    [SerializeField] private BoxCollider2D bitCollider;
+
     [Header("Animator")]
     [SerializeField] private BitAnimator animator;
 
@@ -18,7 +21,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     [SerializeField] private float fallAcceleration = 3f;
     [SerializeField] private float maxFallSpeed = 20f;
     private float _wallJumpTimer;
-    private bool _isWallJumpCompleted;
+    private bool _isWallJumpCompleted = true;
 
     [Header("Collision Check")]
     [SerializeField] private Collider2D wallCheckCollider;
@@ -56,6 +59,18 @@ public class BitController : MonoBehaviour, IReceiveDamage
     // Dead
     private bool _isDead;
 
+    // Direction
+    private enum Direction
+    {
+        Right = 1,
+        Left = -1
+    }
+    private Direction _currentDirection;
+    private Direction _lastWallJumpDirection;
+
+    private bool _isOnWallJumpPenalty;
+    private float _wallJumpPenaltyTimer;
+
     private void Awake()
     {
         _parent = gameObject.transform.parent.gameObject;
@@ -65,6 +80,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         JumpBuffer();
         RunState();
+        DebugCollisionCheck();
     }
 
     private void RunState()
@@ -177,6 +193,17 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         UpdateCoyoteTimer();
 
+        //Wall Jump Penalty
+        if (_firstCicle)
+            _wallJumpPenaltyTimer = 0.5f;
+        else
+        {
+            _wallJumpPenaltyTimer -= Time.deltaTime;
+        }
+        Debug.Log(_wallJumpPenaltyTimer);
+
+        if (_wallJumpPenaltyTimer <= 0) _isOnWallJumpPenalty = false;
+
         //Fall Aceleration and Speed Limiter
         var newYVelocity = rb.velocity.y - fallAcceleration * Time.deltaTime;
         if (newYVelocity >= -maxFallSpeed)
@@ -197,7 +224,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         //if last state is wall jump only modify velocity if Walk has pressed
         else if (InputManager.Instance.WalkRawValue() != 0)
         {
-            MoveHorizontally();
+            MoveWallJumping();
         }
 
         //Transitions
@@ -222,6 +249,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     private States WallJump()
     {
+        //Timer
+        _wallJumpTimer -= Time.deltaTime;
+        if (_wallJumpTimer < 0)
+        {
+            _isWallJumpCompleted = true;
+        }
 
         if (_firstCicle)
         {
@@ -239,26 +272,14 @@ public class BitController : MonoBehaviour, IReceiveDamage
             _isWallJumpCompleted = false;
             _wallJumpTimer = wallJumpDuration;
 
+            _lastWallJumpDirection = animator.isFliped ? Direction.Left : Direction.Right;
+            _isOnWallJumpPenalty = true;
             ConsumeCoyoteTime();
             Flip();
         }
 
-        //Timer
-        _wallJumpTimer -= Time.deltaTime;
-        if (_wallJumpTimer < 0)
-        {
-            _isWallJumpCompleted = true;
-        }
-
         //Transitions
-        if (!_isWallJumpCompleted) return States.WallJump;
-
-        if (rb.velocity.y <= 0)
-        {
-            return States.Falling;
-        }
-
-        if (IsTouchingWall())
+        if (_isWallJumpCompleted)
         {
             return States.Falling;
         }
@@ -290,28 +311,83 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Flip();
     }
 
+    private void MoveWallJumping()
+    {
+        Debug.Log("Penalty");
+        var horintalMovement = InputManager.Instance.WalkRawValue();
+
+        var airSpeedMultiplier = horintalMovement == (int)_lastWallJumpDirection && _isOnWallJumpPenalty ? 0.75f : 1;
+
+        rb.velocity = new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y);
+        Flip();
+    }
+
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(groundCheckCollider.bounds.center, groundCheckCollider.bounds.size, 0f, Vector2.down, 0f, groundLayers);
-        return raycastHit.collider != null;
+        var centerBounds = groundCheckCollider.bounds.center;
+
+        var centerPoint = new Vector3(centerBounds.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, 0.45f, groundLayers);
+        if (raycastCenter) return true;
+
+        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, 0.45f, groundLayers);
+        if (raycastLeft) return true;
+
+        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        RaycastHit2D raycastRight = Physics2D.Raycast(rightPoint, Vector2.down, 0.45f, groundLayers);
+        if (raycastRight) return true;
+
+        return false;
     }
 
     private bool IsTouchingWall()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(wallCheckCollider.bounds.center, wallCheckCollider.bounds.size, 0f, Vector2.right, 0f, wallLayers);
-        var isTouching = raycastHit.collider != null;
-        return isTouching;
+        // Use Raycast
+        var direction = _currentDirection switch
+        {
+            Direction.Left => Vector2.left,
+            Direction.Right => Vector2.right,
+            _ => Vector2.zero
+        };
+
+        RaycastHit2D raycastHit = Physics2D.Raycast(bitCollider.bounds.center, direction, 0.35f, wallLayers);
+        return raycastHit;
+    }
+
+    private void DebugCollisionCheck()
+    {
+        //Wall
+        var direction = _currentDirection == Direction.Left ? Vector3.left : Vector3.right;
+
+        Debug.DrawLine(bitCollider.bounds.center, bitCollider.bounds.center + (direction * 0.35f));
+
+        //Ground
+        var centerBounds = groundCheckCollider.bounds.center;
+
+        var centerPoint = new Vector3(centerBounds.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        Debug.DrawLine(centerPoint, centerPoint + (Vector3.down * 0.45f));
+
+        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        Debug.DrawLine(leftPoint, leftPoint + (Vector3.down * 0.45f));
+
+        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y + bitCollider.bounds.extents.y, centerBounds.z);
+        Debug.DrawLine(rightPoint, rightPoint + (Vector3.down * 0.45f));
+
+
     }
 
     private void Flip()
     {
         if (rb.velocity.x < 0)
         {
+            _currentDirection = Direction.Left;
             animator.VisualFlip(true);
             wallCheckCollider.transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (rb.velocity.x > 0)
         {
+            _currentDirection = Direction.Right;
             animator.VisualFlip(false);
             wallCheckCollider.transform.localScale = new Vector3(1, 1, 1);
         }

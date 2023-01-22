@@ -102,11 +102,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef1822cadff96b4fb6261cbed85638c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bitCollider: {fileID: 1633308350327348581}
   animator: {fileID: 1450683349180219349}
   rb: {fileID: 1633308350327348582}
   walkSpeed: 5
   jumpMaxHeight: 4.5
-  wallJumpMaxHeight: 3
+  wallJumpMaxHeight: 4
   wallJumpDuration: 0.3
   fallAcceleration: 15
   maxFallSpeed: 20
