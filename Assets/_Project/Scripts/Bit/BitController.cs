@@ -176,6 +176,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             ConsumeCoyoteTime();
+
+            _jumpBuffered = false;
         }
         MoveHorizontally();
 
@@ -274,6 +276,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
             _lastWallJumpedDirection = _currentDirection;
             _isOnWallJumpPenalty = true;
+
+            _jumpBuffered = false;
             ConsumeCoyoteTime();
             Flip();
         }
