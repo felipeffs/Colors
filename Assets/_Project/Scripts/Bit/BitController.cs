@@ -44,8 +44,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Falling,
         WallJump
     }
-
-    private States _currentState;
+    [Header("State Machine")]
+    [ReadOnly][SerializeField] private States _currentState;
     private States _lastState;
     private States _nextState;
     private bool _firstCicle = false;
