@@ -469,7 +469,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         ConsumeCoyoteTime();
 
         //Reset Flip
-        Flip();
+        animator.VisualFlip(false);
     }
 
     public void TakeDamage(int damage)

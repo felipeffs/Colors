@@ -1,34 +1,40 @@
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    public static InputManager Instance { get; private set; }
-
     private PlayerInputs _controls;
 
-    private void Awake()
+    protected override void SingletonAwake()
     {
-        if (Instance != null)
-        {
-            Debug.Log($"There can be only one instance of {name}");
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
         _controls = new PlayerInputs();
     }
 
     private void OnEnable()
     {
+        GameManager.OnPause += GameManager_OnPause;
         _controls.Bit.Enable();
         _controls.Level.Enable();
     }
 
     private void OnDisable()
     {
+        GameManager.OnPause -= GameManager_OnPause;
         _controls.Bit.Disable();
         _controls.Level.Disable();
+    }
+
+    private void GameManager_OnPause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            _controls.Bit.Disable();
+            _controls.Level.Restart.Disable();
+        }
+        else
+        {
+            _controls.Bit.Enable();
+            _controls.Level.Restart.Enable();
+        }
     }
 
     public float WalkRawValue()
@@ -70,8 +76,8 @@ public class InputManager : MonoBehaviour
         return _controls.Level.Restart.WasPressedThisFrame();
     }
 
-    public bool ExitWasPressed()
+    public bool PauseWasPressed()
     {
-        return _controls.Level.Exit.WasPerformedThisFrame();
+        return _controls.Level.Pause.WasPerformedThisFrame();
     }
 }

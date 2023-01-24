@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cfdae4768261746a1cdcf90a7b59fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restartUIPrefab: {fileID: 5151643856243539510, guid: d1ad191eadf03b049b807729cf3dbe23, type: 3}
   restartText: {fileID: 0}
   startPoint: {fileID: 0}
   bitPrefab: {fileID: 1633308350327348576, guid: 8a58f79a0aeb3f4499ad24b9cabc47b3, type: 3}

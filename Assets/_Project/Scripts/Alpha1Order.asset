@@ -16,11 +16,14 @@ MonoBehaviour:
   - m_SceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
     m_SceneName: Level1
   - m_SceneAsset: {fileID: 102900000, guid: 73f91a09afdf0ef42a63069500869cad, type: 3}
-    m_SceneName: Level3
+    m_SceneName: LevelInvertedTower
   - m_SceneAsset: {fileID: 102900000, guid: 76f417a467c20514b81706fa2a7c067c, type: 3}
-    m_SceneName: Level2
+    m_SceneName: LevelLearnWallJump
   - m_SceneAsset: {fileID: 102900000, guid: f5808f5b1181100409e75ca5e3a15d76, type: 3}
     m_SceneName: LevelMaze
   menuScene:
     m_SceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
     m_SceneName: Level1
+  essentialScene:
+    m_SceneAsset: {fileID: 102900000, guid: beb41fd34353a714f8c510468d5948a7, type: 3}
+    m_SceneName: EssentialToGame
