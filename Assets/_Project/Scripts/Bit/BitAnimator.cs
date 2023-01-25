@@ -25,14 +25,14 @@ public class BitAnimator : MonoBehaviour
     //Animations String Hashs
     private readonly int Idle = Animator.StringToHash("Idle");
     private readonly int Walk = Animator.StringToHash("Walk");
-    private readonly int JumpImpulse = Animator.StringToHash("JumpImpulse");
+    private readonly int JumpImpulse = Animator.StringToHash("TakeOff");
     private readonly int Jump = Animator.StringToHash("Jump");
     private readonly int JumpToFall = Animator.StringToHash("JumpToFall");
     private readonly int FallLoop = Animator.StringToHash("FallLoop");
 
     //Animations
     [SerializeField] private float jumpToFallDuration = 10f;
-    [SerializeField] private float jumpImpulseDuration = 15f;
+    [SerializeField] private float takeOffDuration = 15f;
 
     public void Action(bool play, BitController.States currentState)
     {
@@ -75,7 +75,7 @@ public class BitAnimator : MonoBehaviour
     IEnumerator CO_Jump()
     {
         anim.CrossFade(JumpImpulse, 0, 0);
-        yield return new WaitForSeconds(jumpImpulseDuration / 60f);
+        yield return new WaitForSeconds(takeOffDuration / 60f);
         anim.CrossFade(Jump, 0, 0);
     }
 
