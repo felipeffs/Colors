@@ -44,6 +44,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Falling,
         WallJump
     }
+
     [Header("State Machine")]
     [ReadOnly][SerializeField] private States _currentState;
     private States _lastState;
@@ -319,7 +320,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private void MoveHorizontally()
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
-
         Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
         Flip();
     }
@@ -327,12 +327,21 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private void Move(Vector2 speed)
     {
         if (!IsGrounded()) groundVelocity = Vector2.zero;
-        rb.velocity = groundVelocity + speed;
+
+        if (_currentState == States.Walk)
+        {
+            rb.velocity = groundVelocity + new Vector2(speed.x * groundDirection.x, speed.y * groundDirection.y);
+        }
+        else
+        {
+            rb.velocity = groundVelocity + speed;
+        }
     }
 
     private void Move()
     {
         if (!IsGrounded()) groundVelocity = Vector2.zero;
+
         rb.velocity = groundVelocity + new Vector2(0, rb.velocity.y);
     }
 
@@ -348,7 +357,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     [SerializeField] Rigidbody2D groundRb;
     [SerializeField] Vector2 groundVelocity;
-    // [SerializeField] Vector2 groundDirection;
+    [SerializeField] Vector2 groundDirection;
 
     private bool IsGrounded()
     {
@@ -358,16 +367,22 @@ public class BitController : MonoBehaviour, IReceiveDamage
         RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, distanceFromGround, groundLayers);
         groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
 
-        // var rightEdge = raycastCenter.collider.bounds.center + raycastCenter.collider.bounds.extents;
-        // var leftEdge = raycastCenter.collider.bounds.center - raycastCenter.collider.bounds.extents;
 
-        // //Vector3 AB = B - A. Destination - Origin.
-        // groundDirection = (rightEdge - leftEdge).normalized;
+
+
 
         if (groundRb != null)
             groundVelocity = groundRb.velocity;
 
-        if (raycastCenter) return true;
+        if (raycastCenter)
+        {
+            var rightEdge = raycastCenter.collider.bounds.center + raycastCenter.collider.bounds.extents;
+            var leftEdge = raycastCenter.collider.bounds.center - raycastCenter.collider.bounds.extents;
+
+            //Vector3 AB = B - A. Destination - Origin.
+            groundDirection = (rightEdge - leftEdge).normalized;
+            return true;
+        }
 
         var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
         RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, distanceFromGround, groundLayers);
