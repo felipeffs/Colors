@@ -113,6 +113,10 @@ public class BitController : MonoBehaviour, IReceiveDamage
             //animation play
             animator.Action(true, _currentState);
             Debug.Log(_currentState);
+
+            //
+            groundRb = null;
+            groundVelocity = Vector2.zero;
         }
         else
         {
@@ -123,22 +127,26 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private States Idle()
     {
         rb.velocity = Vector2.zero;
-
         _coyoteTimer = _coyoteWindow;
+        Move();
 
         // Transitions
         if (!IsGrounded())
         {
+            rb.velocity = Vector2.zero;
             return States.Falling;
         }
 
         if (InputManager.Instance.WalkRawValue() != 0)
         {
+            rb.velocity = Vector2.zero;
             return States.Walk;
         }
 
         if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
         {
+            rb.velocity = Vector2.zero;
+
             return States.Jump;
         }
 
@@ -311,8 +319,21 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private void MoveHorizontally()
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
-        rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
+
+        Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
         Flip();
+    }
+
+    private void Move(Vector2 speed)
+    {
+        if (!IsGrounded()) groundVelocity = Vector2.zero;
+        rb.velocity = groundVelocity + speed;
+    }
+
+    private void Move()
+    {
+        if (!IsGrounded()) groundVelocity = Vector2.zero;
+        rb.velocity = groundVelocity + new Vector2(0, rb.velocity.y);
     }
 
     private void MoveWallJumping()
@@ -321,9 +342,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         var airSpeedMultiplier = horintalMovement == (int)_lastWallJumpedDirection && _isOnWallJumpPenalty ? wallJumpPenaltyDuration : 1;
 
-        rb.velocity = new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y);
+        Move(new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y));
         Flip();
     }
+
+    [SerializeField] Rigidbody2D groundRb;
+    [SerializeField] Vector2 groundVelocity;
+    // [SerializeField] Vector2 groundDirection;
 
     private bool IsGrounded()
     {
@@ -331,14 +356,33 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         var centerPoint = new Vector3(centerBounds.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
         RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, distanceFromGround, groundLayers);
+        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
+
+        // var rightEdge = raycastCenter.collider.bounds.center + raycastCenter.collider.bounds.extents;
+        // var leftEdge = raycastCenter.collider.bounds.center - raycastCenter.collider.bounds.extents;
+
+        // //Vector3 AB = B - A. Destination - Origin.
+        // groundDirection = (rightEdge - leftEdge).normalized;
+
+        if (groundRb != null)
+            groundVelocity = groundRb.velocity;
+
         if (raycastCenter) return true;
 
         var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
         RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, distanceFromGround, groundLayers);
+        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
+
+        if (groundRb != null)
+            groundVelocity = groundRb.velocity;
         if (raycastLeft) return true;
 
         var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
         RaycastHit2D raycastRight = Physics2D.Raycast(rightPoint, Vector2.down, distanceFromGround, groundLayers);
+        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
+
+        if (groundRb != null)
+            groundVelocity = groundRb.velocity;
         if (raycastRight) return true;
 
         return false;

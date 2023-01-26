@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class MovingPlataform : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] private float velocity;
     private int _currentWaypointIndex = 0;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (gameObject.activeSelf)
         {
@@ -21,7 +22,9 @@ public class MovingPlataform : MonoBehaviour
                 }
 
             }
-            transform.position = Vector2.MoveTowards(transform.position, waypoints[_currentWaypointIndex].position, velocity * Time.deltaTime);
+            //Vector3 AB = B - A. Destination - Origin.
+            var direction = (Vector2.MoveTowards(transform.position, waypoints[_currentWaypointIndex].position, velocity * Time.fixedDeltaTime) - (Vector2)transform.position).normalized;
+            rb.velocity = direction * velocity;
         }
     }
 }
