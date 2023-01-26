@@ -58,7 +58,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  distanceFromGround: 0.03
+  distanceFromGround: 0.04
   wallLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -66,6 +66,9 @@ MonoBehaviour:
   _currentState: 0
   jumpBufferWindow: 0.4
   _coyoteWindow: 0.2
+  groundRb: {fileID: 0}
+  groundVelocity: {x: 0, y: 0}
+  groundDirection: {x: 0, y: 0}
 --- !u!1 &1633308349683068586
 GameObject:
   m_ObjectHideFlags: 0

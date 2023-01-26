@@ -15,18 +15,6 @@ public class MovingPlataform : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, waypoints[_currentWaypointIndex].position) < 0.1f)
             {
-                rb.velocity = Vector2.zero;
-            }
-
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (gameObject.activeSelf)
-        {
-            if (Vector2.Distance(transform.position, waypoints[_currentWaypointIndex].position) < 0.1f)
-            {
                 _currentWaypointIndex++;
                 if (_currentWaypointIndex >= waypoints.Count)
                 {
@@ -37,6 +25,7 @@ public class MovingPlataform : MonoBehaviour
             //Vector3 AB = B - A. Destination - Origin.
             var direction = (Vector2.MoveTowards(transform.position, waypoints[_currentWaypointIndex].position, 1f * Time.fixedDeltaTime) - (Vector2)transform.position).normalized;
             rb.velocity = direction * velocity;
+
         }
     }
 }
