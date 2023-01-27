@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class BitController : MonoBehaviour, IReceiveDamage
 {
@@ -360,13 +361,17 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     private bool IsGrounded()
     {
-        var centerBounds = bitCollider.bounds.center;
+        Vector3 colliderCenterPos = bitCollider.bounds.center;
 
-        float[] Xpoints = { centerBounds.x, centerBounds.x - bitCollider.bounds.extents.x, centerBounds.x + bitCollider.bounds.extents.x };
+        // Center, Left, Right
+        float[] groundCheckPoints = { colliderCenterPos.x ,
+             colliderCenterPos.x - bitCollider.bounds.extents.x ,
+              colliderCenterPos.x + bitCollider.bounds.extents.x  };
 
-        foreach (var point in Xpoints)
+        foreach (var point in groundCheckPoints)
         {
-            var checkPoint = new Vector3(point, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
+            var checkPoint = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
+
             RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
             groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
 
@@ -375,6 +380,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
             if (raycast) return true;
         }
+
         return false;
     }
 
@@ -399,12 +405,15 @@ public class BitController : MonoBehaviour, IReceiveDamage
         return raycastHit;
     }
 
+#if UNITY_EDITOR
     private void DebugCollisionCheck()
     {
         if (!debugLines) return;
 
         int directionMultiplier = 0;
         Vector3 direction = Vector3.zero;
+
+        Vector3 colliderCenterPos = bitCollider.bounds.center;
 
         //Wall
         if (_currentDirection == Direction.Left)
@@ -418,21 +427,22 @@ public class BitController : MonoBehaviour, IReceiveDamage
             direction = Vector3.right;
         }
 
-        var wallPoint = new Vector3(bitCollider.bounds.center.x + (bitCollider.bounds.extents.x * directionMultiplier), bitCollider.bounds.center.y, bitCollider.bounds.center.z);
+        var wallPoint = new Vector3(colliderCenterPos.x + (bitCollider.bounds.extents.x * directionMultiplier), colliderCenterPos.y, colliderCenterPos.z);
         Debug.DrawLine(wallPoint, wallPoint + (direction * distanceFromWall));
 
         //Ground
-        var centerBounds = bitCollider.bounds.center;
+        // Center, Left, Right
+        float[] groundCheckPoints = { colliderCenterPos.x ,
+             colliderCenterPos.x - bitCollider.bounds.extents.x ,
+              colliderCenterPos.x + bitCollider.bounds.extents.x  };
 
-        var centerPoint = new Vector3(centerBounds.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(centerPoint, centerPoint + (Vector3.down * distanceFromGround));
-
-        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(leftPoint, leftPoint + (Vector3.down * distanceFromGround));
-
-        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(rightPoint, rightPoint + (Vector3.down * distanceFromGround));
+        foreach (var point in groundCheckPoints)
+        {
+            var checkPos = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
+            Debug.DrawLine(checkPos, checkPos + (Vector3.down * distanceFromGround));
+        }
     }
+#endif
 
     private void Flip()
     {
