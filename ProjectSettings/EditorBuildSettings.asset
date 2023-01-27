@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/LevelMaze.unity
     guid: f5808f5b1181100409e75ca5e3a15d76
+  - enabled: 1
+    path: Assets/_Project/Scenes/LevelMovingPlataforms.unity
+    guid: 7aac175b2eb0e8d4ca1dfefef1c3f788
   m_configObjects: {}

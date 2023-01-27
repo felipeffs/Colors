@@ -26,6 +26,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private float _wallJumpPenaltyTimer;
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted = true;
+    private Direction _lastWallJumpedDirection;
 
     [Header("Collision Check")]
     [SerializeField] private LayerMask groundLayers;
@@ -72,7 +73,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
     }
 
     private Direction _currentDirection;
-    private Direction _lastWallJumpedDirection;
 
     private void Awake()
     {
@@ -115,7 +115,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             animator.Action(true, _currentState);
             Debug.Log(_currentState);
 
-            //
+            //Remove ground ref
             groundRb = null;
             groundVelocity = Vector2.zero;
         }
@@ -129,25 +129,21 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         rb.velocity = Vector2.zero;
         _coyoteTimer = _coyoteWindow;
-        Move();
+        ApplyInertia();
 
         // Transitions
         if (!IsGrounded())
         {
-            rb.velocity = Vector2.zero;
             return States.Falling;
         }
 
         if (InputManager.Instance.WalkRawValue() != 0)
         {
-            rb.velocity = Vector2.zero;
             return States.Walk;
         }
 
         if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
         {
-            rb.velocity = Vector2.zero;
-
             return States.Jump;
         }
 
@@ -321,7 +317,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
         Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
-        if(horintalMovement == 0) return;
+
+        if (horintalMovement == 0) return;
         Flip();
     }
 
@@ -343,11 +340,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
     }
 
-    private void Move()
+    private void ApplyInertia()
     {
-        if (!IsGrounded()) groundVelocity = Vector2.zero;
-
-        rb.velocity = groundVelocity + new Vector2(0, rb.velocity.y);
+        rb.velocity = groundVelocity + Vector2.up * rb.velocity.y;
     }
 
     private void MoveWallJumping()
@@ -358,7 +353,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         Move(new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y));
 
-        if(horintalMovement == 0) return;
+        if (horintalMovement == 0) return;
         Flip();
     }
 
@@ -374,10 +369,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
         RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, distanceFromGround, groundLayers);
         groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
 
-
-
-
-
         if (groundRb != null)
             groundVelocity = groundRb.velocity;
 
@@ -385,7 +376,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             var rightEdge = raycastCenter.collider.bounds.center + raycastCenter.collider.bounds.extents;
             var leftEdge = raycastCenter.collider.bounds.center - raycastCenter.collider.bounds.extents;
-
             //Vector3 AB = B - A. Destination - Origin.
             groundDirection = (rightEdge - leftEdge).normalized;
             return true;
