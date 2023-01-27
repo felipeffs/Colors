@@ -4,7 +4,6 @@ using System;
 public class BitController : MonoBehaviour, IReceiveDamage
 {
     public static event Action OnPlayerDeath;
-    private GameObject _parent;
 
     [Header("Debug")]
     [SerializeField] private bool debugLines;
@@ -13,6 +12,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D bitCollider;
     [SerializeField] private BitAnimator animator;
+    private GameObject _parent;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5f;
@@ -27,6 +27,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted = true;
     private Direction _lastWallJumpedDirection;
+    Rigidbody2D groundRb;
+    [ReadOnly][SerializeField] Vector2 groundVelocity;
 
     [Header("Collision Check")]
     [SerializeField] private LayerMask groundLayers;
@@ -355,9 +357,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (horintalMovement == 0) return;
         Flip();
     }
-
-    [SerializeField] Rigidbody2D groundRb;
-    [SerializeField] Vector2 groundVelocity;
 
     private bool IsGrounded()
     {
