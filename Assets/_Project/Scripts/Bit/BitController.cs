@@ -116,7 +116,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
             Debug.Log(_currentState);
 
             //Remove ground ref
-            groundRb = null;
             groundVelocity = Vector2.zero;
         }
         else
@@ -359,7 +358,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     [SerializeField] Rigidbody2D groundRb;
     [SerializeField] Vector2 groundVelocity;
-    [SerializeField] Vector2 groundDirection;
 
     private bool IsGrounded()
     {
@@ -372,14 +370,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (groundRb != null)
             groundVelocity = groundRb.velocity;
 
-        if (raycastCenter)
-        {
-            var rightEdge = raycastCenter.collider.bounds.center + raycastCenter.collider.bounds.extents;
-            var leftEdge = raycastCenter.collider.bounds.center - raycastCenter.collider.bounds.extents;
-            //Vector3 AB = B - A. Destination - Origin.
-            groundDirection = (rightEdge - leftEdge).normalized;
-            return true;
-        }
+        if (raycastCenter) return true;
 
         var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
         RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, distanceFromGround, groundLayers);
