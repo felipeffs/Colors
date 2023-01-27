@@ -213,7 +213,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         if (_wallJumpPenaltyTimer <= 0) _isOnWallJumpPenalty = false;
 
-        //Fall Aceleration and Speed Limiter
+        // Fall Aceleration and Speed Limiter
         var newYVelocity = rb.velocity.y - fallAcceleration * Time.deltaTime;
         if (newYVelocity >= -maxFallSpeed)
         {
