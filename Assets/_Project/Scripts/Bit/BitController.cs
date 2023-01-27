@@ -321,6 +321,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
         Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
+        if(horintalMovement == 0) return;
         Flip();
     }
 
@@ -356,6 +357,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
         var airSpeedMultiplier = horintalMovement == (int)_lastWallJumpedDirection && _isOnWallJumpPenalty ? wallJumpPenaltyDuration : 1;
 
         Move(new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y));
+
+        if(horintalMovement == 0) return;
         Flip();
     }
 

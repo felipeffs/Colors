@@ -15,6 +15,8 @@ MonoBehaviour:
   levelsList:
   - m_SceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
     m_SceneName: Level1
+  - m_SceneAsset: {fileID: 102900000, guid: 7aac175b2eb0e8d4ca1dfefef1c3f788, type: 3}
+    m_SceneName: LevelMovingPlataforms
   - m_SceneAsset: {fileID: 102900000, guid: 73f91a09afdf0ef42a63069500869cad, type: 3}
     m_SceneName: LevelInvertedTower
   - m_SceneAsset: {fileID: 102900000, guid: 76f417a467c20514b81706fa2a7c067c, type: 3}
