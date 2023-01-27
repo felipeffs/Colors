@@ -44,23 +44,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef1822cadff96b4fb6261cbed85638c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1450683349180219349}
+  debugLines: 0
   rb: {fileID: 1633308350327348582}
+  bitCollider: {fileID: 1633308350327348581}
+  animator: {fileID: 2176567952188516150}
   walkSpeed: 5
   jumpMaxHeight: 4.5
   wallJumpMaxHeight: 4
   wallJumpDuration: 0.3
+  wallJumpPenaltyDuration: 0.75
   fallAcceleration: 15
   maxFallSpeed: 20
-  bitCollider: {fileID: 1633308350327348581}
-  wallLayers:
-    serializedVersion: 2
-    m_Bits: 64
+  groundVelocity: {x: 0, y: 0}
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  distanceFromGround: 0.03
+  distanceFromGround: 0.04
+  wallLayers:
+    serializedVersion: 2
+    m_Bits: 64
   distanceFromWall: 0.02
+  _currentState: 0
   jumpBufferWindow: 0.4
   _coyoteWindow: 0.2
 --- !u!1 &1633308349683068586
@@ -73,7 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1633308349683068585}
   - component: {fileID: 1633308349683068584}
-  - component: {fileID: 1450683349180219349}
+  - component: {fileID: 2176567952188516150}
   - component: {fileID: 2796149839472858665}
   m_Layer: 7
   m_Name: Visual
@@ -151,7 +155,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1450683349180219349
+--- !u!114 &2176567952188516150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,8 +174,8 @@ MonoBehaviour:
   jumpEffect: 1
   walkEffect: 1
   fallEffect: 1
-  jumpToFallDuration: 10
-  jumpImpulseDuration: 10
+  jumpToFallDuration: 15
+  takeOffDuration: 10
 --- !u!95 &2796149839472858665
 Animator:
   serializedVersion: 5

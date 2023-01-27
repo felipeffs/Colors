@@ -1,8 +1,10 @@
 using UnityEngine;
+using System;
 
 public class ColorSwapper : MonoBehaviour
 {
-    [SerializeField] private ColorSwapHandler.ColorID TileColor;
+    [SerializeField] private ColorSwapHandler.ColorID tileColor;
+
 
     private void Awake()
     {
@@ -16,6 +18,6 @@ public class ColorSwapper : MonoBehaviour
 
     private void ColorSwapHandler_OnColorSwap(ColorSwapHandler.ColorID newColor)
     {
-        gameObject.SetActive(newColor == TileColor);
+        gameObject.SetActive(newColor == tileColor);
     }
 }

@@ -40,6 +40,7 @@ public class ColorSwapHandler : MonoBehaviour
             _ => ColorID.Color1
         };
 
+
         ChangeActiveColor(newColor);
     }
 

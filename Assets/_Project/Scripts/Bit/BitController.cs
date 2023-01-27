@@ -4,7 +4,6 @@ using System;
 public class BitController : MonoBehaviour, IReceiveDamage
 {
     public static event Action OnPlayerDeath;
-    private GameObject _parent;
 
     [Header("Debug")]
     [SerializeField] private bool debugLines;
@@ -13,25 +12,29 @@ public class BitController : MonoBehaviour, IReceiveDamage
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D bitCollider;
     [SerializeField] private BitAnimator animator;
+    private GameObject _parent;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float jumpMaxHeight = 3f;
-    [SerializeField] private float wallJumpMaxHeight = 3f;
-    [SerializeField] private float wallJumpDuration = .4f;
+    [SerializeField] private float jumpMaxHeight = 4.5f;
+    [SerializeField] private float wallJumpMaxHeight = 4f;
+    [SerializeField] private float wallJumpDuration = .3f;
     [SerializeField] private float wallJumpPenaltyDuration = .75f;
-    [SerializeField] private float fallAcceleration = 3f;
+    [SerializeField] private float fallAcceleration = 15f;
     [SerializeField] private float maxFallSpeed = 20f;
     private bool _isOnWallJumpPenalty;
     private float _wallJumpPenaltyTimer;
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted = true;
+    private Direction _lastWallJumpedDirection;
+    Rigidbody2D groundRb;
+    [ReadOnly][SerializeField] Vector2 groundVelocity;
 
     [Header("Collision Check")]
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float distanceFromGround = .45f;
+    [SerializeField] private float distanceFromGround = .04f;
     [SerializeField] private LayerMask wallLayers;
-    [SerializeField] private float distanceFromWall = .35f;
+    [SerializeField] private float distanceFromWall = .02f;
 
     //State Machine
     public enum States
@@ -44,6 +47,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Falling,
         WallJump
     }
+
     [Header("State Machine")]
     [ReadOnly][SerializeField] private States _currentState;
     private States _lastState;
@@ -51,12 +55,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private bool _firstCicle = false;
 
     [Header("Input Buffer")]
-    [SerializeField] private float jumpBufferWindow;
+    [SerializeField] private float jumpBufferWindow = .4f;
     private bool _jumpBuffered;
     private float _jumpBufferTimer;
 
     [Header("Coyote Time")]
-    [SerializeField] private float _coyoteWindow = .4f;
+    [SerializeField] private float _coyoteWindow = .2f;
     private float _coyoteTimer;
     private bool _coyoteJump;
 
@@ -71,7 +75,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
     }
 
     private Direction _currentDirection;
-    private Direction _lastWallJumpedDirection;
 
     private void Awake()
     {
@@ -104,15 +107,18 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (_nextState != _currentState)
         {
             //animation stop
-            animator.Action(false, _currentState, _nextState);
+            animator?.Action(false, _currentState, _nextState);
 
             _firstCicle = true;
             _lastState = _currentState;
             _currentState = _nextState;
 
             //animation play
-            animator.Action(true, _currentState);
+            animator?.Action(true, _currentState);
             Debug.Log(_currentState);
+
+            //Remove ground ref
+            groundVelocity = Vector2.zero;
         }
         else
         {
@@ -123,8 +129,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private States Idle()
     {
         rb.velocity = Vector2.zero;
-
         _coyoteTimer = _coyoteWindow;
+        ApplyInertia();
 
         // Transitions
         if (!IsGrounded())
@@ -207,7 +213,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         if (_wallJumpPenaltyTimer <= 0) _isOnWallJumpPenalty = false;
 
-        //Fall Aceleration and Speed Limiter
+        // Fall Aceleration and Speed Limiter
         var newYVelocity = rb.velocity.y - fallAcceleration * Time.deltaTime;
         if (newYVelocity >= -maxFallSpeed)
         {
@@ -308,10 +314,35 @@ public class BitController : MonoBehaviour, IReceiveDamage
         return _isDead ? States.Dead : currentState;
     }
 
+    private void ApplyInertia()
+    {
+        rb.velocity = groundVelocity + Vector2.up * rb.velocity.y;
+    }
+
+    private void Move(Vector2 speed)
+    {
+        if (!IsGrounded()) groundVelocity = Vector2.zero;
+
+        if (_currentState == States.Walk)
+        {
+            rb.velocity = new Vector2(speed.x + groundVelocity.x, speed.y - 3f);
+        }
+        else if (_currentState == States.Jump)
+        {
+            rb.velocity = speed;
+        }
+        else
+        {
+            rb.velocity = groundVelocity + speed;
+        }
+    }
+
     private void MoveHorizontally()
     {
         var horintalMovement = InputManager.Instance.WalkRawValue();
-        rb.velocity = new Vector2(horintalMovement * walkSpeed, rb.velocity.y);
+        Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
+
+        if (horintalMovement == 0) return;
         Flip();
     }
 
@@ -321,25 +352,33 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         var airSpeedMultiplier = horintalMovement == (int)_lastWallJumpedDirection && _isOnWallJumpPenalty ? wallJumpPenaltyDuration : 1;
 
-        rb.velocity = new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y);
+        Move(new Vector2(walkSpeed * airSpeedMultiplier * horintalMovement, rb.velocity.y));
+
+        if (horintalMovement == 0) return;
         Flip();
     }
 
     private bool IsGrounded()
     {
-        var centerBounds = bitCollider.bounds.center;
+        Vector3 colliderCenterPos = bitCollider.bounds.center;
 
-        var centerPoint = new Vector3(centerBounds.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, distanceFromGround, groundLayers);
-        if (raycastCenter) return true;
+        // Checking order: center, left, right
+        float[] groundCheckPoints = { colliderCenterPos.x ,
+             colliderCenterPos.x - bitCollider.bounds.extents.x ,
+              colliderCenterPos.x + bitCollider.bounds.extents.x  };
 
-        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, distanceFromGround, groundLayers);
-        if (raycastLeft) return true;
+        foreach (var point in groundCheckPoints)
+        {
+            var checkPoint = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
 
-        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastRight = Physics2D.Raycast(rightPoint, Vector2.down, distanceFromGround, groundLayers);
-        if (raycastRight) return true;
+            RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
+            groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
+
+            if (groundRb != null)
+                groundVelocity = groundRb.velocity;
+
+            if (raycast) return true;
+        }
 
         return false;
     }
@@ -365,12 +404,15 @@ public class BitController : MonoBehaviour, IReceiveDamage
         return raycastHit;
     }
 
+#if UNITY_EDITOR
     private void DebugCollisionCheck()
     {
         if (!debugLines) return;
 
         int directionMultiplier = 0;
         Vector3 direction = Vector3.zero;
+
+        Vector3 colliderCenterPos = bitCollider.bounds.center;
 
         //Wall
         if (_currentDirection == Direction.Left)
@@ -384,33 +426,34 @@ public class BitController : MonoBehaviour, IReceiveDamage
             direction = Vector3.right;
         }
 
-        var wallPoint = new Vector3(bitCollider.bounds.center.x + (bitCollider.bounds.extents.x * directionMultiplier), bitCollider.bounds.center.y, bitCollider.bounds.center.z);
+        var wallPoint = new Vector3(colliderCenterPos.x + (bitCollider.bounds.extents.x * directionMultiplier), colliderCenterPos.y, colliderCenterPos.z);
         Debug.DrawLine(wallPoint, wallPoint + (direction * distanceFromWall));
 
         //Ground
-        var centerBounds = bitCollider.bounds.center;
+        // Debug order: center, left, right
+        float[] groundCheckPoints = { colliderCenterPos.x ,
+             colliderCenterPos.x - bitCollider.bounds.extents.x ,
+              colliderCenterPos.x + bitCollider.bounds.extents.x  };
 
-        var centerPoint = new Vector3(centerBounds.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(centerPoint, centerPoint + (Vector3.down * distanceFromGround));
-
-        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(leftPoint, leftPoint + (Vector3.down * distanceFromGround));
-
-        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        Debug.DrawLine(rightPoint, rightPoint + (Vector3.down * distanceFromGround));
+        foreach (var point in groundCheckPoints)
+        {
+            var checkPos = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
+            Debug.DrawLine(checkPos, checkPos + (Vector3.down * distanceFromGround));
+        }
     }
+#endif
 
     private void Flip()
     {
         if (rb.velocity.x < 0)
         {
             _currentDirection = Direction.Left;
-            animator.VisualFlip(true);
+            animator?.VisualFlip(true);
         }
         else if (rb.velocity.x > 0)
         {
             _currentDirection = Direction.Right;
-            animator.VisualFlip(false);
+            animator?.VisualFlip(false);
         }
     }
 
@@ -469,7 +512,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         ConsumeCoyoteTime();
 
         //Reset Flip
-        animator.VisualFlip(false);
+        animator?.VisualFlip(false);
     }
 
     public void TakeDamage(int damage)
