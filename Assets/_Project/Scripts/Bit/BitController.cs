@@ -362,31 +362,19 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         var centerBounds = bitCollider.bounds.center;
 
-        var centerPoint = new Vector3(centerBounds.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastCenter = Physics2D.Raycast(centerPoint, Vector2.down, distanceFromGround, groundLayers);
-        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
+        float[] Xpoints = { centerBounds.x, centerBounds.x - bitCollider.bounds.extents.x, centerBounds.x + bitCollider.bounds.extents.x };
 
-        if (groundRb != null)
-            groundVelocity = groundRb.velocity;
+        foreach (var point in Xpoints)
+        {
+            var checkPoint = new Vector3(point, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
+            RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
+            groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
 
-        if (raycastCenter) return true;
+            if (groundRb != null)
+                groundVelocity = groundRb.velocity;
 
-        var leftPoint = new Vector3(centerBounds.x - bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastLeft = Physics2D.Raycast(leftPoint, Vector2.down, distanceFromGround, groundLayers);
-        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
-
-        if (groundRb != null)
-            groundVelocity = groundRb.velocity;
-        if (raycastLeft) return true;
-
-        var rightPoint = new Vector3(centerBounds.x + bitCollider.bounds.extents.x, centerBounds.y - bitCollider.bounds.extents.y, centerBounds.z);
-        RaycastHit2D raycastRight = Physics2D.Raycast(rightPoint, Vector2.down, distanceFromGround, groundLayers);
-        groundRb = raycastCenter.collider?.gameObject.GetComponent<Rigidbody2D>();
-
-        if (groundRb != null)
-            groundVelocity = groundRb.velocity;
-        if (raycastRight) return true;
-
+            if (raycast) return true;
+        }
         return false;
     }
 
