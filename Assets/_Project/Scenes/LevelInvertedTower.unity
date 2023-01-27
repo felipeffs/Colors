@@ -2668,6 +2668,10 @@ PrefabInstance:
       propertyPath: TileColor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3999738769001471187, guid: 878ed5759f30a2b47bd8d50345f6d24a, type: 3}
+      propertyPath: tileColor
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 878ed5759f30a2b47bd8d50345f6d24a, type: 3}
 --- !u!1 &1457903015
