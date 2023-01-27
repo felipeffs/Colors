@@ -375,7 +375,8 @@ MonoBehaviour:
   waypoints:
   - {fileID: 321688625}
   - {fileID: 1135130474}
-  velocity: 3
+  speed: 3
+  showTrajectory: 1
 --- !u!50 &454904466
 Rigidbody2D:
   serializedVersion: 4

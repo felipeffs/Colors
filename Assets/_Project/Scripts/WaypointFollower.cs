@@ -1,12 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlataform : MonoBehaviour
+public class WaypointFollower : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private Rigidbody2D rb;
+
+    [Header("Movement")]
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] private float speed = 3f;
     private int _currentWaypointIndex = 0;
+
+    [Header("Debug")]
+    [SerializeField] private bool showTrajectory;
 
     private void Update()
     {
@@ -17,6 +23,8 @@ public class MovingPlataform : MonoBehaviour
             {
                 _currentWaypointIndex = 0;
             }
+
+            if (showTrajectory) Debug.DrawLine(transform.position, waypoints[_currentWaypointIndex].position, Color.magenta, Vector2.Distance(transform.position, waypoints[_currentWaypointIndex].position) / speed);
         }
 
         //Direction = Destination - Origin
