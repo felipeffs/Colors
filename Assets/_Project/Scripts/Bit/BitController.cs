@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 public class BitController : MonoBehaviour, IReceiveDamage
 {
@@ -17,11 +16,11 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float jumpMaxHeight = 3f;
-    [SerializeField] private float wallJumpMaxHeight = 3f;
-    [SerializeField] private float wallJumpDuration = .4f;
+    [SerializeField] private float jumpMaxHeight = 4.5f;
+    [SerializeField] private float wallJumpMaxHeight = 4f;
+    [SerializeField] private float wallJumpDuration = .3f;
     [SerializeField] private float wallJumpPenaltyDuration = .75f;
-    [SerializeField] private float fallAcceleration = 3f;
+    [SerializeField] private float fallAcceleration = 15f;
     [SerializeField] private float maxFallSpeed = 20f;
     private bool _isOnWallJumpPenalty;
     private float _wallJumpPenaltyTimer;
@@ -33,9 +32,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     [Header("Collision Check")]
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float distanceFromGround = .45f;
+    [SerializeField] private float distanceFromGround = .04f;
     [SerializeField] private LayerMask wallLayers;
-    [SerializeField] private float distanceFromWall = .35f;
+    [SerializeField] private float distanceFromWall = .02f;
 
     //State Machine
     public enum States
@@ -56,12 +55,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private bool _firstCicle = false;
 
     [Header("Input Buffer")]
-    [SerializeField] private float jumpBufferWindow;
+    [SerializeField] private float jumpBufferWindow = .4f;
     private bool _jumpBuffered;
     private float _jumpBufferTimer;
 
     [Header("Coyote Time")]
-    [SerializeField] private float _coyoteWindow = .4f;
+    [SerializeField] private float _coyoteWindow = .2f;
     private float _coyoteTimer;
     private bool _coyoteJump;
 
@@ -108,14 +107,14 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (_nextState != _currentState)
         {
             //animation stop
-            animator.Action(false, _currentState, _nextState);
+            animator?.Action(false, _currentState, _nextState);
 
             _firstCicle = true;
             _lastState = _currentState;
             _currentState = _nextState;
 
             //animation play
-            animator.Action(true, _currentState);
+            animator?.Action(true, _currentState);
             Debug.Log(_currentState);
 
             //Remove ground ref
@@ -315,13 +314,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
         return _isDead ? States.Dead : currentState;
     }
 
-    private void MoveHorizontally()
+    private void ApplyInertia()
     {
-        var horintalMovement = InputManager.Instance.WalkRawValue();
-        Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
-
-        if (horintalMovement == 0) return;
-        Flip();
+        rb.velocity = groundVelocity + Vector2.up * rb.velocity.y;
     }
 
     private void Move(Vector2 speed)
@@ -342,9 +337,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
     }
 
-    private void ApplyInertia()
+    private void MoveHorizontally()
     {
-        rb.velocity = groundVelocity + Vector2.up * rb.velocity.y;
+        var horintalMovement = InputManager.Instance.WalkRawValue();
+        Move(new Vector2(horintalMovement * walkSpeed, rb.velocity.y));
+
+        if (horintalMovement == 0) return;
+        Flip();
     }
 
     private void MoveWallJumping()
@@ -363,7 +362,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         Vector3 colliderCenterPos = bitCollider.bounds.center;
 
-        // Center, Left, Right
+        // Checking order: center, left, right
         float[] groundCheckPoints = { colliderCenterPos.x ,
              colliderCenterPos.x - bitCollider.bounds.extents.x ,
               colliderCenterPos.x + bitCollider.bounds.extents.x  };
@@ -431,7 +430,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Debug.DrawLine(wallPoint, wallPoint + (direction * distanceFromWall));
 
         //Ground
-        // Center, Left, Right
+        // Debug order: center, left, right
         float[] groundCheckPoints = { colliderCenterPos.x ,
              colliderCenterPos.x - bitCollider.bounds.extents.x ,
               colliderCenterPos.x + bitCollider.bounds.extents.x  };
@@ -449,12 +448,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (rb.velocity.x < 0)
         {
             _currentDirection = Direction.Left;
-            animator.VisualFlip(true);
+            animator?.VisualFlip(true);
         }
         else if (rb.velocity.x > 0)
         {
             _currentDirection = Direction.Right;
-            animator.VisualFlip(false);
+            animator?.VisualFlip(false);
         }
     }
 
@@ -513,7 +512,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         ConsumeCoyoteTime();
 
         //Reset Flip
-        animator.VisualFlip(false);
+        animator?.VisualFlip(false);
     }
 
     public void TakeDamage(int damage)

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System;
 
 public class BitAnimator : MonoBehaviour
 {
@@ -31,8 +30,8 @@ public class BitAnimator : MonoBehaviour
     private readonly int FallLoop = Animator.StringToHash("FallLoop");
 
     //Animations
-    [SerializeField] private float jumpToFallDuration = 10f;
-    [SerializeField] private float takeOffDuration = 15f;
+    [SerializeField] private float jumpToFallDuration = 15f;
+    [SerializeField] private float takeOffDuration = 10f;
 
     public void Action(bool play, BitController.States currentState)
     {

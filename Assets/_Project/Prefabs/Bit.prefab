@@ -47,7 +47,7 @@ MonoBehaviour:
   debugLines: 0
   rb: {fileID: 1633308350327348582}
   bitCollider: {fileID: 1633308350327348581}
-  animator: {fileID: 1450683349180219349}
+  animator: {fileID: 2176567952188516150}
   walkSpeed: 5
   jumpMaxHeight: 4.5
   wallJumpMaxHeight: 4
@@ -55,6 +55,7 @@ MonoBehaviour:
   wallJumpPenaltyDuration: 0.75
   fallAcceleration: 15
   maxFallSpeed: 20
+  groundVelocity: {x: 0, y: 0}
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -66,9 +67,6 @@ MonoBehaviour:
   _currentState: 0
   jumpBufferWindow: 0.4
   _coyoteWindow: 0.2
-  groundRb: {fileID: 0}
-  groundVelocity: {x: 0, y: 0}
-  groundDirection: {x: 0, y: 0}
 --- !u!1 &1633308349683068586
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1633308349683068585}
   - component: {fileID: 1633308349683068584}
-  - component: {fileID: 1450683349180219349}
+  - component: {fileID: 2176567952188516150}
   - component: {fileID: 2796149839472858665}
   m_Layer: 7
   m_Name: Visual
@@ -157,7 +155,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1450683349180219349
+--- !u!114 &2176567952188516150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
