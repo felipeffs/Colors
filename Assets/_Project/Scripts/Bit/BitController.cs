@@ -328,7 +328,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         if (_currentState == States.Walk)
         {
-            rb.velocity = groundVelocity + new Vector2(speed.x * groundDirection.x, speed.y * groundDirection.y);
+            rb.velocity = new Vector2(speed.x + groundVelocity.x, speed.y - 3f);
         }
         else if (_currentState == States.Jump)
         {
