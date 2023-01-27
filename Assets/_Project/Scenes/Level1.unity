@@ -289,7 +289,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -333,9 +333,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
-  m_AssetsPPU: 8
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
+  m_AssetsPPU: 16
+  m_RefResolutionX: 640
+  m_RefResolutionY: 360
   m_CropFrame: 0
   m_GridSnapping: 0
   m_UpscaleRT: 0
@@ -822,31 +822,31 @@ CompositeCollider2D:
   - m_Collider: {fileID: 962829046}
     m_ColliderPaths:
     - - X: 10000000
-        Y: -10000000
-      - X: -30000000
-        Y: -10000000
+        Y: -20000000
       - X: -30000000
         Y: -20000000
+      - X: -30000000
+        Y: -30000000
       - X: 10000000
-        Y: -20000000
+        Y: -30000000
     - - X: 150000000
-        Y: -10000000
-      - X: 110000000
-        Y: -10000000
+        Y: -20000000
       - X: 110000000
         Y: -20000000
+      - X: 110000000
+        Y: -30000000
       - X: 150000000
-        Y: -20000000
+        Y: -30000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 14.999971, y: -2}
-      - {x: 14.999971, y: -1}
-      - {x: 11, y: -1.0000293}
-      - {x: 11.00003, y: -2}
-    - - {x: 0.99997073, y: -2}
-      - {x: 0.99997073, y: -1}
-      - {x: -3, y: -1.0000293}
-      - {x: -2.999971, y: -2}
+    - - {x: 14.999971, y: -3}
+      - {x: 14.999971, y: -2}
+      - {x: 11, y: -2.0000293}
+      - {x: 11.00003, y: -3}
+    - - {x: 0.99997073, y: -3}
+      - {x: 0.99997073, y: -2}
+      - {x: -3, y: -2.0000293}
+      - {x: -2.999971, y: -3}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &962829045
@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e648f7ba922a048a2c90c85897b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileColor: 0
+  tileColor: 0
 --- !u!1 &1016635942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e648f7ba922a048a2c90c85897b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileColor: 1
+  tileColor: 1
 --- !u!1 &1457903015
 GameObject:
   m_ObjectHideFlags: 0
