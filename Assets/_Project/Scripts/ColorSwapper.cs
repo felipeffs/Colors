@@ -4,9 +4,7 @@ using System;
 public class ColorSwapper : MonoBehaviour
 {
     [SerializeField] private ColorSwapHandler.ColorID tileColor;
-    public ColorSwapHandler.ColorID TileColor { get => tileColor; }
 
-    public event Action<bool> BeforeColorSwap;
 
     private void Awake()
     {
@@ -20,7 +18,6 @@ public class ColorSwapper : MonoBehaviour
 
     private void ColorSwapHandler_OnColorSwap(ColorSwapHandler.ColorID newColor)
     {
-        BeforeColorSwap?.Invoke(newColor == tileColor);
         gameObject.SetActive(newColor == tileColor);
     }
 }
