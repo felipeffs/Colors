@@ -39,6 +39,7 @@ public class BitAnimator : MonoBehaviour
     }
     public void Action(bool play, BitController.States currentState, BitController.States nextState)
     {
+        StopAllCoroutines();
         switch (currentState)
         {
             case BitController.States.Idle:

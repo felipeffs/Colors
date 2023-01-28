@@ -4,6 +4,15 @@ public class InputManager : Singleton<InputManager>
 {
     private PlayerInputs _controls;
 
+    [Header("Input Buffer")]
+    [SerializeField] private float jumpBufferWindow = 0.4f;
+    private bool _jumpBuffered;
+    private float _jumpBufferTimer;
+
+    [Header("Awake")]
+    [SerializeField] private float _delayToAwake = 0.3f;
+    private float _timerToAwake;
+
     protected override void SingletonAwake()
     {
         _controls = new PlayerInputs();
@@ -21,6 +30,35 @@ public class InputManager : Singleton<InputManager>
         GameManager.OnPause -= GameManager_OnPause;
         _controls.Bit.Disable();
         _controls.Level.Disable();
+    }
+
+    private void Start()
+    {
+        _timerToAwake = _delayToAwake;
+    }
+
+    private void Update()
+    {
+        if (_timerToAwake > 0)
+        {
+            _timerToAwake -= Time.deltaTime;
+            return;
+        }
+
+        if (_jumpBufferTimer > 0)
+        {
+            _jumpBufferTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _jumpBuffered = false;
+        }
+
+        if (_controls.Bit.Jump.WasPressedThisFrame())
+        {
+            _jumpBuffered = true;
+            _jumpBufferTimer = jumpBufferWindow;
+        }
     }
 
     private void GameManager_OnPause(bool isPaused)
@@ -63,7 +101,9 @@ public class InputManager : Singleton<InputManager>
 
     public bool JumpWasPressed()
     {
-        return _controls.Bit.Jump.WasPressedThisFrame();
+        var wasPressed = _jumpBuffered;
+        _jumpBuffered = false;
+        return wasPressed;
     }
 
     public bool SwapWasPressed()

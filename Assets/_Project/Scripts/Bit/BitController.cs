@@ -56,11 +56,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private States _nextState;
     private bool _firstCicle = false;
 
-    [Header("Input Buffer")]
-    [SerializeField] private float jumpBufferWindow = .4f;
-    private bool _jumpBuffered;
-    private float _jumpBufferTimer;
-
     [Header("Coyote Time")]
     [SerializeField] private float _coyoteWindow = .2f;
     private float _coyoteTimer;
@@ -85,7 +80,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     private void Update()
     {
-        JumpBuffer();
         RunState();
 #if UNITY_EDITOR
         DebugCollisionCheck();
@@ -147,7 +141,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             return States.Walk;
         }
 
-        if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
+        if (InputManager.Instance.JumpWasPressed())
         {
             return States.Jump;
         }
@@ -168,7 +162,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             return States.Idle;
         }
-        if (InputManager.Instance.JumpWasPressed() || _jumpBuffered)
+        if (InputManager.Instance.JumpWasPressed())
         {
             return States.Jump;
         }
@@ -186,13 +180,11 @@ public class BitController : MonoBehaviour, IReceiveDamage
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             ConsumeCoyoteTime();
-
-            _jumpBuffered = false;
         }
         MoveHorizontally();
 
         // Transitions
-        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
+        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed()))
         {
             return States.WallJump;
         }
@@ -255,7 +247,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
             return States.Jump;
         }
 
-        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed() || _jumpBuffered))
+        if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed()))
         {
             return States.WallJump;
         }
@@ -290,7 +282,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
             _lastWallJumpedDirection = _currentDirection;
             _isOnWallJumpPenalty = true;
 
-            _jumpBuffered = false;
             ConsumeCoyoteTime();
             Flip();
         }
@@ -370,9 +361,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
         Vector3 colliderCenterPos = bitCollider.bounds.center;
 
         // Checking order: center, left, right
-        float[] groundCheckPoints = { colliderCenterPos.x ,
-             colliderCenterPos.x - bitCollider.bounds.extents.x ,
-              colliderCenterPos.x + bitCollider.bounds.extents.x  };
+        float[] groundCheckPoints = { colliderCenterPos.x,
+             colliderCenterPos.x - bitCollider.bounds.extents.x,
+              colliderCenterPos.x + bitCollider.bounds.extents.x};
 
         foreach (var point in groundCheckPoints)
         {
@@ -464,24 +455,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
     }
 
-    private void JumpBuffer()
-    {
-        if (_jumpBufferTimer > 0)
-        {
-            _jumpBufferTimer -= Time.deltaTime;
-        }
-        else
-        {
-            _jumpBuffered = false;
-        }
-
-        if (!IsGrounded() && InputManager.Instance.JumpWasPressed())
-        {
-            _jumpBuffered = true;
-            _jumpBufferTimer = jumpBufferWindow;
-        }
-    }
-
     private void UpdateCoyoteTimer()
     {
         if (_coyoteTimer > 0)
@@ -510,10 +483,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         //Reset Physics
         rb.velocity = Vector2.zero;
-
-        //Reset JumpBuffer
-        _jumpBuffered = false;
-        _jumpBufferTimer = 0;
 
         //Reset CoyoteTime
         ConsumeCoyoteTime();
