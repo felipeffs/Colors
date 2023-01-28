@@ -27,7 +27,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private float _wallJumpTimer;
     private bool _isWallJumpCompleted = true;
     private Direction _lastWallJumpedDirection;
-    Rigidbody2D groundRb;
+    private Rigidbody2D _groundRb;
     [ReadOnly][SerializeField] Vector2 groundVelocity;
 
     [Header("Collision Check")]
@@ -372,10 +372,10 @@ public class BitController : MonoBehaviour, IReceiveDamage
             var checkPoint = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
 
             RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
-            groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
+            _groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
 
-            if (groundRb != null)
-                groundVelocity = groundRb.velocity;
+            if (_groundRb != null)
+                groundVelocity = _groundRb.velocity;
 
             if (raycast) return true;
         }

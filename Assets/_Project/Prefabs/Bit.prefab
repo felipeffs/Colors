@@ -49,7 +49,7 @@ MonoBehaviour:
   bitCollider: {fileID: 1633308350327348581}
   animator: {fileID: 2176567952188516150}
   walkSpeed: 5
-  jumpMaxHeight: 4.5
+  jumpMaxHeight: 4.3
   wallJumpMaxHeight: 4
   wallJumpDuration: 0.3
   wallJumpPenaltyDuration: 0.75

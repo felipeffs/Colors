@@ -9,10 +9,21 @@ public class WaypointFollower : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private List<Transform> waypoints;
     [SerializeField] private float speed = 3f;
-    private int _currentWaypointIndex = 0;
+    private int _currentWaypointIndex;
 
     [Header("Debug")]
     [SerializeField] private bool showTrajectory;
+
+    private void Start()
+    {
+        ResetPosition();
+        LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.OnRestartLevel -= LevelManager_OnRestartLevel;
+    }
 
     private void Update()
     {
@@ -30,5 +41,17 @@ public class WaypointFollower : MonoBehaviour
         //Direction = Destination - Origin
         var direction = (Vector2.MoveTowards(transform.position, waypoints[_currentWaypointIndex].position, 1f * Time.fixedDeltaTime) - (Vector2)transform.position).normalized;
         rb.velocity = direction * speed;
+    }
+
+    private void ResetPosition()
+    {
+        rb.velocity = rb.velocity = Vector2.zero;
+        transform.position = waypoints[0].position;
+        _currentWaypointIndex = 1;
+    }
+
+    private void LevelManager_OnRestartLevel()
+    {
+        ResetPosition();
     }
 }
