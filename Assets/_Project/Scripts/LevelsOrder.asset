@@ -26,8 +26,8 @@ MonoBehaviour:
   - m_SceneAsset: {fileID: 102900000, guid: 7aac175b2eb0e8d4ca1dfefef1c3f788, type: 3}
     m_SceneName: LevelMovingPlataforms
   menuScene:
-    m_SceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
-    m_SceneName: Level1
+    m_SceneAsset: {fileID: 102900000, guid: 1ff2ee791d70e0547beddd1fcb05aaa7, type: 3}
+    m_SceneName: MainMenu
   essentialScene:
     m_SceneAsset: {fileID: 102900000, guid: beb41fd34353a714f8c510468d5948a7, type: 3}
     m_SceneName: EssentialToGame

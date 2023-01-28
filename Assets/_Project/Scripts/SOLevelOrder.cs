@@ -11,6 +11,20 @@ public class SOLevelOrder : ScriptableObject
     [SerializeField] private SceneField menuScene;
     [SerializeField] private SceneField essentialScene;
 
+    public void LoadLevelByIndex(int orderIndex)
+    {
+        SceneManager.LoadSceneAsync(essentialScene, LoadSceneMode.Single);
+        AsyncOperation loading = SceneManager.LoadSceneAsync(levelsList[orderIndex], LoadSceneMode.Additive);
+
+        // set the level as active scene
+        loading.completed += (op) =>
+                {
+                    var scene = SceneManager.GetSceneByName(levelsList[orderIndex]);
+
+                    SceneManager.SetActiveScene(scene);
+                };
+    }
+
     public void LoadNextLevel()
     {
         var currentLevelOrderPosition = GetCurrentLevelOrderPosition(out Scene[] openScenes);
@@ -24,17 +38,21 @@ public class SOLevelOrder : ScriptableObject
 
         // Load next level scene
         string sceneToLoad;
-
+        LoadSceneMode sceneLoadMethod;
         if (nextLevelOrderPosition >= levelsList.Count || nextLevelOrderPosition <= -1)
         {
             sceneToLoad = menuScene;
+            sceneLoadMethod = LoadSceneMode.Single;
         }
         else
         {
+            sceneLoadMethod = LoadSceneMode.Additive;
             sceneToLoad = levelsList[nextLevelOrderPosition];
         }
 
-        AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, sceneLoadMethod);
+
+        // set the level as active scene
         loading.completed += (op) =>
         {
             var scene = SceneManager.GetSceneByName(sceneToLoad);
