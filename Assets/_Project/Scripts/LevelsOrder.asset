@@ -19,6 +19,8 @@ MonoBehaviour:
     m_SceneName: LevelInvertedTower
   - m_SceneAsset: {fileID: 102900000, guid: 76f417a467c20514b81706fa2a7c067c, type: 3}
     m_SceneName: LevelLearnWallJump
+  - m_SceneAsset: {fileID: 102900000, guid: ebe322736a39c1541a53e3f6af1f097b, type: 3}
+    m_SceneName: LevelEasyPlataform
   - m_SceneAsset: {fileID: 102900000, guid: f5808f5b1181100409e75ca5e3a15d76, type: 3}
     m_SceneName: LevelMaze
   - m_SceneAsset: {fileID: 102900000, guid: 7aac175b2eb0e8d4ca1dfefef1c3f788, type: 3}

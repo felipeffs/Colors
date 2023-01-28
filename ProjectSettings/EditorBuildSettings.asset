@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/LevelInvertedTower.unity
     guid: 73f91a09afdf0ef42a63069500869cad
   - enabled: 1
+    path: Assets/_Project/Scenes/LevelEasyPlataform.unity
+    guid: ebe322736a39c1541a53e3f6af1f097b
+  - enabled: 1
     path: Assets/_Project/Scenes/LevelMaze.unity
     guid: f5808f5b1181100409e75ca5e3a15d76
   - enabled: 1

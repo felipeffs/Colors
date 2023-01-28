@@ -5,8 +5,10 @@ public class BitController : MonoBehaviour, IReceiveDamage
 {
     public static event Action OnPlayerDeath;
 
+#if UNITY_EDITOR
     [Header("Debug")]
     [SerializeField] private bool debugLines;
+#endif
 
     [Header("Components")]
     [SerializeField] private Rigidbody2D rb;
@@ -85,7 +87,9 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         JumpBuffer();
         RunState();
+#if UNITY_EDITOR
         DebugCollisionCheck();
+#endif
     }
 
     private void RunState()
