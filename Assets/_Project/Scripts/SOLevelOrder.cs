@@ -25,6 +25,11 @@ public class SOLevelOrder : ScriptableObject
                 };
     }
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadSceneAsync(menuScene, LoadSceneMode.Single);
+    }
+
     public void LoadNextLevel()
     {
         var currentLevelOrderPosition = GetCurrentLevelOrderPosition(out Scene[] openScenes);
