@@ -209,7 +209,11 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
         // Wall Jump Penalty
         if (_firstCicle)
+        {
             _wallJumpPenaltyTimer = 0.5f;
+            if (_lastState != States.WallJump) rb.velocity = Vector2.zero;
+        }
+
         else
         {
             _wallJumpPenaltyTimer -= Time.deltaTime;
@@ -225,7 +229,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
         else
         {
-            rb.velocity = new Vector2(rb.velocity.x, newYVelocity);
+            rb.velocity = new Vector2(rb.velocity.x, -maxFallSpeed);
         }
 
         //Move Horizontally
@@ -233,7 +237,6 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             MoveHorizontally();
         }
-
         //if last state is wall jump only modify velocity if Walk has pressed
         else if (InputManager.Instance.WalkRawValue() != 0)
         {
