@@ -4,6 +4,7 @@ using System;
 public class BitController : MonoBehaviour, IReceiveDamage
 {
     public static event Action OnPlayerDeath;
+    public static event Action<States> OnStateChange;
 
 #if UNITY_EDITOR
     [Header("Debug")]
@@ -114,6 +115,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
             //animation play
             animator?.Action(true, _currentState);
             Debug.Log(_currentState);
+
+            OnStateChange?.Invoke(_currentState);
 
             //Remove ground ref
             groundVelocity = Vector2.zero;

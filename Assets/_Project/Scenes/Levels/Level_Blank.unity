@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 413726795}
   - component: {fileID: 413726794}
+  - component: {fileID: 413726796}
   m_Layer: 0
   m_Name: ColorSwapHandler
   m_TagString: Untagged
@@ -201,6 +202,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413726796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413726793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48402de31cec1ae4f87e1acc43970a69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +302,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 12.5625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

@@ -4,6 +4,7 @@ using System;
 public class ColorSwapHandler : MonoBehaviour
 {
     public static event Action<ColorID> OnColorSwap;
+    public static event Action OnColorSwapByPlayer;
 
     [SerializeField] private Color Color1;
     [SerializeField] private Color Color2;
@@ -28,7 +29,11 @@ public class ColorSwapHandler : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.Instance.SwapWasPressed()) ChangeActiveColor();
+        if (InputManager.Instance.SwapWasPressed())
+        {
+            OnColorSwapByPlayer?.Invoke();
+            ChangeActiveColor();
+        }
     }
 
     public void ChangeActiveColor()
