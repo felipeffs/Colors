@@ -12,10 +12,12 @@ public class AudioManager : Singleton<AudioManager>
 
     public enum Sound
     {
+        None,
         Swap,
         Die,
         Walk,
-        Jump
+        Jump,
+        Landing
     }
 
     public void PlayAudio(Sound sound)
@@ -32,10 +34,32 @@ public class AudioManager : Singleton<AudioManager>
                     newAudioSource.clip = audio.audioClip;
                     audioSourceDictionary.Add(sound, newAudioSource);
                     audioSourceDictionary[sound].Play();
+
+                    if (sound == Sound.Walk)
+                    {
+                        audioSourceDictionary[sound].volume = .3f;
+                        audioSourceDictionary[sound].loop = true;
+                    }
+
+                    if (sound == Sound.Swap)
+                    {
+                        audioSourceDictionary[sound].volume = .6f;
+                    }
+
+                    if (sound == Sound.Landing || sound == Sound.Jump)
+                    {
+                        audioSourceDictionary[sound].volume = .3f;
+                    }
                 }
             }
 
         }
+    }
+
+    public void StopAudio(Sound sound)
+    {
+        if (audioSourceDictionary.ContainsKey(sound))
+            audioSourceDictionary[sound].Stop();
     }
 
 }

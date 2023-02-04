@@ -227,6 +227,7 @@ Transform:
   m_Children:
   - {fileID: 1633308349683068585}
   - {fileID: 1633308349626594336}
+  - {fileID: 7937742043442391155}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -277,6 +278,50 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.63, y: 0.66}
   m_EdgeRadius: 0
+--- !u!1 &4173937901723387234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7937742043442391155}
+  - component: {fileID: 8617046836937294502}
+  m_Layer: 7
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7937742043442391155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173937901723387234}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1633308350327348583}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8617046836937294502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173937901723387234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1c97bafce61c24aaf5b82632a4c008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3445866599101886199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -351,14 +396,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1633308349683068585}
     m_Modifications:
-    - target: {fileID: 2951697821574625638, guid: 7a16aaefbaad7944c8d6b489ef35fdc8, type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951697821574625638, guid: 7a16aaefbaad7944c8d6b489ef35fdc8, type: 3}
-      propertyPath: ShapeModule.m_Rotation.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2951697821574625639, guid: 7a16aaefbaad7944c8d6b489ef35fdc8, type: 3}
       propertyPath: m_RootOrder
       value: 0

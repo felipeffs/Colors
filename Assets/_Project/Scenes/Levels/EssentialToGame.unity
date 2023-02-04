@@ -250,9 +250,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.049751244
+    y: 0.05100182
     width: 1
-    height: 0.9011194
+    height: 0.89959013
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -652,8 +652,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioList:
-  - sound: 0
+  - sound: 1
     audioClip: {fileID: 8300000, guid: f8cee0e77773bd841b0f432642354b7a, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: b5c164828ce6e3242978b68738efeedb, type: 3}
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: 9d7c80db8d4ba504dae32fecec6bc368, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: 47ec71bf15dea4e40811a6ce9f9c72ee, type: 3}
 --- !u!1 &2099448691
 GameObject:
   m_ObjectHideFlags: 0
