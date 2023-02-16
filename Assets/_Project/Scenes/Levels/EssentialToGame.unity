@@ -474,8 +474,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 38
+  m_fontSizeBase: 38
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
@@ -660,6 +660,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 9d7c80db8d4ba504dae32fecec6bc368, type: 3}
   - sound: 4
     audioClip: {fileID: 8300000, guid: 47ec71bf15dea4e40811a6ce9f9c72ee, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 302fe14f7dceb0a4ea5b8701a562c3cf, type: 3}
 --- !u!1 &2099448691
 GameObject:
   m_ObjectHideFlags: 0
