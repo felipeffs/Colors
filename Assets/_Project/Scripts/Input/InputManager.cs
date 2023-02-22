@@ -23,6 +23,7 @@ public class InputManager : Singleton<InputManager>
         GameManager.OnPause += GameManager_OnPause;
         _controls.Bit.Enable();
         _controls.Level.Enable();
+        _controls.Menu.Enable();
     }
 
     private void OnDisable()
@@ -30,6 +31,7 @@ public class InputManager : Singleton<InputManager>
         GameManager.OnPause -= GameManager_OnPause;
         _controls.Bit.Disable();
         _controls.Level.Disable();
+        _controls.Menu.Disable();
     }
 
     private void Start()
@@ -67,11 +69,13 @@ public class InputManager : Singleton<InputManager>
         {
             _controls.Bit.Disable();
             _controls.Level.Restart.Disable();
+            _controls.Menu.Enable();
         }
         else
         {
             _controls.Bit.Enable();
             _controls.Level.Restart.Enable();
+            _controls.Menu.Disable();
         }
     }
 
@@ -119,5 +123,53 @@ public class InputManager : Singleton<InputManager>
     public bool PauseWasPressed()
     {
         return _controls.Level.Pause.WasPerformedThisFrame();
+    }
+
+    //UI Menu
+
+    public bool PointerClickHeld()
+    {
+        return false;
+    }
+
+    public bool PointerDelta()
+    {
+        var delta = _controls.Menu.Delta.ReadValue<Vector2>();
+        return delta.y > 0.12f || delta.x > 0.12f;
+    }
+
+    public bool PointerClickPressed()
+    {
+        return _controls.Menu.Select.WasPressedThisFrame();
+    }
+
+    public bool PointerClickReleased()
+    {
+        return _controls.Menu.Select.WasReleasedThisFrame();
+    }
+
+    public Vector3 PointerPosition()
+    {
+        return _controls.Menu.Position.ReadValue<Vector2>();
+    }
+
+    public bool NavigationUp()
+    {
+        return _controls.Menu.NavigationUp.WasPressedThisFrame();
+    }
+
+    public bool NavigationDown()
+    {
+        return _controls.Menu.NavigationDown.WasPressedThisFrame();
+    }
+
+    public bool NavigationLeft()
+    {
+        return _controls.Menu.NavigationLeft.WasPressedThisFrame();
+    }
+
+    public bool NavigationRight()
+    {
+        return _controls.Menu.NavigationRight.WasPressedThisFrame();
     }
 }
