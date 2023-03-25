@@ -22,7 +22,17 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isPointAbove;
     private RectTransform _rT;
 
-    public ButtonPlus upButton;
+    [Header("Navigation Links")]
+    [SerializeField] private ButtonPlus upButton;
+    [SerializeField] private ButtonPlus downButton;
+    [SerializeField] private ButtonPlus leftButton;
+    [SerializeField] private ButtonPlus rightButton;
+
+    public ButtonPlus upLink => upButton;
+    public ButtonPlus downLink => downButton;
+    public ButtonPlus leftLink => leftButton;
+    public ButtonPlus rightLink => rightButton;
+
 
     private void Awake()
     {
@@ -97,6 +107,11 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (!isPointAbove) return State.Normal;
             if (InputManager.Instance.PointerClickPressed()) return State.Pressed;
         }
+        else
+        {
+            if (InputManager.Instance.NavigationSelectPressed()) return State.Pressed;
+        }
+
         return State.Highlighted;
     }
 
@@ -115,6 +130,15 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 return State.Normal;
             }
         }
+        else
+        {
+            if (InputManager.Instance.NavigationSelectReleased())
+            {
+                onAction?.Invoke();
+                return State.Normal;
+            }
+        }
+
         return State.Pressed;
     }
 

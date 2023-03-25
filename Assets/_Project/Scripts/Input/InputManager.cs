@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
@@ -140,17 +141,27 @@ public class InputManager : Singleton<InputManager>
 
     public bool PointerClickPressed()
     {
-        return _controls.Menu.Select.WasPressedThisFrame();
+        return _controls.Menu.PointerSelect.WasPressedThisFrame();
     }
 
     public bool PointerClickReleased()
     {
-        return _controls.Menu.Select.WasReleasedThisFrame();
+        return _controls.Menu.PointerSelect.WasReleasedThisFrame();
     }
 
     public Vector3 PointerPosition()
     {
         return _controls.Menu.Position.ReadValue<Vector2>();
+    }
+
+    public bool NavigationSelectPressed()
+    {
+        return _controls.Menu.NavigationSelect.WasPressedThisFrame();
+    }
+
+    public bool NavigationSelectReleased()
+    {
+        return _controls.Menu.NavigationSelect.WasReleasedThisFrame();
     }
 
     public bool NavigationUp()

@@ -243,9 +243,18 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
             ""id"": ""d6b6f0a6-9d3a-4cde-bcae-3e833bb0306e"",
             ""actions"": [
                 {
-                    ""name"": ""Select"",
+                    ""name"": ""PointerSelect"",
                     ""type"": ""Button"",
                     ""id"": ""f3da9201-4837-4244-8a54-ed210301bfbe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NavigationSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""caf3a70a-9b9a-46a1-b590-56ff37a174c4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -314,18 +323,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""60e6d5b5-a26b-4523-b03e-2703cfc116d5"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
+                    ""action"": ""PointerSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -438,6 +436,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""NavigationRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90d16669-0503-4e30-b24e-358eb53ddf10"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigationSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""844eaac2-26c4-400e-9f09-104dac0407b4"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigationSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -455,7 +475,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Level_Pause = m_Level.FindAction("Pause", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Select = m_Menu.FindAction("Select", throwIfNotFound: true);
+        m_Menu_PointerSelect = m_Menu.FindAction("PointerSelect", throwIfNotFound: true);
+        m_Menu_NavigationSelect = m_Menu.FindAction("NavigationSelect", throwIfNotFound: true);
         m_Menu_Position = m_Menu.FindAction("Position", throwIfNotFound: true);
         m_Menu_NavigationUp = m_Menu.FindAction("NavigationUp", throwIfNotFound: true);
         m_Menu_NavigationDown = m_Menu.FindAction("NavigationDown", throwIfNotFound: true);
@@ -611,7 +632,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Select;
+    private readonly InputAction m_Menu_PointerSelect;
+    private readonly InputAction m_Menu_NavigationSelect;
     private readonly InputAction m_Menu_Position;
     private readonly InputAction m_Menu_NavigationUp;
     private readonly InputAction m_Menu_NavigationDown;
@@ -622,7 +644,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     {
         private @PlayerInputs m_Wrapper;
         public MenuActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Select => m_Wrapper.m_Menu_Select;
+        public InputAction @PointerSelect => m_Wrapper.m_Menu_PointerSelect;
+        public InputAction @NavigationSelect => m_Wrapper.m_Menu_NavigationSelect;
         public InputAction @Position => m_Wrapper.m_Menu_Position;
         public InputAction @NavigationUp => m_Wrapper.m_Menu_NavigationUp;
         public InputAction @NavigationDown => m_Wrapper.m_Menu_NavigationDown;
@@ -638,9 +661,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @Select.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnSelect;
-                @Select.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnSelect;
-                @Select.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnSelect;
+                @PointerSelect.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPointerSelect;
+                @PointerSelect.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPointerSelect;
+                @PointerSelect.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPointerSelect;
+                @NavigationSelect.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationSelect;
+                @NavigationSelect.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationSelect;
+                @NavigationSelect.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationSelect;
                 @Position.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPosition;
                 @Position.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPosition;
                 @Position.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPosition;
@@ -663,9 +689,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Select.started += instance.OnSelect;
-                @Select.performed += instance.OnSelect;
-                @Select.canceled += instance.OnSelect;
+                @PointerSelect.started += instance.OnPointerSelect;
+                @PointerSelect.performed += instance.OnPointerSelect;
+                @PointerSelect.canceled += instance.OnPointerSelect;
+                @NavigationSelect.started += instance.OnNavigationSelect;
+                @NavigationSelect.performed += instance.OnNavigationSelect;
+                @NavigationSelect.canceled += instance.OnNavigationSelect;
                 @Position.started += instance.OnPosition;
                 @Position.performed += instance.OnPosition;
                 @Position.canceled += instance.OnPosition;
@@ -701,7 +730,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     }
     public interface IMenuActions
     {
-        void OnSelect(InputAction.CallbackContext context);
+        void OnPointerSelect(InputAction.CallbackContext context);
+        void OnNavigationSelect(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
         void OnNavigationUp(InputAction.CallbackContext context);
         void OnNavigationDown(InputAction.CallbackContext context);
