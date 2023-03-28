@@ -12,6 +12,11 @@ public class GameManager : Singleton<GameManager>
     private LevelManager _levelManager;
     private bool isGamePause;
 
+    private void Start()
+    {
+        _pauseUI.SetActive(false);
+    }
+
     private void Update()
     {
         if (InputManager.Instance.PauseWasPressed())

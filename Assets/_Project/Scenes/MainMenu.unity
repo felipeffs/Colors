@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Novo Jogo
+  m_text: New Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
@@ -744,7 +744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sair
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Novo Jogo
+  m_text: New Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
@@ -2365,7 +2365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Novo Jogo
+  m_text: New Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sair
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
@@ -2942,7 +2942,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sair
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
   m_sharedMaterial: {fileID: 8271004612775439992, guid: 01c2a5520e02fdc42b900e545a02bfd8, type: 2}
