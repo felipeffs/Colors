@@ -1,21 +1,30 @@
 using UnityEngine;
 
-public class ActivatorCube : MonoBehaviour
+[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Attacher))]
+public class ActivatorCube : MonoBehaviour, IReceiveDamage
 {
-    [SerializeField] private IAction behaviourConnector;
-    [SerializeField] private Magnetism magnetismProp;
-    [SerializeField] private bool isConnected = false;
-    [SerializeField] private Collider2D cubeCollider;
-    [SerializeField] private Rigidbody2D cubeRb;
-    [SerializeField] private Rigidbody2D _groundRb;
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float distanceFromGround = 0.5f;
-    [SerializeField] private Collider2D other = null;
+    [SerializeField] private float distanceFromGround = 0.2f;
+
+    // Const Ref
+    private Attacher magnetismProp;
+    private Collider2D cubeCollider;
+    private Rigidbody2D cubeRb;
+
+    // Dinamic Ref
+    private Collider2D other;
+    private IAction behaviourConnector;
+
+    // Connected Variables
+    private bool isConnected = false;
     private Vector3 initialPos;
 
     public void Awake()
     {
         initialPos = transform.position;
+        magnetismProp = GetComponent<Attacher>();
+        cubeCollider = GetComponent<Collider2D>();
+        cubeRb = GetComponent<Rigidbody2D>();
     }
 
     public void Start()
@@ -30,28 +39,30 @@ public class ActivatorCube : MonoBehaviour
 
     public void Update()
     {
-        GroundCheck();
+        if (!isConnected)
+        {
+            GroundCheck();
+        }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (isConnected)
             {
-                Desconectar();
+                Unplug();
             }
             else
             {
-                Conectar();
+                Plug();
             }
         }
-
     }
 
-    private void Desconectar()
+    private void Unplug()
     {
         isConnected = false;
         behaviourConnector?.Desactive();
         behaviourConnector = null;
-        magnetismProp?.DesdoMagneticThing();
+        magnetismProp?.DetachAll();
     }
 
     private void GroundCheck()
@@ -60,7 +71,7 @@ public class ActivatorCube : MonoBehaviour
         Vector3 colliderCenterPos = cubeCollider.bounds.center;
 
         // Checking order: center, left, right
-        float[] groundCheckPoints = { colliderCenterPos.x,
+        float[] groundCheckPoints = {colliderCenterPos.x,
              colliderCenterPos.x - cubeCollider.bounds.extents.x,
               colliderCenterPos.x + cubeCollider.bounds.extents.x};
 
@@ -73,59 +84,49 @@ public class ActivatorCube : MonoBehaviour
             if (raycast.collider != null)
             {
                 other = raycast.collider;
-                _groundRb = raycast.collider.gameObject.GetComponent<Rigidbody2D>();
+                Vector2 groundVelocity = raycast.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
 
                 //Velocity
-                if (!isConnected && _groundRb)
+                if (groundVelocity != Vector2.zero)
                 {
-                    if (Mathf.Abs(cubeRb.velocity.x) < Mathf.Abs(_groundRb.velocity.x))
-                        cubeRb.velocity = Vector2.right * _groundRb.velocity.x + cubeRb.velocity;
-                    if (Mathf.Abs(cubeRb.velocity.y) < Mathf.Abs(_groundRb.velocity.y))
-                        cubeRb.velocity = Vector2.up * _groundRb.velocity.y + cubeRb.velocity; ;
+                    if (Mathf.Abs(cubeRb.velocity.x) < Mathf.Abs(groundVelocity.x))
+                        cubeRb.velocity = Vector2.right * groundVelocity.x + cubeRb.velocity;
+                    if (Mathf.Abs(cubeRb.velocity.y) < Mathf.Abs(groundVelocity.y))
+                        cubeRb.velocity = Vector2.up * groundVelocity.y + cubeRb.velocity; ;
 
                     break;
                 }
-
-
             }
-
         }
     }
 
-    public void Conectar()
+    public void Plug()
     {
         if (isConnected) return;
         if (other == null) return;
 
-        var scripts = other.GetComponents<MonoBehaviour>();
-
-        // IBlah  myListTest= originalObject as IBlah ?? some_code
-
-        foreach (var script in scripts)
-        {
-            if (script is IAction iscript)
-            {
-                behaviourConnector = iscript;
-                Debug.Log("BBB");
-                break;
-            }
-        }
+        behaviourConnector = other.GetComponent<IAction>();
 
         if (behaviourConnector is null) return;
 
         isConnected = true;
         behaviourConnector?.Active();
-        magnetismProp?.DoMagneticThing(other.transform);
-        Debug.Log("CCC");
+        magnetismProp?.AttachObject(other.transform, cubeRb);
     }
 
     private void Reset()
     {
-        Desconectar();
+        Unplug();
         transform.position = initialPos;
+        cubeRb.velocity = Vector2.zero;
     }
 
     private void LevelManager_OnRestartLevel()
+    {
+        Reset();
+    }
+
+    void IReceiveDamage.TakeDamage(int damage)
     {
         Reset();
     }

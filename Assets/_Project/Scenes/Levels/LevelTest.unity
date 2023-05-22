@@ -406,7 +406,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815325895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 0.75, z: 0}
+  m_LocalPosition: {x: -13.42, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5366,7 +5366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814944763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.22, y: 0.75, z: 0}
+  m_LocalPosition: {x: 9.8, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5531,6 +5531,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlataformWireless
       objectReference: {fileID: 0}
+    - target: {fileID: 956921234753143773, guid: f30dde237782138488504c6464576df3, type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 956921234753143773, guid: f30dde237782138488504c6464576df3, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 956921234753143774, guid: f30dde237782138488504c6464576df3, type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 956921234753143775, guid: f30dde237782138488504c6464576df3, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -5634,6 +5646,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2661448664027732135, guid: 553d5fcd87d618c429ad32ff10ec762d, type: 3}
       propertyPath: plataformWireless
+      value: 
+      objectReference: {fileID: 1518912807}
+    - target: {fileID: 2661448664027732135, guid: 553d5fcd87d618c429ad32ff10ec762d, type: 3}
+      propertyPath: platformToDisableTransform
       value: 
       objectReference: {fileID: 1518912807}
     m_RemovedComponents: []

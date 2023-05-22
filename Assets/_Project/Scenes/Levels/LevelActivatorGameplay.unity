@@ -244,6 +244,10 @@ PrefabInstance:
       propertyPath: plataformWireless
       value: 
       objectReference: {fileID: 861191806}
+    - target: {fileID: 2661448664027732135, guid: 553d5fcd87d618c429ad32ff10ec762d, type: 3}
+      propertyPath: platformToDisableTransform
+      value: 
+      objectReference: {fileID: 861191806}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 553d5fcd87d618c429ad32ff10ec762d, type: 3}
 --- !u!1 &413726793
@@ -3217,6 +3221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActivatorCube
       objectReference: {fileID: 0}
+    - target: {fileID: 2996321312467915740, guid: 53b674deddbf3a14fbc627d30cd162eb, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 884fb9b3b28fab94d9206eba52d6abf0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53b674deddbf3a14fbc627d30cd162eb, type: 3}
 --- !u!1 &2144873943
