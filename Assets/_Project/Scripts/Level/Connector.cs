@@ -3,15 +3,18 @@ using UnityEngine;
 public class Connector : MonoBehaviour, IAction
 {
     [SerializeField] private Transform pointOfConnection;
+    [SerializeField] private Transform plataformWireless;
 
     public void Active()
     {
-        Debug.Log("USEI");
+        if (plataformWireless)
+            plataformWireless.gameObject.SetActive(false);
     }
 
     public void Desactive()
     {
-        Debug.Log("Não to usando mais");
+        if (plataformWireless)
+            plataformWireless.gameObject?.SetActive(true);
     }
 
     public Transform GetPointOfConnection() => pointOfConnection;

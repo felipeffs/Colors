@@ -25,6 +25,8 @@ MonoBehaviour:
     m_SceneName: LevelMaze
   - m_SceneAsset: {fileID: 102900000, guid: 7aac175b2eb0e8d4ca1dfefef1c3f788, type: 3}
     m_SceneName: LevelMovingPlataforms
+  - m_SceneAsset: {fileID: 102900000, guid: cd03ffd053289b441a34c8415b60a115, type: 3}
+    m_SceneName: LevelActivatorGameplay
   menuScene:
     m_SceneAsset: {fileID: 102900000, guid: 1ff2ee791d70e0547beddd1fcb05aaa7, type: 3}
     m_SceneName: MainMenu

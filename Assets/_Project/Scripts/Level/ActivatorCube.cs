@@ -11,7 +11,22 @@ public class ActivatorCube : MonoBehaviour
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float distanceFromGround = 0.5f;
     [SerializeField] private Collider2D other = null;
+    private Vector3 initialPos;
 
+    public void Awake()
+    {
+        initialPos = transform.position;
+    }
+
+    public void Start()
+    {
+        LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.OnRestartLevel -= LevelManager_OnRestartLevel;
+    }
 
     public void Update()
     {
@@ -21,10 +36,7 @@ public class ActivatorCube : MonoBehaviour
         {
             if (isConnected)
             {
-                isConnected = false;
-                behaviourConnector?.Desactive();
-                behaviourConnector = null;
-                magnetismProp?.DesdoMagneticThing();
+                Desconectar();
             }
             else
             {
@@ -32,6 +44,14 @@ public class ActivatorCube : MonoBehaviour
             }
         }
 
+    }
+
+    private void Desconectar()
+    {
+        isConnected = false;
+        behaviourConnector?.Desactive();
+        behaviourConnector = null;
+        magnetismProp?.DesdoMagneticThing();
     }
 
     private void GroundCheck()
@@ -61,7 +81,7 @@ public class ActivatorCube : MonoBehaviour
                     if (Mathf.Abs(cubeRb.velocity.x) < Mathf.Abs(_groundRb.velocity.x))
                         cubeRb.velocity = Vector2.right * _groundRb.velocity.x + cubeRb.velocity;
                     if (Mathf.Abs(cubeRb.velocity.y) < Mathf.Abs(_groundRb.velocity.y))
-                        cubeRb.velocity = Vector2.up * _groundRb.velocity.y + cubeRb.velocity;;
+                        cubeRb.velocity = Vector2.up * _groundRb.velocity.y + cubeRb.velocity; ;
 
                     break;
                 }
@@ -94,8 +114,19 @@ public class ActivatorCube : MonoBehaviour
         if (behaviourConnector is null) return;
 
         isConnected = true;
-        behaviourConnector.Active();
+        behaviourConnector?.Active();
         magnetismProp?.DoMagneticThing(other.transform);
         Debug.Log("CCC");
+    }
+
+    private void Reset()
+    {
+        Desconectar();
+        transform.position = initialPos;
+    }
+
+    private void LevelManager_OnRestartLevel()
+    {
+        Reset();
     }
 }
