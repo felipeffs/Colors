@@ -11,15 +11,16 @@ public class BitAnimator : MonoBehaviour
     [SerializeField] private ParticleSystem walkTrail;
     [SerializeField] private ParticleSystem jumpDust;
 
+#if UNITY_EDITOR
     [Header("Testing")]
     [SerializeField] private bool jumpEffect;
     [SerializeField] private bool walkEffect;
     [SerializeField] private bool fallEffect;
+#endif
 
     //Flip
-    public bool isFliped { get => sr.flipX; }
-    private readonly Vector3 localFlippedScale = new Vector3(-1, 1, 1);
-    private readonly Vector3 localNoFlippedScale = new Vector3(1, 1, 1);
+    private readonly Vector3 LocalFlippedScale = new Vector3(-1, 1, 1);
+    private readonly Vector3 LocalNoFlippedScale = Vector3.one;
 
     //Animations String Hashs
     private readonly int Idle = Animator.StringToHash("Idle");
@@ -29,35 +30,36 @@ public class BitAnimator : MonoBehaviour
     private readonly int JumpToFall = Animator.StringToHash("JumpToFall");
     private readonly int FallLoop = Animator.StringToHash("FallLoop");
 
-    //Animations
+    [Header("Animations")]
     [SerializeField] private float jumpToFallDuration = 15f;
     [SerializeField] private float takeOffDuration = 10f;
 
-    public void Action(bool play, BitController.States currentState)
+    public void Action(bool play, BitController.State currentState)
     {
         Action(play, currentState, currentState);
     }
-    public void Action(bool play, BitController.States currentState, BitController.States nextState)
+
+    public void Action(bool play, BitController.State currentState, BitController.State nextState)
     {
         StopAllCoroutines();
         switch (currentState)
         {
-            case BitController.States.Idle:
+            case BitController.State.Idle:
                 IdleState(play);
                 break;
-            case BitController.States.Walk:
+            case BitController.State.Walk:
                 WalkState(play);
                 break;
-            case BitController.States.Jump:
+            case BitController.State.Jump:
                 JumpState(play, nextState);
                 break;
-            case BitController.States.WallJump:
+            case BitController.State.WallJump:
                 JumpState(play, nextState);
                 break;
-            case BitController.States.Falling:
+            case BitController.State.Falling:
                 FallingState(play, nextState);
                 break;
-            case BitController.States.Dead:
+            case BitController.State.Dead:
                 break;
             default:
                 break;
@@ -103,7 +105,7 @@ public class BitAnimator : MonoBehaviour
         }
     }
 
-    private void JumpState(bool play, BitController.States nextState)
+    private void JumpState(bool play, BitController.State nextState)
     {
         if (!jumpEffect) return;
 
@@ -114,7 +116,7 @@ public class BitAnimator : MonoBehaviour
         }
     }
 
-    private void FallingState(bool play, BitController.States nextState)
+    private void FallingState(bool play, BitController.State nextState)
     {
         if (!fallEffect) return;
 
@@ -124,7 +126,7 @@ public class BitAnimator : MonoBehaviour
         }
         else
         {
-            if (nextState == BitController.States.Idle)
+            if (nextState == BitController.State.Idle)
                 jumpDust.Play();
         }
     }
@@ -132,7 +134,7 @@ public class BitAnimator : MonoBehaviour
     public void VisualFlip(bool flip)
     {
         sr.flipX = flip;
-        var newLocalScale = flip ? localFlippedScale : localNoFlippedScale;
+        var newLocalScale = flip ? LocalFlippedScale : LocalNoFlippedScale;
         walkTrail.transform.localScale = newLocalScale;
     }
 }

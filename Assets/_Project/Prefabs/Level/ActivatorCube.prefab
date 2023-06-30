@@ -11,12 +11,11 @@ GameObject:
   - component: {fileID: 2996321312467915712}
   - component: {fileID: 2996321312467915717}
   - component: {fileID: 2996321312467915737}
-  - component: {fileID: 2996321312467915736}
-  - component: {fileID: 2996321312467915742}
   - component: {fileID: 2996321312467915740}
-  m_Layer: 6
+  - component: {fileID: 1613728372140249549}
+  m_Layer: 8
   m_Name: ActivatorCube
-  m_TagString: Untagged
+  m_TagString: Grabbable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,41 +108,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2996321312467915736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2996321312467915714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b4a43d91f5e56f458445fdcc686f711, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachedTransform: {fileID: 0}
---- !u!114 &2996321312467915742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2996321312467915714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 192e57dc9379e224fb94b1b71241a3ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  magnetismProp: {fileID: 2996321312467915736}
-  isConnected: 0
-  cubeCollider: {fileID: 2996321312467915740}
-  cubeRb: {fileID: 2996321312467915737}
-  _groundRb: {fileID: 0}
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  distanceFromGround: 0.2
-  other: {fileID: 0}
 --- !u!61 &2996321312467915740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -170,3 +134,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.95}
   m_EdgeRadius: 0
+--- !u!114 &1613728372140249549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2996321312467915714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192e57dc9379e224fb94b1b71241a3ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabSpeed: 20
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 320
+  distanceFromGround: 0.2
+  _other: {fileID: 0}

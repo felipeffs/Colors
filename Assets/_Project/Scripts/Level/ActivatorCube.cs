@@ -1,33 +1,28 @@
 using UnityEngine;
+using System;
 
-[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Attacher))]
-public class ActivatorCube : MonoBehaviour, IReceiveDamage
+[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
+public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
 {
+    [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float distanceFromGround = 0.2f;
 
-    // Const Ref
-    private Attacher magnetismProp;
-    private Collider2D cubeCollider;
-    private Rigidbody2D cubeRb;
+    // Connection
+    private Collider2D _other;
+    private Connector _connector;
+    private bool _isConnected = false;
 
-    // Dinamic Ref
-    private Collider2D other;
-    private IAction behaviourConnector;
+    // Starter Configuration
+    private Vector3 _initialPos;
 
-    // Connected Variables
-    private bool isConnected = false;
-    private Vector3 initialPos;
-
-    public void Awake()
+    protected override void Awake()
     {
-        initialPos = transform.position;
-        magnetismProp = GetComponent<Attacher>();
-        cubeCollider = GetComponent<Collider2D>();
-        cubeRb = GetComponent<Rigidbody2D>();
+        base.Awake();
+        _initialPos = transform.position;
     }
 
-    public void Start()
+    private void Start()
     {
         LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
     }
@@ -37,88 +32,95 @@ public class ActivatorCube : MonoBehaviour, IReceiveDamage
         LevelManager.OnRestartLevel -= LevelManager_OnRestartLevel;
     }
 
-    public void Update()
+    private void Update()
     {
-        if (!isConnected)
-        {
-            GroundCheck();
-        }
+        if (_isConnected) return;
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            if (isConnected)
-            {
-                Unplug();
-            }
-            else
-            {
-                Plug();
-            }
-        }
+        GroundCheck();
     }
 
     private void Unplug()
     {
-        isConnected = false;
-        behaviourConnector?.Desactive();
-        behaviourConnector = null;
-        magnetismProp?.DetachAll();
+        _isConnected = false;
+        _connector?.DetachAll();
     }
 
     private void GroundCheck()
     {
-        //CollisionCheck
-        Vector3 colliderCenterPos = cubeCollider.bounds.center;
+        // CollisionCheck
+        Bounds colliderBounds = _grabPerformerCollider != null ? _grabPerformerCollider.bounds : _collider.bounds;
 
         // Checking order: center, left, right
-        float[] groundCheckPoints = {colliderCenterPos.x,
-             colliderCenterPos.x - cubeCollider.bounds.extents.x,
-              colliderCenterPos.x + cubeCollider.bounds.extents.x};
+        float[] groundCheckPoints = {colliderBounds.center.x,
+             colliderBounds.center.x - colliderBounds.extents.x,
+              colliderBounds.center.x + colliderBounds.extents.x};
 
         foreach (var point in groundCheckPoints)
         {
-            var checkPoint = new Vector3(point, colliderCenterPos.y - cubeCollider.bounds.extents.y, colliderCenterPos.z);
+            var checkPoint = new Vector3(point, colliderBounds.center.y - colliderBounds.extents.y, colliderBounds.center.z);
 
-            RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
+            RaycastHit2D raycastHit = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
 
-            if (raycast.collider != null)
+            if (raycastHit.collider != null)
             {
-                other = raycast.collider;
-                Vector2 groundVelocity = raycast.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
+                _other = raycastHit.collider;
+                Vector2 groundVelocity = _other.gameObject.GetComponent<Rigidbody2D>().velocity;
 
                 //Velocity
                 if (groundVelocity != Vector2.zero)
                 {
-                    if (Mathf.Abs(cubeRb.velocity.x) < Mathf.Abs(groundVelocity.x))
-                        cubeRb.velocity = Vector2.right * groundVelocity.x + cubeRb.velocity;
-                    if (Mathf.Abs(cubeRb.velocity.y) < Mathf.Abs(groundVelocity.y))
-                        cubeRb.velocity = Vector2.up * groundVelocity.y + cubeRb.velocity; ;
+                    if (Mathf.Abs(_body.velocity.x) < Mathf.Abs(groundVelocity.x))
+                        _body.velocity = Vector2.right * groundVelocity.x + _body.velocity;
+                    if (Mathf.Abs(_body.velocity.y) < Mathf.Abs(groundVelocity.y))
+                        _body.velocity = Vector2.up * groundVelocity.y + _body.velocity; ;
 
-                    break;
+                    return;
                 }
             }
         }
     }
 
-    public void Plug()
+    private void OnDrawGizmos()
     {
-        if (isConnected) return;
-        if (other == null) return;
+        if (!Application.isPlaying) return;
+        if (_grabPerformerCollider == null) return;
 
-        behaviourConnector = other.GetComponent<IAction>();
+        Bounds colliderBounds = _grabPerformerCollider != null ? _grabPerformerCollider.bounds : _collider.bounds;
+        float[] groundCheckPoints = {colliderBounds.center.x,
+             colliderBounds.center.x - colliderBounds.extents.x,
+              colliderBounds.center.x + colliderBounds.extents.x};
+        foreach (var point in groundCheckPoints)
+        {
+            var checkPoint = new Vector3(point, colliderBounds.center.y - colliderBounds.extents.y, colliderBounds.center.z);
+            Debug.DrawLine(checkPoint, (Vector2)checkPoint + (distanceFromGround * Vector2.down), Color.blue);
+        }
 
-        if (behaviourConnector is null) return;
+    }
 
-        isConnected = true;
-        behaviourConnector?.Active();
-        magnetismProp?.AttachObject(other.transform, cubeRb);
+    private void Plug()
+    {
+        if (_other == null) return;
+
+        Plug(_other);
+    }
+
+    private void Plug(Collider2D toConnect)
+    {
+        if (!_other.TryGetComponent<Connector>(out _connector)) return;
+
+        if (_connector.AttachObject(_collider))
+        {
+            _isConnected = true;
+            Drop();
+        }
     }
 
     private void Reset()
     {
         Unplug();
-        transform.position = initialPos;
-        cubeRb.velocity = Vector2.zero;
+        Drop();
+        transform.position = _initialPos;
+        _body.velocity = Vector2.zero;
     }
 
     private void LevelManager_OnRestartLevel()
@@ -126,8 +128,28 @@ public class ActivatorCube : MonoBehaviour, IReceiveDamage
         Reset();
     }
 
+    // When fall off the level reset the cube
     void IReceiveDamage.TakeDamage(int damage)
     {
         Reset();
+    }
+
+    public override void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop)
+    {
+        base.Grab(grabPoint, performerCollider, performerDrop);
+        Unplug();
+    }
+
+    // Action to perform on interact
+    void IInteractable.Interact()
+    {
+        if (_isConnected)
+        {
+            Unplug();
+        }
+        else
+        {
+            Plug();
+        }
     }
 }

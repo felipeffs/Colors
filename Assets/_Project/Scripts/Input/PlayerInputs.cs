@@ -53,6 +53,24 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e2bc1a7c-2d40-4bc5-955c-6bf5e95d25ce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""52ebe7e4-a421-43f6-beb9-354f006b89fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -163,6 +181,50 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwapColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4aaaabcc-144f-49d0-a3dd-c64be1c096da"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54df28bb-b833-48bc-9e7f-607cf745347b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""936a8c0f-07f9-40dc-a589-e910152a2ad7"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e313e91e-8a9c-49a0-a8e5-53feae165a6c"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -469,6 +531,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Bit_Walk = m_Bit.FindAction("Walk", throwIfNotFound: true);
         m_Bit_Jump = m_Bit.FindAction("Jump", throwIfNotFound: true);
         m_Bit_SwapColor = m_Bit.FindAction("SwapColor", throwIfNotFound: true);
+        m_Bit_Interact = m_Bit.FindAction("Interact", throwIfNotFound: true);
+        m_Bit_Grab = m_Bit.FindAction("Grab", throwIfNotFound: true);
         // Level
         m_Level = asset.FindActionMap("Level", throwIfNotFound: true);
         m_Level_Restart = m_Level.FindAction("Restart", throwIfNotFound: true);
@@ -545,6 +609,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Bit_Walk;
     private readonly InputAction m_Bit_Jump;
     private readonly InputAction m_Bit_SwapColor;
+    private readonly InputAction m_Bit_Interact;
+    private readonly InputAction m_Bit_Grab;
     public struct BitActions
     {
         private @PlayerInputs m_Wrapper;
@@ -552,6 +618,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Bit_Walk;
         public InputAction @Jump => m_Wrapper.m_Bit_Jump;
         public InputAction @SwapColor => m_Wrapper.m_Bit_SwapColor;
+        public InputAction @Interact => m_Wrapper.m_Bit_Interact;
+        public InputAction @Grab => m_Wrapper.m_Bit_Grab;
         public InputActionMap Get() { return m_Wrapper.m_Bit; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -570,6 +638,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @SwapColor.started -= m_Wrapper.m_BitActionsCallbackInterface.OnSwapColor;
                 @SwapColor.performed -= m_Wrapper.m_BitActionsCallbackInterface.OnSwapColor;
                 @SwapColor.canceled -= m_Wrapper.m_BitActionsCallbackInterface.OnSwapColor;
+                @Interact.started -= m_Wrapper.m_BitActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_BitActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_BitActionsCallbackInterface.OnInteract;
+                @Grab.started -= m_Wrapper.m_BitActionsCallbackInterface.OnGrab;
+                @Grab.performed -= m_Wrapper.m_BitActionsCallbackInterface.OnGrab;
+                @Grab.canceled -= m_Wrapper.m_BitActionsCallbackInterface.OnGrab;
             }
             m_Wrapper.m_BitActionsCallbackInterface = instance;
             if (instance != null)
@@ -583,6 +657,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @SwapColor.started += instance.OnSwapColor;
                 @SwapColor.performed += instance.OnSwapColor;
                 @SwapColor.canceled += instance.OnSwapColor;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @Grab.started += instance.OnGrab;
+                @Grab.performed += instance.OnGrab;
+                @Grab.canceled += instance.OnGrab;
             }
         }
     }
@@ -722,6 +802,8 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwapColor(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnGrab(InputAction.CallbackContext context);
     }
     public interface ILevelActions
     {

@@ -4,7 +4,7 @@ using System;
 public class BitController : MonoBehaviour, IReceiveDamage
 {
     public static event Action OnPlayerDeath;
-    public static event Action<States> OnStateChange;
+    public static event Action<State> OnStateChange;
 
 #if UNITY_EDITOR
     [Header("Debug")]
@@ -33,14 +33,16 @@ public class BitController : MonoBehaviour, IReceiveDamage
     private Rigidbody2D _groundRb;
     [ReadOnly][SerializeField] Vector2 groundVelocity;
 
-    [Header("Collision Check")]
+    [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float distanceFromGround = .04f;
+
+    [Header("Wall Detection")]
     [SerializeField] private LayerMask wallLayers;
     [SerializeField] private float distanceFromWall = .02f;
 
     //State Machine
-    public enum States
+    public enum State
     {
         None,
         Dead,
@@ -52,25 +54,18 @@ public class BitController : MonoBehaviour, IReceiveDamage
     }
 
     [Header("State Machine")]
-    [ReadOnly][SerializeField] private States _currentState;
-    private States _lastState;
-    private States _nextState;
+    [ReadOnly][SerializeField] private State _currentState;
+    private State _lastState;
+    private State _nextState;
     private bool _firstCicle = false;
 
     [Header("Coyote Time")]
-    [SerializeField] private float _coyoteWindow = .2f;
+    [SerializeField] private float coyoteWindow = .2f;
     private float _coyoteTimer;
     private bool _coyoteJump;
 
     // Dead
     private bool _isDead;
-
-    // Direction
-    private enum Direction
-    {
-        Right = 1,
-        Left = -1
-    }
 
     private Direction _currentDirection;
 
@@ -91,13 +86,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         _nextState = _currentState switch
         {
-            States.Dead => Dead(),
-            States.Idle => Idle(),
-            States.Walk => Walk(),
-            States.Jump => Jump(),
-            States.Falling => Falling(),
-            States.WallJump => WallJump(),
-            _ => States.Idle
+            State.Dead => Dead(),
+            State.Idle => Idle(),
+            State.Walk => Walk(),
+            State.Jump => Jump(),
+            State.Falling => Falling(),
+            State.WallJump => WallJump(),
+            _ => State.Idle
         };
 
         _nextState = GlobalTransitions(_nextState);
@@ -118,7 +113,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
             OnStateChange?.Invoke(_currentState);
 
-            //Remove ground ref
+            //Reset ground velocity
             groundVelocity = Vector2.zero;
         }
         else
@@ -127,52 +122,52 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
     }
 
-    private States Idle()
+    private State Idle()
     {
         rb.velocity = Vector2.zero;
-        _coyoteTimer = _coyoteWindow;
+        _coyoteTimer = coyoteWindow;
         ApplyInertia();
 
         // Transitions
         if (!IsGrounded())
         {
-            return States.Falling;
+            return State.Falling;
         }
 
         if (InputManager.Instance.WalkRawValue() != 0)
         {
-            return States.Walk;
+            return State.Walk;
         }
 
         if (InputManager.Instance.JumpWasPressed())
         {
-            return States.Jump;
+            return State.Jump;
         }
 
-        return States.Idle;
+        return State.Idle;
     }
 
-    private States Walk()
+    private State Walk()
     {
         MoveHorizontally();
 
         // Transitions
         if (!IsGrounded())
         {
-            return States.Falling;
+            return State.Falling;
         }
         if (InputManager.Instance.WalkRawValue() == 0)
         {
-            return States.Idle;
+            return State.Idle;
         }
         if (InputManager.Instance.JumpWasPressed())
         {
-            return States.Jump;
+            return State.Jump;
         }
-        return States.Walk;
+        return State.Walk;
     }
 
-    private States Jump()
+    private State Jump()
     {
         if (_firstCicle)
         {
@@ -189,16 +184,16 @@ public class BitController : MonoBehaviour, IReceiveDamage
         // Transitions
         if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed()))
         {
-            return States.WallJump;
+            return State.WallJump;
         }
         if (rb.velocity.y <= 0)
         {
-            return States.Falling;
+            return State.Falling;
         }
-        return States.Jump;
+        return State.Jump;
     }
 
-    private States Falling()
+    private State Falling()
     {
         UpdateCoyoteTimer();
 
@@ -206,7 +201,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         if (_firstCicle)
         {
             _wallJumpPenaltyTimer = 0.5f;
-            if (_lastState != States.WallJump) rb.velocity = Vector2.zero;
+            if (_lastState != State.WallJump) rb.velocity = Vector2.zero;
         }
 
         else
@@ -228,7 +223,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
 
         //Move Horizontally
-        if (_lastState != States.WallJump)
+        if (_lastState != State.WallJump)
         {
             MoveHorizontally();
         }
@@ -241,24 +236,24 @@ public class BitController : MonoBehaviour, IReceiveDamage
         //Transitions
         if (IsGrounded())
         {
-            return States.Idle;
+            return State.Idle;
         }
 
         else if (_coyoteJump)
         {
             Debug.Log("coyoteJump");
-            return States.Jump;
+            return State.Jump;
         }
 
         if (IsTouchingWall() && (InputManager.Instance.JumpWasPressed()))
         {
-            return States.WallJump;
+            return State.WallJump;
         }
 
-        return States.Falling;
+        return State.Falling;
     }
 
-    private States WallJump()
+    private State WallJump()
     {
         //Timer
         _wallJumpTimer -= Time.deltaTime;
@@ -292,13 +287,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
         //Transitions
         if (_isWallJumpCompleted)
         {
-            return States.Falling;
+            return State.Falling;
         }
 
-        return States.WallJump;
+        return State.WallJump;
     }
 
-    private States Dead()
+    private State Dead()
     {
         if (_firstCicle)
         {
@@ -307,12 +302,12 @@ public class BitController : MonoBehaviour, IReceiveDamage
         }
 
         //Transitions
-        return _isDead ? States.Dead : States.Idle;
+        return _isDead ? State.Dead : State.Idle;
     }
 
-    private States GlobalTransitions(States currentState)
+    private State GlobalTransitions(State currentState)
     {
-        return _isDead ? States.Dead : currentState;
+        return _isDead ? State.Dead : currentState;
     }
 
     private void ApplyInertia()
@@ -324,11 +319,11 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         if (!IsGrounded()) groundVelocity = Vector2.zero;
 
-        if (_currentState == States.Walk)
+        if (_currentState == State.Walk)
         {
             rb.velocity = new Vector2(speed.x + groundVelocity.x, speed.y - 3f);
         }
-        else if (_currentState == States.Jump)
+        else if (_currentState == State.Jump)
         {
             rb.velocity = speed;
         }
@@ -372,13 +367,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
         {
             var checkPoint = new Vector3(point, colliderCenterPos.y - bitCollider.bounds.extents.y, colliderCenterPos.z);
 
-            RaycastHit2D raycast = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
-            _groundRb = raycast.collider?.gameObject.GetComponent<Rigidbody2D>();
+            RaycastHit2D raycastHit = Physics2D.Raycast(checkPoint, Vector2.down, distanceFromGround, groundLayers);
+            _groundRb = raycastHit.collider?.gameObject.GetComponent<Rigidbody2D>();
 
             if (_groundRb != null)
                 groundVelocity = _groundRb.velocity;
 
-            if (raycast) return true;
+            if (raycastHit) return true;
         }
 
         return false;
@@ -478,7 +473,7 @@ public class BitController : MonoBehaviour, IReceiveDamage
 
     public void Reset(Vector3 newPosition)
     {
-        //
+        //Reset death flag
         _isDead = false;
 
         //Change Position
@@ -490,7 +485,8 @@ public class BitController : MonoBehaviour, IReceiveDamage
         //Reset CoyoteTime
         ConsumeCoyoteTime();
 
-        //Reset Flip
+        //Reset Direction
+        _currentDirection = Direction.Right;
         animator?.VisualFlip(false);
     }
 
@@ -498,4 +494,13 @@ public class BitController : MonoBehaviour, IReceiveDamage
     {
         _isDead = true;
     }
+
+    public Direction GetCurrentDirection() => _currentDirection;
+}
+
+// Direction
+public enum Direction
+{
+    Right = 1,
+    Left = -1
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2661448664027732134}
   - component: {fileID: 2661448664027732153}
   - component: {fileID: 2661448664027732135}
+  - component: {fileID: 3939928929439738199}
   m_Layer: 6
   m_Name: ConnectorPlataform
   m_TagString: Connector
@@ -147,8 +148,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84dcca27070955b49bd02509cbcbe5c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointOfConnection: {fileID: 5424516195789755451}
-  plataformWireless: {fileID: 0}
+  socket: {fileID: 5424516195789755451}
+  objectAttached: {fileID: 0}
+  connectorAction: {fileID: 3939928929439738199}
+--- !u!114 &3939928929439738199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661448664027732130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a77802a277b0bc42b2289ff08fbabe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _object: {fileID: 0}
 --- !u!1 &5424516195789755450
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5424516195789755451}
   m_Layer: 6
-  m_Name: PointOfConnection
+  m_Name: Socket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

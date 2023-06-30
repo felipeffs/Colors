@@ -6,8 +6,8 @@ using UnityEngine;
 public class BitAudioController : MonoBehaviour
 {
 
-    private AudioManager.Sound lastAudioState;
-    private BitController.States lastState;
+    private AudioManager.Sound _lastAudioState;
+    private BitController.State _lastState;
 
     void OnEnable()
     {
@@ -20,37 +20,37 @@ public class BitAudioController : MonoBehaviour
 
     }
 
-    private void BitController_OnStateChange(BitController.States newState)
+    private void BitController_OnStateChange(BitController.State newState)
     {
-        if (lastAudioState != AudioManager.Sound.Landing)
-            AudioManager.Instance.StopAudio(lastAudioState);
+        if (_lastAudioState != AudioManager.Sound.Landing)
+            AudioManager.Instance.StopAudio(_lastAudioState);
 
         switch (newState)
         {
-            case BitController.States.Walk:
+            case BitController.State.Walk:
                 AudioManager.Instance.PlayAudio(AudioManager.Sound.Walk);
-                lastAudioState = AudioManager.Sound.Walk;
+                _lastAudioState = AudioManager.Sound.Walk;
                 break;
-            case BitController.States.Jump:
-            case BitController.States.WallJump:
+            case BitController.State.Jump:
+            case BitController.State.WallJump:
                 AudioManager.Instance.PlayAudio(AudioManager.Sound.Jump);
-                lastAudioState = AudioManager.Sound.Jump;
+                _lastAudioState = AudioManager.Sound.Jump;
                 break;
-            case BitController.States.Dead:
+            case BitController.State.Dead:
                 AudioManager.Instance.PlayAudio(AudioManager.Sound.Die);
-                lastAudioState = AudioManager.Sound.Die;
+                _lastAudioState = AudioManager.Sound.Die;
                 break;
-            case BitController.States.Idle:
-                if (lastState == BitController.States.Falling)
+            case BitController.State.Idle:
+                if (_lastState == BitController.State.Falling)
                 {
                     AudioManager.Instance.PlayAudio(AudioManager.Sound.Landing);
-                    lastAudioState = AudioManager.Sound.Landing;
+                    _lastAudioState = AudioManager.Sound.Landing;
                 }
                 break;
             default:
                 break;
         }
 
-        lastState = newState;
+        _lastState = newState;
     }
 }

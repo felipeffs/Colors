@@ -11,8 +11,10 @@ public class WaypointFollower : MonoBehaviour
     [SerializeField] private float speed = 3f;
     private int _currentWaypointIndex;
 
+#if UNITY_EDITOR
     [Header("Debug")]
     [SerializeField] private bool showTrajectory;
+#endif
 
     private void Start()
     {
@@ -35,7 +37,9 @@ public class WaypointFollower : MonoBehaviour
                 _currentWaypointIndex = 0;
             }
 
+#if UNITY_EDITOR
             if (showTrajectory) Debug.DrawLine(transform.position, waypoints[_currentWaypointIndex].position, Color.magenta, Vector2.Distance(transform.position, waypoints[_currentWaypointIndex].position) / speed);
+#endif
         }
 
         //Direction = Destination - Origin

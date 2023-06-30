@@ -2178,7 +2178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpBufferWindow: 0.4
-  _delayToAwake: 0.4
+  awakeUpDelay: 0.4
 --- !u!4 &1189758200
 Transform:
   m_ObjectHideFlags: 0

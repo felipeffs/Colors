@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
@@ -11,8 +10,8 @@ public class InputManager : Singleton<InputManager>
     private float _jumpBufferTimer;
 
     [Header("Awake")]
-    [SerializeField] private float _delayToAwake = 0.3f;
-    private float _timerToAwake;
+    [SerializeField] private float awakeUpDelay = 0.3f;
+    private float _awakeUpTimer;
 
     protected override void SingletonAwake()
     {
@@ -37,14 +36,14 @@ public class InputManager : Singleton<InputManager>
 
     private void Start()
     {
-        _timerToAwake = _delayToAwake;
+        _awakeUpTimer = awakeUpDelay;
     }
 
     private void Update()
     {
-        if (_timerToAwake > 0)
+        if (_awakeUpTimer > 0)
         {
-            _timerToAwake -= Time.deltaTime;
+            _awakeUpTimer -= Time.deltaTime;
             return;
         }
 
@@ -124,6 +123,16 @@ public class InputManager : Singleton<InputManager>
     public bool PauseWasPressed()
     {
         return _controls.Level.Pause.WasPerformedThisFrame();
+    }
+
+    public bool InteractWasPressed()
+    {
+        return _controls.Bit.Interact.WasPerformedThisFrame();
+    }
+
+    public bool GrabWasPressed()
+    {
+        return _controls.Bit.Grab.WasPerformedThisFrame();
     }
 
     //UI Menu

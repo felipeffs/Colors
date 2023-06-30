@@ -6,22 +6,22 @@ using System;
 public class GameManager : Singleton<GameManager>
 {
     public static event Action<bool> OnPause;
-    [SerializeField] private GameObject _pauseUI;
+    [SerializeField] private GameObject pauseUI;
     [SerializeField] private SOLevelOrder levelOrder;
 
     private LevelManager _levelManager;
-    private bool isGamePause;
+    private bool _isPaused;
 
     private void Start()
     {
-        _pauseUI.SetActive(false);
+        pauseUI.SetActive(false);
     }
 
     private void Update()
     {
         if (InputManager.Instance.PauseWasPressed())
         {
-            if (!isGamePause)
+            if (!_isPaused)
             {
                 PauseGame();
             }
@@ -35,18 +35,18 @@ public class GameManager : Singleton<GameManager>
 
     private void PauseGame()
     {
-        isGamePause = true;
+        _isPaused = true;
         OnPause?.Invoke(true);
         Time.timeScale = 0;
-        _pauseUI.SetActive(true);
+        pauseUI.SetActive(true);
     }
 
     public void ResumeGame()
     {
         OnPause?.Invoke(false);
         Time.timeScale = 1;
-        _pauseUI.SetActive(false);
-        isGamePause = false;
+        pauseUI.SetActive(false);
+        _isPaused = false;
     }
 
     public void RestartLevel()

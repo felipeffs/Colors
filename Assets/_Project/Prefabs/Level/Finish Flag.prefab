@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelOrder: {fileID: 11400000, guid: 07a658250c81d5943afff18e8ea2abff, type: 2}
+  flagCollider: {fileID: 2662960308070423489}
 --- !u!50 &8818149434973641856
 Rigidbody2D:
   serializedVersion: 4

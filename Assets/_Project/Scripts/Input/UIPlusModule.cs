@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class UIPlusModule : Singleton<UIPlusModule>
 {
-    [SerializeField] private List<ButtonPlus> allButtons = new List<ButtonPlus>();
+    private List<ButtonPlus> _allButtons = new List<ButtonPlus>();
 
-    [SerializeField] private ButtonPlus currentSelectedButton;
+    private ButtonPlus _currentSelectedButton;
     [SerializeField] private ButtonPlus initialSelectedButton;
-    [SerializeField] private controlType activeControlType = controlType.Mouse;
+    private ControlType _activeControlType = ControlType.Mouse;
 
-    enum controlType
+    private enum ControlType
     {
         Mouse,
         GameController
@@ -18,13 +18,13 @@ public class UIPlusModule : Singleton<UIPlusModule>
     private void Update()
     {
         //Controll type
-        if (activeControlType == controlType.GameController)
+        if (_activeControlType == ControlType.GameController)
         {
             if (InputManager.Instance.PointerDelta())
             {
-                currentSelectedButton = null;
+                _currentSelectedButton = null;
                 Cursor.lockState = CursorLockMode.None;
-                activeControlType = controlType.Mouse;
+                _activeControlType = ControlType.Mouse;
                 return;
             }
 
@@ -32,32 +32,32 @@ public class UIPlusModule : Singleton<UIPlusModule>
             {
                 Cursor.lockState = CursorLockMode.Locked;
 
-                SetSelected(currentSelectedButton.upLink);
+                SetSelected(_currentSelectedButton.upLink);
             }
             else if (InputManager.Instance.NavigationDown())
             {
                 Cursor.lockState = CursorLockMode.Locked;
 
-                SetSelected(currentSelectedButton.downLink);
+                SetSelected(_currentSelectedButton.downLink);
             }
             else if (InputManager.Instance.NavigationLeft())
             {
                 Cursor.lockState = CursorLockMode.Locked;
 
-                SetSelected(currentSelectedButton.leftLink);
+                SetSelected(_currentSelectedButton.leftLink);
             }
             else if (InputManager.Instance.NavigationRight())
             {
                 Cursor.lockState = CursorLockMode.Locked;
 
-                SetSelected(currentSelectedButton.rightLink);
+                SetSelected(_currentSelectedButton.rightLink);
             }
         }
-        else if (activeControlType == controlType.Mouse)
+        else if (_activeControlType == ControlType.Mouse)
         {
             if (InputManager.Instance.NavigationUp() || InputManager.Instance.NavigationDown() || InputManager.Instance.NavigationLeft() || InputManager.Instance.NavigationRight())
             {
-                activeControlType = controlType.GameController;
+                _activeControlType = ControlType.GameController;
                 Cursor.lockState = CursorLockMode.Locked;
 
                 SetSelected(initialSelectedButton);
@@ -67,7 +67,7 @@ public class UIPlusModule : Singleton<UIPlusModule>
 
     public void AddButton(ButtonPlus buttonPlus)
     {
-        allButtons.Add(buttonPlus);
+        _allButtons.Add(buttonPlus);
 
         ButtonPlus.OnEnterOver += ButtonPlus_OnEnterOver;
         ButtonPlus.OnExitOver += ButtonPlus_OnExitOver;
@@ -77,23 +77,23 @@ public class UIPlusModule : Singleton<UIPlusModule>
     {
         if (buttonPlus == null) return;
 
-        if (currentSelectedButton != null)
+        if (_currentSelectedButton != null)
         {
-            currentSelectedButton.SetCurrentState(ButtonPlus.State.Normal);
+            _currentSelectedButton.SetCurrentState(ButtonPlus.State.Normal);
         }
         buttonPlus.SetCurrentState(ButtonPlus.State.Highlighted);
-        currentSelectedButton = buttonPlus;
+        _currentSelectedButton = buttonPlus;
     }
 
     public void ButtonPlus_OnEnterOver(ButtonPlus button)
     {
-        if (activeControlType == controlType.Mouse)
-            currentSelectedButton = button;
+        if (_activeControlType == ControlType.Mouse)
+            _currentSelectedButton = button;
     }
 
     public void ButtonPlus_OnExitOver(ButtonPlus button)
     {
-        if (activeControlType == controlType.Mouse)
-            currentSelectedButton = null;
+        if (_activeControlType == ControlType.Mouse)
+            _currentSelectedButton = null;
     }
 }

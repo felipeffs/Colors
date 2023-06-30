@@ -30,6 +30,6 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Levels/LevelMovingPlataforms.unity
     guid: 7aac175b2eb0e8d4ca1dfefef1c3f788
   - enabled: 1
-    path: Assets/_Project/Scenes/Levels/LevelActivatorGameplay.unity
+    path: Assets/_Project/Scenes/Levels/LevelActivatorCube.unity
     guid: cd03ffd053289b441a34c8415b60a115
   m_configObjects: {}
