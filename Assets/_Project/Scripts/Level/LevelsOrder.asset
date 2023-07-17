@@ -27,6 +27,8 @@ MonoBehaviour:
     sceneName: LevelMovingPlataforms
   - sceneAsset: {fileID: 102900000, guid: cd03ffd053289b441a34c8415b60a115, type: 3}
     sceneName: LevelActivatorCube
+  - sceneAsset: {fileID: 102900000, guid: 0c8c5536a17b9d741a59545d8dc4d069, type: 3}
+    sceneName: LevelDoubleActivatorCube
   menuScene:
     sceneAsset: {fileID: 102900000, guid: 1ff2ee791d70e0547beddd1fcb05aaa7, type: 3}
     sceneName: MainMenu

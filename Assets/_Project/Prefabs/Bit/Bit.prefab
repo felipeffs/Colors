@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 8679318720740825111}
   - component: {fileID: 7424027762287823721}
   - component: {fileID: 5704645649437322605}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Object Interactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,7 +406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5077941994011222417}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: PositionToHoldObject
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 3789094542606433016}
   - component: {fileID: 4954150727647501136}
   - component: {fileID: 5344652218864068875}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Object Grabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}

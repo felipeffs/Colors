@@ -15,6 +15,22 @@ public class ObjectGrabber : MonoBehaviour
         _collider = transform.parent.GetComponent<Collider2D>();
     }
 
+    private void OnEnable()
+    {
+        BitController.OnPlayerDeath += BitController_OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        BitController.OnPlayerDeath -= BitController_OnPlayerDeath;
+    }
+
+    private void BitController_OnPlayerDeath()
+    {
+        if (_grabbableObject == null) return;
+        _grabbableObject.Drop();
+    }
+
     private void Update()
     {
         if (InputManager.Instance.GrabWasPressed())

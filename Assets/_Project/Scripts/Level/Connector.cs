@@ -40,9 +40,8 @@ public class Connector : MonoBehaviour
 
         _objectAttached.transform.SetParent(null);
         _objectAttached.attachedRigidbody.bodyType = RigidbodyType2D.Dynamic;
-        _objectAttached = null;
-
         Physics2D.IgnoreCollision(_collider, _objectAttached, false);
-        connectorAction.Undo();
+        _objectAttached = null;
+        connectorAction.Execute();
     }
 }

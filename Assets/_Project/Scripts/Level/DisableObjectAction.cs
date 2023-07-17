@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class DisableObjectAction : ConnectorAction
 {
-    [SerializeField] private Transform targetObject;
+    [SerializeField] private Transform[] targetObjects;
 
     public override void Execute()
     {
-        if (targetObject)
-            targetObject.gameObject.SetActive(false);
-    }
-
-    public override void Undo()
-    {
-        if (targetObject)
-            targetObject.gameObject.SetActive(true);
+        foreach (var tObject in targetObjects)
+        {
+            if (tObject)
+                tObject.gameObject.SetActive(!tObject.gameObject.activeSelf);
+        }
     }
 }
