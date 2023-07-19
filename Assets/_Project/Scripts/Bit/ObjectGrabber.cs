@@ -9,10 +9,19 @@ public class ObjectGrabber : MonoBehaviour
     private GrabbableObject _grabbableObject;
     private Transform _transformCaptured;
 
+    private float xOffsetHoldPosition;
+    private float xOffsetGrabArea;
+
     private void Awake()
     {
         _controller = transform.parent.GetComponentInChildren<BitController>();
         _collider = transform.parent.GetComponent<Collider2D>();
+    }
+
+    private void Start()
+    {
+        xOffsetHoldPosition = Mathf.Abs(positionHoldObject.localPosition.x);
+        xOffsetGrabArea = Mathf.Abs(grabArea.transform.localPosition.x);
     }
 
     private void OnEnable()
@@ -43,10 +52,7 @@ public class ObjectGrabber : MonoBehaviour
 
     private void ChangeGrabAreaDirection()
     {
-        var performerCurrentDirection = _controller.GetCurrentDirection();
-        var xOffsetHoldPosition = Mathf.Abs(positionHoldObject.localPosition.x);
-        var xOffsetGrabArea = Mathf.Abs(grabArea.transform.localPosition.x);
-        var multi = performerCurrentDirection == Direction.Left ? -1 : 1;
+        var multi = _controller.GetCurrentDirection() == Direction.Left ? -1 : 1;
 
         positionHoldObject.localPosition = new Vector2(xOffsetHoldPosition * multi, positionHoldObject.localPosition.y);
         grabArea.transform.localPosition = new Vector2(xOffsetGrabArea * multi, grabArea.transform.localPosition.y);

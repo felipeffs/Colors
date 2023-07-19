@@ -92,7 +92,9 @@ public class BitAnimator : MonoBehaviour
 
     private void WalkState(bool play)
     {
+#if UNITY_EDITOR
         if (!walkEffect) return;
+#endif
 
         if (play)
         {
@@ -107,8 +109,9 @@ public class BitAnimator : MonoBehaviour
 
     private void JumpState(bool play, BitController.State nextState)
     {
+#if UNITY_EDITOR
         if (!jumpEffect) return;
-
+#endif
         if (play)
         {
             jumpDust.Play();
@@ -118,7 +121,9 @@ public class BitAnimator : MonoBehaviour
 
     private void FallingState(bool play, BitController.State nextState)
     {
+#if UNITY_EDITOR
         if (!fallEffect) return;
+#endif
 
         if (play)
         {
