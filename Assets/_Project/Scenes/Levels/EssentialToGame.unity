@@ -402,6 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 854748161}
   levelOrder: {fileID: 11400000, guid: 07a658250c81d5943afff18e8ea2abff, type: 2}
+  frameRate: 60
 --- !u!4 &145972083
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,8 @@ public class ColorSwapHandler : MonoBehaviour
     public enum ColorID
     {
         Color1,
-        Color2
+        Color2,
+        None
     }
 
     private void Awake()

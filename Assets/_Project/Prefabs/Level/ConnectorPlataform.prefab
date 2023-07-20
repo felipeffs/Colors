@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2661448664027732134}
   - component: {fileID: 2661448664027732153}
   - component: {fileID: 2661448664027732135}
-  - component: {fileID: 3939928929439738199}
   m_Layer: 6
   m_Name: ConnectorPlataform
   m_TagString: Connector
@@ -149,21 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   socket: {fileID: 5424516195789755451}
-  objectAttached: {fileID: 0}
-  connectorAction: {fileID: 3939928929439738199}
---- !u!114 &3939928929439738199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2661448664027732130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a77802a277b0bc42b2289ff08fbabe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _object: {fileID: 0}
+  connectorActions: []
 --- !u!1 &5424516195789755450
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class ConnectorAction : MonoBehaviour
 {
-    public abstract void Execute();
+    public abstract void Execute(bool state);
 }

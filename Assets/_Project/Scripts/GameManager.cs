@@ -8,12 +8,14 @@ public class GameManager : Singleton<GameManager>
     public static event Action<bool> OnPause;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private SOLevelOrder levelOrder;
+    [SerializeField] private int frameRate = 60;
 
     private LevelManager _levelManager;
     private bool _isPaused;
 
     private void Start()
     {
+        Application.targetFrameRate = frameRate;
         pauseUI.SetActive(false);
     }
 

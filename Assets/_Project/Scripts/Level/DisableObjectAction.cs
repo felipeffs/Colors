@@ -1,17 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DisableObjectAction : ConnectorAction
 {
-    [SerializeField] private Transform[] targetObjects;
+    private ColorSwapper _colorSwapper;
+    private bool _doColorsChange;
+    [SerializeField] private bool initialState;
+    private bool _currentState;
 
-    public override void Execute()
+    private void Awake()
     {
-        foreach (var tObject in targetObjects)
-        {
-            if (tObject)
-                tObject.gameObject.SetActive(!tObject.gameObject.activeSelf);
-        }
+        _colorSwapper = GetComponent<ColorSwapper>();
+    }
+
+    private void Start()
+    {
+        _doColorsChange = _colorSwapper ?? false;
+        ChangeCurrentState(initialState);
+    }
+
+    public override void Execute(bool state)
+    {
+        ChangeCurrentState(state ? !initialState : initialState);
+    }
+
+    private void ChangeCurrentState(bool newState)
+    {
+        gameObject.SetActive(newState);
+        if (_doColorsChange)
+            _colorSwapper.IsActive = newState;
     }
 }
+
+

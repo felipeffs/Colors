@@ -15,6 +15,7 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
 
     // Starter Configuration
     private Vector3 _initialPos;
+    private ColorSwapper colorSwapper;
 
     protected override void Awake()
     {
@@ -24,12 +25,21 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
 
     private void Start()
     {
+
         LevelManager.OnRestartLevel += LevelManager_OnRestartLevel;
+        if (TryGetComponent<ColorSwapper>(out colorSwapper))
+        {
+            colorSwapper.DoOnColorChange += ColorSwapper_DoOnColorChange;
+        }
     }
 
     private void OnDestroy()
     {
         LevelManager.OnRestartLevel -= LevelManager_OnRestartLevel;
+        if (colorSwapper != null)
+        {
+            colorSwapper.DoOnColorChange -= ColorSwapper_DoOnColorChange;
+        }
     }
 
     private void Update()
@@ -69,10 +79,10 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
                 //Velocity
                 if (groundVelocity != Vector2.zero)
                 {
-                    if (Mathf.Abs(_body.velocity.x) < Mathf.Abs(groundVelocity.x))
-                        _body.velocity = Vector2.right * groundVelocity.x + _body.velocity;
-                    if (Mathf.Abs(_body.velocity.y) < Mathf.Abs(groundVelocity.y))
-                        _body.velocity = Vector2.up * groundVelocity.y + _body.velocity; ;
+                    if (Mathf.Abs(_rb.velocity.x) < Mathf.Abs(groundVelocity.x))
+                        _rb.velocity = Vector2.right * groundVelocity.x + _rb.velocity;
+                    if (Mathf.Abs(_rb.velocity.y) < Mathf.Abs(groundVelocity.y))
+                        _rb.velocity = Vector2.up * groundVelocity.y + _rb.velocity; ;
 
                     return;
                 }
@@ -120,7 +130,7 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
         Unplug();
         Drop();
         transform.position = _initialPos;
-        _body.velocity = Vector2.zero;
+        _rb.velocity = Vector2.zero;
     }
 
     private void LevelManager_OnRestartLevel()
@@ -151,5 +161,17 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
         {
             Plug();
         }
+    }
+
+    private void ColorSwapper_DoOnColorChange(bool isActive)
+    {
+        if (isActive) return;
+        Drop();
+        Unplug();
+    }
+
+    public ColorSwapHandler.ColorID GetColor()
+    {
+        return colorSwapper?.TileColor ?? ColorSwapHandler.ColorID.None;
     }
 }

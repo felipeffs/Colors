@@ -54,7 +54,7 @@ MonoBehaviour:
   wallJumpDuration: 0.3
   wallJumpPenaltyDuration: 0.75
   fallAcceleration: 15
-  maxFallSpeed: 20
+  maxFallSpeed: 16
   groundVelocity: {x: 0, y: 0}
   groundLayers:
     serializedVersion: 2

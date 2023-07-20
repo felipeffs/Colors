@@ -11,12 +11,12 @@ public class GrabbableObject : MonoBehaviour
     protected Collider2D _collider;
     protected Collider2D _grabPerformerCollider;
     protected float _gravityScale;
-    protected Rigidbody2D _body;
+    protected Rigidbody2D _rb;
 
     protected virtual void Awake()
     {
         _collider = GetComponent<Collider2D>();
-        _body = _collider.attachedRigidbody;
+        _rb = _collider.attachedRigidbody;
     }
 
     protected virtual void FixedUpdate()
@@ -28,9 +28,10 @@ public class GrabbableObject : MonoBehaviour
     {
         if (_grabPoint == null) return;
 
-        var distance = Vector3.Distance(this.transform.position, _grabPoint.position);
-        var newPosition = Vector2.Lerp(this.transform.position, _grabPoint.position, grabSpeed * distance * Time.deltaTime);
-        _body.MovePosition(newPosition);
+        //var distance = Vector3.Distance(transform.position, _grabPoint.position);
+        var blend = 1 - Mathf.Pow(0.5f, Time.deltaTime * grabSpeed);
+        var newPosition = Vector2.Lerp(transform.position, _grabPoint.position, blend);
+        _rb.MovePosition(newPosition);
     }
 
     public virtual void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop)
@@ -41,8 +42,8 @@ public class GrabbableObject : MonoBehaviour
         Physics2D.IgnoreCollision(performerCollider, _collider, true);
 
         _grabPerformerCollider = performerCollider;
-        _gravityScale = _body.gravityScale;
-        _body.gravityScale = 0;
+        _gravityScale = _rb.gravityScale;
+        _rb.gravityScale = 0;
         _grabPoint = grabPoint;
         return;
     }
@@ -53,9 +54,9 @@ public class GrabbableObject : MonoBehaviour
 
         _performerDrop?.Invoke();
         Physics2D.IgnoreCollision(_grabPerformerCollider, _collider, false);
-        _body.gravityScale = _gravityScale;
+        _rb.gravityScale = _gravityScale;
         _grabPerformerCollider = null;
         _grabPoint = null;
-        _body.velocity = Vector2.zero;
+        _rb.velocity = Vector2.zero;
     }
 }
