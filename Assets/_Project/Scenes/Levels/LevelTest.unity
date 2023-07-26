@@ -1060,7 +1060,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileColor: 1
-  TileColor: 0
 --- !u!1 &1016635942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,7 +1444,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileColor: 0
-  TileColor: 0
 --- !u!1001 &1027250161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5579,17 +5577,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileColor: 0
-  TileColor: 0
 --- !u!4 &1675152549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 956921234753143775, guid: f30dde237782138488504c6464576df3, type: 3}
   m_PrefabInstance: {fileID: 2002362092}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1675152553
+--- !u!114 &1675152550 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6903971147800687624, guid: f30dde237782138488504c6464576df3, type: 3}
+  m_PrefabInstance: {fileID: 2002362092}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675152544}
   m_Enabled: 1
@@ -5597,7 +5593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a77802a277b0bc42b2289ff08fbabe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: 0
 --- !u!1 &1814944763
 GameObject:
   m_ObjectHideFlags: 0
@@ -5751,6 +5746,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 956921234753143775, guid: f30dde237782138488504c6464576df3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903971147800687624, guid: f30dde237782138488504c6464576df3, type: 3}
+      propertyPath: initialState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5985,7 +5984,7 @@ PrefabInstance:
     - target: {fileID: 684509841814358123, guid: 99ccb5a5eafaa3241b62ce30acc1168f, type: 3}
       propertyPath: connectorAction.Array.data[0]
       value: 
-      objectReference: {fileID: 1675152553}
+      objectReference: {fileID: 0}
     - target: {fileID: 684509841814358123, guid: 99ccb5a5eafaa3241b62ce30acc1168f, type: 3}
       propertyPath: connectorAction.Array.data[1]
       value: 
@@ -5993,7 +5992,7 @@ PrefabInstance:
     - target: {fileID: 684509841814358123, guid: 99ccb5a5eafaa3241b62ce30acc1168f, type: 3}
       propertyPath: connectorActions.Array.data[0]
       value: 
-      objectReference: {fileID: 1675152553}
+      objectReference: {fileID: 1675152550}
     - target: {fileID: 684509841814358123, guid: 99ccb5a5eafaa3241b62ce30acc1168f, type: 3}
       propertyPath: connectorActions.Array.data[1]
       value: 
@@ -6136,18 +6135,6 @@ PrefabInstance:
       propertyPath: connectorActions.Array.data[0]
       value: 
       objectReference: {fileID: 1353417149}
-    - target: {fileID: 0}
-      propertyPath: _object
-      value: 
-      objectReference: {fileID: 1518912807}
-    - target: {fileID: 0}
-      propertyPath: targetObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: targetObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 1518912807}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 553d5fcd87d618c429ad32ff10ec762d, type: 3}
 --- !u!1001 &5501970760860110915

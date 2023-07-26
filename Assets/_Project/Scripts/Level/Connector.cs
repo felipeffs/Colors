@@ -24,16 +24,14 @@ public class Connector : MonoBehaviour
     void OnDestroy()
     {
         if (_colorSwapper)
-        _colorSwapper.DoOnColorChange -= ColorSwapper_DoOnColorChange;
+            _colorSwapper.DoOnColorChange -= ColorSwapper_DoOnColorChange;
     }
 
     void ColorSwapper_DoOnColorChange(bool state)
     {
         if (state || !_objectAttached) return;
         if (_colorSwapper.TileColor != _objectAttached.GetComponent<ActivatorCube>().GetColor())
-        {
             DetachAll();
-        }
     }
 
     public bool AttachObject(Collider2D objectToAttach)

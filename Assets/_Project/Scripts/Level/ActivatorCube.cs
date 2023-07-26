@@ -65,6 +65,7 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
              colliderBounds.center.x - colliderBounds.extents.x,
               colliderBounds.center.x + colliderBounds.extents.x};
 
+
         foreach (var point in groundCheckPoints)
         {
             var checkPoint = new Vector3(point, colliderBounds.center.y - colliderBounds.extents.y, colliderBounds.center.z);
@@ -86,6 +87,10 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
 
                     return;
                 }
+            }
+            else
+            {
+                _other = null;
             }
         }
     }
@@ -167,7 +172,6 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
     {
         if (isActive) return;
         Drop();
-        Unplug();
     }
 
     public ColorSwapHandler.ColorID GetColor()
