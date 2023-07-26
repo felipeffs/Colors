@@ -147,8 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabSpeed: 20
+  maxGrabDistance: 5
   groundLayers:
     serializedVersion: 2
     m_Bits: 320
   distanceFromGround: 0.2
-  _other: {fileID: 0}

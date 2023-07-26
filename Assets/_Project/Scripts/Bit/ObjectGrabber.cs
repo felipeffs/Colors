@@ -4,6 +4,7 @@ public class ObjectGrabber : MonoBehaviour
     [SerializeField] private Collider2D grabArea;
     [SerializeField] private LayerMask objectsMask;
     [SerializeField] private Transform positionHoldObject;
+    [SerializeField] private float maxGrabDistance = 3.5f;
     private BitController _controller;
     private Collider2D _collider;
     private GrabbableObject _grabbableObject;
@@ -72,7 +73,7 @@ public class ObjectGrabber : MonoBehaviour
 
         // Guard clause: checks if it has captured a grabbable object
         if (!colliderCaptured.TryGetComponent<GrabbableObject>(out _grabbableObject)) return;
-        _grabbableObject.Grab(positionHoldObject, _collider, () => { _grabbableObject = null; _transformCaptured = null; });
+        _grabbableObject.Grab(positionHoldObject, _collider, () => { _grabbableObject = null; _transformCaptured = null; }, maxGrabDistance);
         _transformCaptured = colliderCaptured.transform;
     }
 

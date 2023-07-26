@@ -6,6 +6,7 @@ using System;
 public class GrabbableObject : MonoBehaviour
 {
     [SerializeField] protected float grabSpeed;
+    protected float _maxGrabDistance;
     protected Action _performerDrop;
     protected Transform _grabPoint;
     protected Collider2D _collider;
@@ -28,16 +29,21 @@ public class GrabbableObject : MonoBehaviour
     {
         if (_grabPoint == null) return;
 
-        //var distance = Vector3.Distance(transform.position, _grabPoint.position);
+        var distance = Vector3.Distance(transform.position, _grabPoint.position);
+        if (distance > _maxGrabDistance)
+        {
+            Drop();
+            return;
+        }
         var blend = 1 - Mathf.Pow(0.5f, Time.deltaTime * grabSpeed);
         var newPosition = Vector2.Lerp(transform.position, _grabPoint.position, blend);
         _rb.MovePosition(newPosition);
     }
 
-    public virtual void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop)
+    public virtual void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop, float maxGrabDistance)
     {
         _performerDrop = performerDrop;
-
+        _maxGrabDistance = maxGrabDistance;
         // Ignore Collider while grabbed
         Physics2D.IgnoreCollision(performerCollider, _collider, true);
 
@@ -51,7 +57,6 @@ public class GrabbableObject : MonoBehaviour
     public void Drop()
     {
         if (_grabPerformerCollider == null) return;
-
         _performerDrop?.Invoke();
         Physics2D.IgnoreCollision(_grabPerformerCollider, _collider, false);
         _rb.gravityScale = _gravityScale;

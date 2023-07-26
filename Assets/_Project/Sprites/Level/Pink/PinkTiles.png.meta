@@ -851,6 +851,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: PinkTiles_35
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81f557adb579e314aa0271f3d2ddff8f
+      internalID: -1425380124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PinkTiles_36
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ca17bbf3d8370349bfa173974a63d57
+      internalID: -311343244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -863,6 +905,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       PinkTiles_34: -1495168994
+      PinkTiles_35: -1425380124
       PinkTiles_26: 1610292093
       PinkTiles_33: 1181625795
       PinkTiles_24: -171494960
@@ -879,6 +922,7 @@ TextureImporter:
       PinkTiles_15: -493471623
       PinkTiles_5: 890943251
       PinkTiles_8: -240366967
+      PinkTiles_36: -311343244
       PinkTiles_22: -1852171754
       PinkTiles_16: -749470194
       PinkTiles_29: 760888817

@@ -851,6 +851,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: BrownTiles_35
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba2ed9133a5b310499d410adae80b59e
+      internalID: -648550229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BrownTiles_36
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0410237137c553b48aba6a8e58c89da5
+      internalID: -662846282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -867,11 +909,13 @@ TextureImporter:
       BrownTiles_19: 2014942140
       BrownTiles_10: 87279467
       BrownTiles_21: 984773568
+      BrownTiles_36: -662846282
       BrownTiles_27: -478639717
       BrownTiles_24: 91166573
       BrownTiles_34: -30592884
       BrownTiles_12: 939240548
       BrownTiles_32: -997739738
+      BrownTiles_35: -648550229
       BrownTiles_13: 1875890472
       BrownTiles_5: 2080214838
       BrownTiles_17: -760159329

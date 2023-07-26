@@ -421,7 +421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7612825580990953752}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.17300004, y: 0.5910001, z: 0}
+  m_LocalPosition: {x: 0.17300004, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -505,6 +505,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   positionHoldObject: {fileID: 5077941994011222417}
+  maxGrabDistance: 3.5
 --- !u!1001 &3445866599101886199
 PrefabInstance:
   m_ObjectHideFlags: 0

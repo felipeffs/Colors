@@ -149,9 +149,9 @@ public class ActivatorCube : GrabbableObject, IReceiveDamage, IInteractable
         Reset();
     }
 
-    public override void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop)
+    public override void Grab(Transform grabPoint, Collider2D performerCollider, Action performerDrop, float maxGrabDistance)
     {
-        base.Grab(grabPoint, performerCollider, performerDrop);
+        base.Grab(grabPoint, performerCollider, performerDrop, maxGrabDistance);
         Unplug();
     }
 
