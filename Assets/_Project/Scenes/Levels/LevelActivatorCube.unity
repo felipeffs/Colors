@@ -1018,7 +1018,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileColor: 0
-  TileColor: 0
 --- !u!1 &984308131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1593,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileColor: 1
-  TileColor: 0
 --- !u!1 &1037752680
 GameObject:
   m_ObjectHideFlags: 0
@@ -3157,6 +3155,10 @@ PrefabInstance:
     - target: {fileID: 6271922774926142193, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: m_Name
       value: LevelManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
+      propertyPath: levelName
+      value: '07: Transport Job'
       objectReference: {fileID: 0}
     - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: startPoint

@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Levels/LevelDoubleActivatorCube.unity
     guid: 0c8c5536a17b9d741a59545d8dc4d069
+  - enabled: 1
+    path: Assets/_Project/Scenes/Levels/LevelActivatorColoredVariation.unity
+    guid: 6f8cf3829360aba46ab8d77a3568f9df
   m_configObjects: {}

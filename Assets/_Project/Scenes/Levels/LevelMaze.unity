@@ -10377,6 +10377,10 @@ PrefabInstance:
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
+      propertyPath: levelName
+      value: '05: Connect The Dots'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: startPoint
       value: 
       objectReference: {fileID: 124507106}

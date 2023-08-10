@@ -29,6 +29,8 @@ MonoBehaviour:
     sceneName: LevelActivatorCube
   - sceneAsset: {fileID: 102900000, guid: 0c8c5536a17b9d741a59545d8dc4d069, type: 3}
     sceneName: LevelDoubleActivatorCube
+  - sceneAsset: {fileID: 102900000, guid: 6f8cf3829360aba46ab8d77a3568f9df, type: 3}
+    sceneName: LevelActivatorColoredVariation
   menuScene:
     sceneAsset: {fileID: 102900000, guid: 1ff2ee791d70e0547beddd1fcb05aaa7, type: 3}
     sceneName: MainMenu
