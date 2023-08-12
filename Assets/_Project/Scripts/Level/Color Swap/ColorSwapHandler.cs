@@ -1,15 +1,18 @@
 using UnityEngine;
 using System;
+using System.Threading;
 
 public class ColorSwapHandler : MonoBehaviour
 {
     public static event Action<ColorID> OnColorSwap;
     public static event Action OnColorSwapByPlayer;
 
-    [SerializeField] private Color Color1;
-    [SerializeField] private Color Color2;
+    [SerializeField] private Color color1;
+    [SerializeField] private Color color2;
     [SerializeField] private ColorID initialColor;
     private ColorID _activeColor;
+    [SerializeField] private float cooldownTime;
+    private float _timer;
 
     public enum ColorID
     {
@@ -30,11 +33,15 @@ public class ColorSwapHandler : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.Instance.SwapWasPressed())
+        if (InputManager.Instance.SwapWasPressed() && _timer <= 0)
         {
+            _timer = cooldownTime;
             OnColorSwapByPlayer?.Invoke();
             ChangeActiveColor();
+            return;
         }
+
+        _timer -= Time.deltaTime;
     }
 
     public void ChangeActiveColor()
@@ -56,11 +63,13 @@ public class ColorSwapHandler : MonoBehaviour
 
         OnColorSwap?.Invoke(_activeColor);
 
-        Camera.main.backgroundColor = (_activeColor == ColorID.Color1) ? Color2 : Color1;
+        Camera.main.backgroundColor = (_activeColor == ColorID.Color1) ? color2 : color1;
     }
 
     private void LevelManager_OnRestartLevel()
     {
         ChangeActiveColor(initialColor);
     }
+
+    public float GetCooldownTimer() => cooldownTime;
 }
