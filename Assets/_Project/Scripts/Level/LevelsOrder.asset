@@ -14,26 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelsList:
   - sceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
-    sceneName: Level1
+    sceneName: 01_Bridge
   - sceneAsset: {fileID: 102900000, guid: 73f91a09afdf0ef42a63069500869cad, type: 3}
-    sceneName: LevelInvertedTower
+    sceneName: 02_InvertedTower
   - sceneAsset: {fileID: 102900000, guid: 76f417a467c20514b81706fa2a7c067c, type: 3}
-    sceneName: LevelLearnWallJump
+    sceneName: 03_BrokenElevator
   - sceneAsset: {fileID: 102900000, guid: ebe322736a39c1541a53e3f6af1f097b, type: 3}
-    sceneName: LevelEasyPlataform
+    sceneName: 04_SecurityCabin
   - sceneAsset: {fileID: 102900000, guid: f5808f5b1181100409e75ca5e3a15d76, type: 3}
-    sceneName: LevelMaze
+    sceneName: 05_ConnectTheDots
   - sceneAsset: {fileID: 102900000, guid: 7aac175b2eb0e8d4ca1dfefef1c3f788, type: 3}
-    sceneName: LevelMovingPlataforms
+    sceneName: 06_Cliff
   - sceneAsset: {fileID: 102900000, guid: cd03ffd053289b441a34c8415b60a115, type: 3}
-    sceneName: LevelActivatorCube
+    sceneName: 07_TransportTask
   - sceneAsset: {fileID: 102900000, guid: 0c8c5536a17b9d741a59545d8dc4d069, type: 3}
-    sceneName: LevelDoubleActivatorCube
+    sceneName: 08_DupTup
   - sceneAsset: {fileID: 102900000, guid: 6f8cf3829360aba46ab8d77a3568f9df, type: 3}
-    sceneName: LevelActivatorColoredVariation
+    sceneName: 09_RestrictedArea
   menuScene:
     sceneAsset: {fileID: 102900000, guid: 1ff2ee791d70e0547beddd1fcb05aaa7, type: 3}
     sceneName: MainMenu
   essentialScene:
     sceneAsset: {fileID: 102900000, guid: beb41fd34353a714f8c510468d5948a7, type: 3}
-    sceneName: EssentialToGame
+    sceneName: Adt_Essential
