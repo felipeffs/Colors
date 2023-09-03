@@ -238,9 +238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a378d0eada5b94c9eb3fb614e03337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color1: {r: 0.97647065, g: 0.6039216, b: 0.6666667, a: 0}
-  Color2: {r: 0.54509807, g: 0.38431376, b: 0.34901962, a: 0}
+  color1: {r: 0.9921569, g: 0.7176471, b: 0.7490196, a: 0}
+  color2: {r: 0.5372549, g: 0.38431376, b: 0.34509805, a: 0}
   initialColor: 0
+  cooldownTime: 0.25
 --- !u!4 &413726795
 Transform:
   m_ObjectHideFlags: 0
@@ -5972,7 +5973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6633184384932343046, guid: e6cd54a0239a6a843b827c0d581e995c, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.999488
       objectReference: {fileID: 0}
     - target: {fileID: 6633184384932343046, guid: e6cd54a0239a6a843b827c0d581e995c, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
@@ -6275,6 +6276,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1276126547, guid: 06bd985222d708d42855b5d009495061, type: 3}
+      propertyPath: colorSwapHandler
+      value: 
+      objectReference: {fileID: 413726794}
     - target: {fileID: 6271922774926142192, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -6324,17 +6329,9 @@ PrefabInstance:
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
-      propertyPath: levelName
-      value: '08: Dup Tup'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: startPoint
       value: 
       objectReference: {fileID: 1637719303}
-    - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
-      propertyPath: restartText
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06bd985222d708d42855b5d009495061, type: 3}
 --- !u!1001 &2036834469

@@ -1,17 +1,23 @@
 using UnityEngine;
+using System;
+
 public class ObjectGrabber : MonoBehaviour
 {
+    public static event Action<ObjectGrabber> OnStart;
     [SerializeField] private Collider2D grabArea;
     [SerializeField] private LayerMask objectsMask;
     [SerializeField] private Transform positionHoldObject;
     [SerializeField] private float maxGrabDistance = 3.5f;
     private BitController _controller;
     private Collider2D _collider;
-    private GrabbableObject _grabbableObject;
+    [SerializeField] private GrabbableObject _grabbableObject;
     private Transform _transformCaptured;
 
     private float xOffsetHoldPosition;
     private float xOffsetGrabArea;
+    private float _timer;
+    [SerializeField] private float cooldownTime = .25f;
+
 
     private void Awake()
     {
@@ -21,6 +27,7 @@ public class ObjectGrabber : MonoBehaviour
 
     private void Start()
     {
+        OnStart?.Invoke(this);
         xOffsetHoldPosition = Mathf.Abs(positionHoldObject.localPosition.x);
         xOffsetGrabArea = Mathf.Abs(grabArea.transform.localPosition.x);
     }
@@ -43,12 +50,17 @@ public class ObjectGrabber : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.Instance.GrabWasPressed())
+        ChangeGrabAreaDirection();
+
+        if (InputManager.Instance.GrabWasPressed() && _timer <= 0)
         {
+            _timer = cooldownTime;
+            print(_timer);
             GrabNearestObject();
+            return;
         }
 
-        ChangeGrabAreaDirection();
+        _timer -= Time.deltaTime;
     }
 
     private void ChangeGrabAreaDirection()
@@ -90,4 +102,7 @@ public class ObjectGrabber : MonoBehaviour
         Gizmos.DrawWireCube(grabArea.bounds.center, new Vector3(grabArea.bounds.size.x, grabArea.bounds.size.y, 0));
     }
 #endif
+
+    public float GetCooldownTimer() => cooldownTime;
+    public bool isRecharging() => _timer > 0;
 }

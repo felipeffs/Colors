@@ -11,7 +11,7 @@ public class ColorSwapHandler : MonoBehaviour
     [SerializeField] private Color color2;
     [SerializeField] private ColorID initialColor;
     private ColorID _activeColor;
-    [SerializeField] private float cooldownTime;
+    [SerializeField] private float cooldownTime = .25f;
     private float _timer;
 
     public enum ColorID
@@ -72,4 +72,6 @@ public class ColorSwapHandler : MonoBehaviour
     }
 
     public float GetCooldownTimer() => cooldownTime;
+    public (Color, Color) GetLevelColors() => (color1, color2);
+
 }

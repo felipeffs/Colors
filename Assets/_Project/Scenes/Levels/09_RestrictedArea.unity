@@ -245,9 +245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a378d0eada5b94c9eb3fb614e03337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color1: {r: 0.9921569, g: 0.72156864, b: 0.75294125, a: 0}
-  Color2: {r: 0.5372549, g: 0.38431376, b: 0.34509805, a: 0}
+  color1: {r: 0.9921569, g: 0.7176471, b: 0.7490196, a: 0}
+  color2: {r: 0.5372549, g: 0.38431376, b: 0.34509805, a: 0}
   initialColor: 1
+  cooldownTime: 0.25
 --- !u!4 &413726795
 Transform:
   m_ObjectHideFlags: 0
@@ -3122,7 +3123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6633184384932343046, guid: e6cd54a0239a6a843b827c0d581e995c, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.999488
       objectReference: {fileID: 0}
     - target: {fileID: 6633184384932343046, guid: e6cd54a0239a6a843b827c0d581e995c, type: 3}
       propertyPath: m_NormalizedViewPortRect.height

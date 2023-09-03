@@ -506,6 +506,8 @@ MonoBehaviour:
     m_Bits: 256
   positionHoldObject: {fileID: 5077941994011222417}
   maxGrabDistance: 3.5
+  _grabbableObject: {fileID: 0}
+  cooldownTime: 0.25
 --- !u!1001 &3445866599101886199
 PrefabInstance:
   m_ObjectHideFlags: 0

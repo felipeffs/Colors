@@ -1,39 +1,38 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ColorSwapHUDHandler : MonoBehaviour
 {
-    [SerializeField] private Color color1;
-    [SerializeField] private Color color2;
-    [SerializeField] private Image colorIndicator;
-    [SerializeField] private Image cooldownRing;
-    [SerializeField] private Transform availableIcon;
+    private Color _color1;
+    private Color _color2;
 
     private float _currentTime;
     [Min(0.1f)]
     private float _duration = 1;
 
-    void OnEnable()
+    private void OnEnable()
     {
         ColorSwapHandler.OnColorSwap += ColorSwapHandler_OnColorSwap;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         ColorSwapHandler.OnColorSwap -= ColorSwapHandler_OnColorSwap;
 
     }
 
-    private void ColorSwapHandler_OnColorSwap(ColorSwapHandler.ColorID colorID)
+    private void Start()
     {
-        newColor = colorID == ColorSwapHandler.ColorID.Color1 ? color1 : color2;
-        itsChanged = true;
+        _colorSwapHandler = FindObjectOfType<ColorSwapHandler>();
+        (_color1, _color2) = _colorSwapHandler.GetLevelColors();
     }
 
-    void FixedUpdate()
+    private void ColorSwapHandler_OnColorSwap(ColorSwapHandler.ColorID colorID)
+    {
+        _newColor = colorID == ColorSwapHandler.ColorID.Color1 ? _color1 : _color2;
+    }
+
+    private void FixedUpdate()
     {
         AnimationMachine();
     }
@@ -41,11 +40,13 @@ public class ColorSwapHUDHandler : MonoBehaviour
     private ColorAnimationState _currentFadeState;
     private ColorAnimationState _nextState;
     private bool _isFirstCicle = true;
-    private bool itsChanged;
-    private Color currentColor;
-    private Color newColor;
+    private Color _currentColor;
+    private Color _newColor;
+    [SerializeField] private Image colorIndicator;
+    [SerializeField] private Image cooldownRing;
+    [SerializeField] private Transform availableIcon;
 
-    [SerializeField] private ColorSwapHandler colorSwapHandler;
+    private ColorSwapHandler _colorSwapHandler;
 
     enum ColorAnimationState
     {
@@ -86,11 +87,13 @@ public class ColorSwapHUDHandler : MonoBehaviour
     private ColorAnimationState Ready()
     {
         availableIcon.gameObject.SetActive(true);
-        if (itsChanged)
+
+        if (_currentColor != _newColor)
         {
-            itsChanged = false;
-            if (currentColor != newColor) return ColorAnimationState.FillingUp;
+            print(_currentColor != _newColor);
+            return ColorAnimationState.FillingUp;
         }
+
         return ColorAnimationState.Ready;
     }
 
@@ -100,21 +103,26 @@ public class ColorSwapHUDHandler : MonoBehaviour
         {
             availableIcon.gameObject.SetActive(false);
             _currentTime = 0;
-            _duration = colorSwapHandler.GetCooldownTimer();
+            _duration = _colorSwapHandler.GetCooldownTimer();
         }
 
         _currentTime += Time.deltaTime;
 
-        var colorAVector = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-        var colorBVector = new Vector3(newColor.r, newColor.g, newColor.b);
-        var colortemp = Vector3.Lerp(colorAVector, colorBVector, _currentTime);
+        var colorAVector = new Vector3(_currentColor.r, _currentColor.g, _currentColor.b);
+        var colorBVector = new Vector3(_newColor.r, _newColor.g, _newColor.b);
+        var colortemp = Vector3.Lerp(colorAVector, colorBVector, _currentTime * (1 / _duration));
 
-        currentColor = new Color(colortemp.x, colortemp.y, colortemp.z);
+        _currentColor = new Color(colortemp.x, colortemp.y, colortemp.z);
 
-        colorIndicator.color = currentColor;
+        colorIndicator.color = _currentColor;
 
         cooldownRing.fillAmount = _currentTime * (1 / _duration);
-        if (_currentTime >= _duration) return ColorAnimationState.Ready;
+
+        if (_currentTime >= _duration)
+        {
+            _currentColor = _newColor;
+            return ColorAnimationState.Ready;
+        }
         return ColorAnimationState.FillingUp;
     }
 
