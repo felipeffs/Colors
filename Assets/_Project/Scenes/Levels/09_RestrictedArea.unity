@@ -3085,6 +3085,10 @@ PrefabInstance:
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
+      propertyPath: grab
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6271922774926142195, guid: 06bd985222d708d42855b5d009495061, type: 3}
       propertyPath: levelName
       value: '09: Restricted area'
       objectReference: {fileID: 0}

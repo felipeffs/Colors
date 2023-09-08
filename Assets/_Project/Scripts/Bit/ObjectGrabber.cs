@@ -56,7 +56,7 @@ public class ObjectGrabber : MonoBehaviour
     {
         ChangeGrabAreaDirection();
 
-        if (InputManager.Instance.GrabWasPressed() > 0.5f && _timer <= 0 && !locka)
+        if (InputManager.Instance.GrabWasPressed() > 0.5f && !locka)
         {
             ShowVisualIndicator(true);
             GrabNearestObject();
@@ -64,8 +64,11 @@ public class ObjectGrabber : MonoBehaviour
         }
         else if (InputManager.Instance.GrabWasReleased())
         {
+            if (_timer <= 0 && !locka) _timer = cooldownTime;
+
             locka = false;
             ShowVisualIndicator(false);
+
         }
 
         _timer -= Time.deltaTime;
