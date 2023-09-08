@@ -130,9 +130,14 @@ public class InputManager : Singleton<InputManager>
         return _controls.Bit.Interact.WasPerformedThisFrame();
     }
 
-    public bool GrabWasPressed()
+    public float GrabWasPressed()
     {
-        return _controls.Bit.Grab.WasPerformedThisFrame();
+        return _controls.Bit.Grab.ReadValue<float>();
+    }
+
+    public bool GrabWasReleased()
+    {
+        return _controls.Bit.Grab.WasReleasedThisFrame();
     }
 
     //UI Menu

@@ -18,6 +18,9 @@ public class ObjectGrabber : MonoBehaviour
     private float _timer;
     [SerializeField] private float cooldownTime = .25f;
 
+    //
+    [SerializeField] private SpriteRenderer indicator;
+    private bool locka;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class ObjectGrabber : MonoBehaviour
 
     private void Start()
     {
+        ShowVisualIndicator(false);
         OnStart?.Invoke(this);
         xOffsetHoldPosition = Mathf.Abs(positionHoldObject.localPosition.x);
         xOffsetGrabArea = Mathf.Abs(grabArea.transform.localPosition.x);
@@ -52,12 +56,16 @@ public class ObjectGrabber : MonoBehaviour
     {
         ChangeGrabAreaDirection();
 
-        if (InputManager.Instance.GrabWasPressed() && _timer <= 0)
+        if (InputManager.Instance.GrabWasPressed() > 0.5f && _timer <= 0 && !locka)
         {
-            _timer = cooldownTime;
-            print(_timer);
+            ShowVisualIndicator(true);
             GrabNearestObject();
             return;
+        }
+        else if (InputManager.Instance.GrabWasReleased())
+        {
+            locka = false;
+            ShowVisualIndicator(false);
         }
 
         _timer -= Time.deltaTime;
@@ -71,11 +79,21 @@ public class ObjectGrabber : MonoBehaviour
         grabArea.transform.localPosition = new Vector2(xOffsetGrabArea * multi, grabArea.transform.localPosition.y);
     }
 
+    private void ShowVisualIndicator(bool isShowing)
+    {
+        indicator.gameObject.SetActive(isShowing);
+    }
+
     private void GrabNearestObject()
     {
         if (_grabbableObject != null)
         {
             _grabbableObject.Drop();
+
+            ShowVisualIndicator(false);
+            _timer = cooldownTime;
+            locka = true;
+
             return;
         }
 
@@ -87,6 +105,10 @@ public class ObjectGrabber : MonoBehaviour
         if (!colliderCaptured.TryGetComponent<GrabbableObject>(out _grabbableObject)) return;
         _grabbableObject.Grab(positionHoldObject, _collider, () => { _grabbableObject = null; _transformCaptured = null; }, maxGrabDistance);
         _transformCaptured = colliderCaptured.transform;
+
+        ShowVisualIndicator(false);
+        _timer = cooldownTime;
+        locka = true;
     }
 
     public bool TryGetGrabbedTransform(out Transform grabbedTransform)

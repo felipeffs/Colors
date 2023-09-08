@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
     private bool _resetFade;
 
     [Header("Abilities Available")]
-    [SerializeField] private bool Grab = false;
+    [SerializeField] private bool grab = false;
     [SerializeField] private ObjectGrabberHUDHandler hudGrabber;
 
     enum FadeState
@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        hudGrabber.ChangeStatus(Grab);
+        hudGrabber.ChangeStatus(grab);
 
         if (InputManager.Instance.RestartWasPressed())
         {

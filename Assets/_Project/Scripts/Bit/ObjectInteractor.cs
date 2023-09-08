@@ -6,7 +6,6 @@ using UnityEngine;
 public class ObjectInteractor : MonoBehaviour
 {
     private Dictionary<Transform, IInteractable> _interactableObjects = new Dictionary<Transform, IInteractable>();
-    [SerializeField] private Transform bitTransform;
     [SerializeField] private ObjectGrabber objectGrabber;
 
     public void Update()
