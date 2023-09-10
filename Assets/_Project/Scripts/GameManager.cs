@@ -15,6 +15,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        MusicChange(true);
+
         Application.targetFrameRate = frameRate;
         pauseUI.SetActive(false);
     }
@@ -41,6 +43,7 @@ public class GameManager : Singleton<GameManager>
         OnPause?.Invoke(true);
         Time.timeScale = 0;
         pauseUI.SetActive(true);
+        MusicChange(false);
     }
 
     public void ResumeGame()
@@ -49,6 +52,7 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
         pauseUI.SetActive(false);
         _isPaused = false;
+        MusicChange(true);
     }
 
     public void RestartLevel()
@@ -71,5 +75,23 @@ public class GameManager : Singleton<GameManager>
     {
         ResumeGame();
         levelOrder.LoadMainMenu();
+        MusicChange(false);
+    }
+
+    //MUSIC
+    [Header("Music")]
+    [SerializeField] AudioClip gameplayMusic;
+    [SerializeField] AudioClip menuMusic;
+    [SerializeField] AudioSource channel;
+    [SerializeField] float lastTrackPosition;
+
+    private void MusicChange(bool isGameplay)
+    {
+        var currentTrackPosition = channel.time;
+        channel.clip = isGameplay ? gameplayMusic : menuMusic;
+        channel.loop = true;
+        channel.time = lastTrackPosition;
+        lastTrackPosition = currentTrackPosition;
+        channel.Play();
     }
 }

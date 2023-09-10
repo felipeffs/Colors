@@ -10,6 +10,8 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
     [SerializeField] private Image cooldownRing;
     [SerializeField] private Transform availableIcon;
     [SerializeField] private Transform unavailableIcon;
+    [SerializeField] private Transform background;
+
 
     private float _currentTime;
     [Min(0.1f)]
@@ -87,9 +89,8 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
             cooldownRing.gameObject.SetActive(true);
             availableIcon.gameObject.SetActive(true);
             unavailableIcon.gameObject.SetActive(false);
+            background.gameObject.SetActive(true);
         }
-
-        print("READY");
 
         // Condition to change state here
         if (_grabber.isRecharging()) return ColorAnimationState.FillingUp;
@@ -107,7 +108,6 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
         }
 
         _currentTime += Time.deltaTime;
-        print("FUP");
 
         cooldownRing.fillAmount = _currentTime * (1 / _duration);
         if (_currentTime >= _duration) return ColorAnimationState.Ready;
@@ -121,9 +121,9 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
             cooldownRing.gameObject.SetActive(false);
             availableIcon.gameObject.SetActive(false);
             unavailableIcon.gameObject.SetActive(false);
-        }
+            background.gameObject.SetActive(false);
 
-        print("DESAC");
+        }
 
         if (isAvailable == true && _grabber != null) return ColorAnimationState.Ready;
 

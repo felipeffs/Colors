@@ -45,6 +45,7 @@ public class ColorSwapHUDHandler : MonoBehaviour
     [SerializeField] private Image colorIndicator;
     [SerializeField] private Image cooldownRing;
     [SerializeField] private Transform availableIcon;
+    [SerializeField] private Transform background;
 
     private ColorSwapHandler _colorSwapHandler;
 
@@ -86,7 +87,11 @@ public class ColorSwapHUDHandler : MonoBehaviour
 
     private ColorAnimationState Ready()
     {
-        availableIcon.gameObject.SetActive(true);
+        if (_isFirstCicle)
+        {
+            availableIcon.gameObject.SetActive(true);
+            background.gameObject.SetActive(true);
+        }
 
         if (_currentColor != _newColor)
         {
@@ -128,7 +133,12 @@ public class ColorSwapHUDHandler : MonoBehaviour
 
     private ColorAnimationState Desactived()
     {
-        availableIcon.parent.gameObject.SetActive(false);
+        if (_isFirstCicle)
+        {
+            availableIcon.parent.gameObject.SetActive(false);
+            background.gameObject.SetActive(false);
+        }
+
         return ColorAnimationState.Ready;
     }
 
