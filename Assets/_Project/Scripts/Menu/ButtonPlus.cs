@@ -56,7 +56,7 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    void IPointerExitHandler.OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         if (isPointAbove == true)
         {
@@ -127,7 +127,7 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (InputManager.Instance.PointerClickReleased())
             {
                 onAction?.Invoke();
-                return State.Normal;
+                return State.Highlighted;
             }
         }
         else
@@ -135,7 +135,7 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (InputManager.Instance.NavigationSelectReleased())
             {
                 onAction?.Invoke();
-                return State.Normal;
+                return State.Highlighted;
             }
         }
 

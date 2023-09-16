@@ -96,4 +96,9 @@ public class UIPlusModule : Singleton<UIPlusModule>
         if (_activeControlType == ControlType.Mouse)
             _currentSelectedButton = null;
     }
+
+    public void ChangeInitialSelectedButton(ButtonPlus button)
+    {
+        initialSelectedButton = button;
+    }
 }
