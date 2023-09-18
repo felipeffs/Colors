@@ -10,6 +10,15 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Audio Sources")]
     [SerializeField] private Dictionary<Sound, AudioSource> audioSourceDictionary = new Dictionary<Sound, AudioSource>();
 
+    private float volume_sound;
+
+    protected override void SingletonAwake()
+    {
+        print("AAAA");
+        volume_sound = (float)PlayerPrefs.GetInt("volume_sound") / 100;
+        print(PlayerPrefs.GetInt("volume_sound"));
+    }
+
     public enum Sound
     {
         None,
@@ -37,18 +46,18 @@ public class AudioManager : Singleton<AudioManager>
 
                     if (sound == Sound.Walk)
                     {
-                        audioSourceDictionary[sound].volume = .3f;
+                        audioSourceDictionary[sound].volume = .3f * volume_sound;
                         audioSourceDictionary[sound].loop = true;
                     }
 
                     if (sound == Sound.Swap)
                     {
-                        audioSourceDictionary[sound].volume = .6f;
+                        audioSourceDictionary[sound].volume = .6f * volume_sound;
                     }
 
                     if (sound == Sound.Landing || sound == Sound.Jump)
                     {
-                        audioSourceDictionary[sound].volume = .3f;
+                        audioSourceDictionary[sound].volume = .3f * volume_sound;
                     }
                 }
             }

@@ -197,4 +197,14 @@ public class InputManager : Singleton<InputManager>
     {
         return _controls.Menu.NavigationRight.WasPressedThisFrame();
     }
+
+    public bool NavigationHeldLeft()
+    {
+        return _controls.Menu.NavigationLeft.ReadValue<bool>();
+    }
+
+    public bool NavigationHeldRight()
+    {
+        return _controls.Menu.NavigationRight.ReadValue<bool>();
+    }
 }
