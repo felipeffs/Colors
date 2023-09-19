@@ -207,4 +207,9 @@ public class InputManager : Singleton<InputManager>
     {
         return _controls.Menu.NavigationRight.ReadValue<bool>();
     }
+
+    public bool NavigationReturn()
+    {
+        return _controls.Menu.NavigationReturn.WasPressedThisFrame();
+    }
 }

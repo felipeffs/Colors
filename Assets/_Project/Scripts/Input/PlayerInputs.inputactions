@@ -353,6 +353,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "NavigationReturn",
+                    "type": "Button",
+                    "id": "e1023d96-6ac9-40c7-88bc-8dd7fc3b93ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -496,6 +505,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "NavigationSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be0acc4a-3bbb-4725-a047-f40826bd124f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NavigationReturn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef17b213-34fc-4e96-b5b3-1ade984daaa8",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NavigationReturn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

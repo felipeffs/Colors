@@ -375,6 +375,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""NavigationReturn"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1023d96-6ac9-40c7-88bc-8dd7fc3b93ab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -520,6 +529,28 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""NavigationSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be0acc4a-3bbb-4725-a047-f40826bd124f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigationReturn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef17b213-34fc-4e96-b5b3-1ade984daaa8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigationReturn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -547,6 +578,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Menu_NavigationLeft = m_Menu.FindAction("NavigationLeft", throwIfNotFound: true);
         m_Menu_NavigationRight = m_Menu.FindAction("NavigationRight", throwIfNotFound: true);
         m_Menu_Delta = m_Menu.FindAction("Delta", throwIfNotFound: true);
+        m_Menu_NavigationReturn = m_Menu.FindAction("NavigationReturn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -720,6 +752,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_NavigationLeft;
     private readonly InputAction m_Menu_NavigationRight;
     private readonly InputAction m_Menu_Delta;
+    private readonly InputAction m_Menu_NavigationReturn;
     public struct MenuActions
     {
         private @PlayerInputs m_Wrapper;
@@ -732,6 +765,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @NavigationLeft => m_Wrapper.m_Menu_NavigationLeft;
         public InputAction @NavigationRight => m_Wrapper.m_Menu_NavigationRight;
         public InputAction @Delta => m_Wrapper.m_Menu_Delta;
+        public InputAction @NavigationReturn => m_Wrapper.m_Menu_NavigationReturn;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -765,6 +799,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Delta.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnDelta;
                 @Delta.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnDelta;
                 @Delta.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnDelta;
+                @NavigationReturn.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationReturn;
+                @NavigationReturn.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationReturn;
+                @NavigationReturn.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigationReturn;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
@@ -793,6 +830,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Delta.started += instance.OnDelta;
                 @Delta.performed += instance.OnDelta;
                 @Delta.canceled += instance.OnDelta;
+                @NavigationReturn.started += instance.OnNavigationReturn;
+                @NavigationReturn.performed += instance.OnNavigationReturn;
+                @NavigationReturn.canceled += instance.OnNavigationReturn;
             }
         }
     }
@@ -820,5 +860,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnNavigationLeft(InputAction.CallbackContext context);
         void OnNavigationRight(InputAction.CallbackContext context);
         void OnDelta(InputAction.CallbackContext context);
+        void OnNavigationReturn(InputAction.CallbackContext context);
     }
 }

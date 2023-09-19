@@ -1,9 +1,15 @@
+using System;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private SOLevelOrder levelOrder;
-    [SerializeField] private ButtonPlus settingsInitialButton;
+    [SerializeField] private MenuManager menuManager;
+
+    void Awake()
+    {
+        menuManager = GetComponentInParent<MenuManager>();
+    }
 
     public void CloseGame()
     {
@@ -17,8 +23,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void SettingsMenu()
     {
-        gameObject.SetActive(false);
-        UIPlusModule.Instance.ChangeInitialSelectedButton(settingsInitialButton);
-        UIPlusModule.Instance.SetSelected(settingsInitialButton);
+        menuManager.changeCurrentMenu();
     }
 }
