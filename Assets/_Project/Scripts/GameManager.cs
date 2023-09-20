@@ -87,7 +87,7 @@ public class GameManager : Singleton<GameManager>
 
     private void MusicChange(bool isGameplay)
     {
-        var volumeMusic = (float)PlayerPrefs.GetInt("volume_music");
+        var volumeMusic = PlayerPrefs.GetFloat("volume_music");
         var currentTrackPosition = channel.time;
         channel.volume = volumeMusic / 100f;
         channel.clip = isGameplay ? gameplayMusic : menuMusic;

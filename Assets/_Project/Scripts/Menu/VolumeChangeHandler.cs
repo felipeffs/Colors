@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class VolumeChangeHandler : MonoBehaviour
 {
-    int volumeSound;
+    private float volumeSound;
+    [SerializeField] Slider slider;
+    [SerializeField] TextMeshProUGUI number;
 
     void Awake()
     {
-        volumeSound = PlayerPrefs.GetInt("volume_sound", 100);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        volumeSound = PlayerPrefs.GetFloat("volume_sound", 100);
+        number.text = volumeSound.ToString();
+        slider.value = volumeSound / 100;
     }
 
     // Update is called once per frame
@@ -24,16 +22,19 @@ public class VolumeChangeHandler : MonoBehaviour
         {
             volumeSound += 1;
             if (volumeSound > 100) volumeSound = 100;
-            PlayerPrefs.SetInt("volume_sound", volumeSound);
+            number.text = volumeSound.ToString();
+            slider.value = volumeSound / 100;
+            PlayerPrefs.SetFloat("volume_sound", volumeSound);
             PlayerPrefs.Save();
-            print(volumeSound);
         }
         if (InputManager.Instance.NavigationLeft())
         {
             volumeSound -= 1;
             if (volumeSound < 0) volumeSound = 0;
-            PlayerPrefs.SetInt("volume_sound", volumeSound);
-            print(volumeSound);
+            print(volumeSound / 100);
+            number.text = volumeSound.ToString();
+            slider.value = volumeSound / 100;
+            PlayerPrefs.SetFloat("volume_sound", volumeSound);
         }
     }
 }

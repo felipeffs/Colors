@@ -15,8 +15,8 @@ public class AudioManager : Singleton<AudioManager>
     protected override void SingletonAwake()
     {
         print("AAAA");
-        volume_sound = (float)PlayerPrefs.GetInt("volume_sound") / 100;
-        print(PlayerPrefs.GetInt("volume_sound"));
+        volume_sound = (float)PlayerPrefs.GetFloat("volume_sound") / 100;
+        print(PlayerPrefs.GetFloat("volume_sound"));
     }
 
     public enum Sound

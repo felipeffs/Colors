@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MusicChangeHandler : MonoBehaviour
 {
-    int volumeMusic;
+    float volumeMusic;
+    [SerializeField] Slider slider;
+    [SerializeField] TextMeshProUGUI number;
 
     void Awake()
     {
-        volumeMusic = PlayerPrefs.GetInt("volume_music", 100);
+        volumeMusic = PlayerPrefs.GetFloat("volume_music", 100);
+        number.text = volumeMusic.ToString();
+        slider.value = volumeMusic / 100;
     }
     // Start is called before the first frame update
     void Start()
@@ -23,16 +27,19 @@ public class MusicChangeHandler : MonoBehaviour
         {
             volumeMusic += 1;
             if (volumeMusic > 100) volumeMusic = 100;
-            PlayerPrefs.SetInt("volume_music", volumeMusic);
+            number.text = volumeMusic.ToString();
+            slider.value = volumeMusic / 100;
+            PlayerPrefs.SetFloat("volume_music", volumeMusic);
             PlayerPrefs.Save();
-            print(volumeMusic);
         }
         if (InputManager.Instance.NavigationLeft())
         {
             volumeMusic -= 1;
             if (volumeMusic < 0) volumeMusic = 0;
-            PlayerPrefs.SetInt("volume_music", volumeMusic);
-            print(volumeMusic);
+            print(volumeMusic / 100);
+            number.text = volumeMusic.ToString();
+            slider.value = volumeMusic / 100;
+            PlayerPrefs.SetFloat("volume_music", volumeMusic);
         }
     }
 }
