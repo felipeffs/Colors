@@ -10,19 +10,17 @@ public class ResolutionHandler : MonoBehaviour
 {
     private Resolution[] suportedResolutions;
     [SerializeField] TextMeshProUGUI resolutionDisplayer;
-    int currentIndex = 0;
+    private int currentIndex = 0;
 
-    void Awake()
+    private void Awake()
     {
         suportedResolutions = Screen.resolutions;
         var currentRes = Screen.currentResolution;
         currentIndex = Array.FindIndex(suportedResolutions, res =>
         {
-            if (res.width != currentRes.width)
-                return false;
-            if (res.height != currentRes.height)
-                return false;
-            if (res.refreshRate != currentRes.refreshRate)
+            if (res.width != currentRes.width
+            || res.height != currentRes.height
+            || res.refreshRate != currentRes.refreshRate)
                 return false;
             return true;
         }
@@ -30,16 +28,26 @@ public class ResolutionHandler : MonoBehaviour
         resolutionDisplayer.text = suportedResolutions[currentIndex].ToString();
     }
 
-    void Update()
+    private void Update()
     {
         if (InputManager.Instance.NavigationRight())
         {
-            ChangeResolution(+1);
+            IncreaseResolution();
         }
         if (InputManager.Instance.NavigationLeft())
         {
-            ChangeResolution(-1);
+            DecreaseResolution();
         }
+    }
+
+    public void IncreaseResolution()
+    {
+        ChangeResolution(1);
+    }
+
+    public void DecreaseResolution()
+    {
+        ChangeResolution(-1);
     }
 
     private void ChangeResolution(int direction)

@@ -16,13 +16,11 @@ public class DisplayModeHandler : MonoBehaviour
     {
         if (InputManager.Instance.NavigationLeft())
         {
-            Screen.fullScreenMode = FullScreenMode.Windowed;
-            HoverFullscreen(false);
+            ChangeDisplayMode(false);
         }
         if (InputManager.Instance.NavigationRight())
         {
-            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-            HoverFullscreen(true);
+            ChangeDisplayMode(true);
         }
     }
 
@@ -30,5 +28,11 @@ public class DisplayModeHandler : MonoBehaviour
     {
         selectedFullscreen.SetActive(isFullscreen);
         selectedWindowed.SetActive(!isFullscreen);
+    }
+
+    public void ChangeDisplayMode(bool isFullscreen)
+    {
+        Screen.fullScreenMode = isFullscreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+        HoverFullscreen(isFullscreen);
     }
 }

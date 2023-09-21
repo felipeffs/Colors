@@ -1,10 +1,11 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MusicChangeHandler : MonoBehaviour
 {
-    float volumeMusic;
+    private float volumeMusic;
     [SerializeField] Slider slider;
     [SerializeField] TextMeshProUGUI number;
 
@@ -12,12 +13,18 @@ public class MusicChangeHandler : MonoBehaviour
     {
         volumeMusic = PlayerPrefs.GetFloat("volume_music", 100);
         number.text = volumeMusic.ToString();
-        slider.value = volumeMusic / 100;
+        slider.value = volumeMusic;
+        slider.onValueChanged.AddListener(Slider_OnValueChange);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    void OnEnable()
+    {
+        slider.enabled = true;
+    }
+
+    void OnDisable()
+    {
+        slider.enabled = false;
     }
 
     // Update is called once per frame
@@ -25,21 +32,30 @@ public class MusicChangeHandler : MonoBehaviour
     {
         if (InputManager.Instance.NavigationRight())
         {
-            volumeMusic += 1;
-            if (volumeMusic > 100) volumeMusic = 100;
-            number.text = volumeMusic.ToString();
-            slider.value = volumeMusic / 100;
-            PlayerPrefs.SetFloat("volume_music", volumeMusic);
-            PlayerPrefs.Save();
+            ChangeVolume(1);
         }
         if (InputManager.Instance.NavigationLeft())
         {
-            volumeMusic -= 1;
-            if (volumeMusic < 0) volumeMusic = 0;
-            print(volumeMusic / 100);
-            number.text = volumeMusic.ToString();
-            slider.value = volumeMusic / 100;
-            PlayerPrefs.SetFloat("volume_music", volumeMusic);
+            ChangeVolume(-1);
         }
+    }
+
+    private void ChangeVolume(int value)
+    {
+        volumeMusic += value;
+        if (volumeMusic > 100) volumeMusic = 100;
+        if (volumeMusic < 0) volumeMusic = 0;
+        number.text = volumeMusic.ToString();
+        slider.value = volumeMusic;
+        PlayerPrefs.SetFloat("volume_music", volumeMusic);
+        PlayerPrefs.Save();
+    }
+
+    private void Slider_OnValueChange(float value)
+    {
+        volumeMusic = value;
+        number.text = volumeMusic.ToString();
+        PlayerPrefs.SetFloat("volume_sound", volumeMusic);
+        PlayerPrefs.Save();
     }
 }

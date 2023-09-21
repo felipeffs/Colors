@@ -10,7 +10,7 @@ public class MenuManager : MonoBehaviour
     private MenuState _nextMenu;
     private MenuState _currentMenu;
     private bool _firstCicle = true;
-    private bool changeToSettings;
+    private bool changeMenu;
 
     private void Update()
     {
@@ -58,8 +58,9 @@ public class MenuManager : MonoBehaviour
             UIPlusModule.Instance.SetSelected(settingsInitialButton);
         }
 
-        if (InputManager.Instance.NavigationReturn())
+        if (InputManager.Instance.NavigationReturn() || changeMenu)
         {
+            changeMenu = false;
             return MenuState.Main;
         }
         return MenuState.Settings;
@@ -75,9 +76,9 @@ public class MenuManager : MonoBehaviour
             UIPlusModule.Instance.SetSelected(mainInitialButton);
         }
 
-        if (changeToSettings)
+        if (changeMenu)
         {
-            changeToSettings = false;
+            changeMenu = false;
             return MenuState.Settings;
         }
         return MenuState.Main;
@@ -91,6 +92,6 @@ public class MenuManager : MonoBehaviour
 
     public void changeCurrentMenu()
     {
-        changeToSettings = true;
+        changeMenu = true;
     }
 }

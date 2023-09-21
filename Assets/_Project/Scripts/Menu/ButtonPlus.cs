@@ -43,7 +43,8 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         normal.gameObject.SetActive(true);
         highlighted.gameObject.SetActive(false);
-        pressed.gameObject.SetActive(false);
+        if (pressed)
+            pressed.gameObject.SetActive(false);
         UIPlusModule.Instance.AddButton(this);
     }
 
@@ -90,7 +91,8 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         highlighted.gameObject.SetActive(false);
         normal.gameObject.SetActive(true);
-        pressed.gameObject.SetActive(false);
+        if (pressed)
+            pressed.gameObject.SetActive(false);
 
         if (isPointAbove && Cursor.lockState == CursorLockMode.None) return State.Highlighted;
         return State.Normal;
@@ -100,7 +102,8 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         highlighted.gameObject.SetActive(true);
         normal.gameObject.SetActive(false);
-        pressed.gameObject.SetActive(false);
+        if (pressed)
+            pressed.gameObject.SetActive(false);
 
         if (Cursor.lockState == CursorLockMode.None)
         {
@@ -117,6 +120,7 @@ public class ButtonPlus : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private State Pressed()
     {
+        if (!pressed) return State.Highlighted;
         highlighted.gameObject.SetActive(false);
         normal.gameObject.SetActive(false);
         pressed.gameObject.SetActive(true);
