@@ -11,7 +11,7 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
     [SerializeField] private Transform availableIcon;
     [SerializeField] private Transform unavailableIcon;
     [SerializeField] private Transform background;
-
+    [SerializeField] private Transform keyIndicator;
 
     private float _currentTime;
     [Min(0.1f)]
@@ -90,6 +90,7 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
             availableIcon.gameObject.SetActive(true);
             unavailableIcon.gameObject.SetActive(false);
             background.gameObject.SetActive(true);
+            keyIndicator.gameObject.SetActive(true);
         }
 
         // Condition to change state here
@@ -122,7 +123,7 @@ public class ObjectGrabberHUDHandler : MonoBehaviour
             availableIcon.gameObject.SetActive(false);
             unavailableIcon.gameObject.SetActive(false);
             background.gameObject.SetActive(false);
-
+            keyIndicator.gameObject.SetActive(false);
         }
 
         if (isAvailable == true && _grabber != null) return ColorAnimationState.Ready;

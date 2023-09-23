@@ -8096,6 +8096,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: tilemap_packed_380
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 225
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad97bc5763d60147a2a249045ce0a71
+      internalID: -1712655523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_packed_381
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 82
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f32fcebe628ee541b3a120f2f86d118
+      internalID: 922804601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_packed_382
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 225
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d386c2770b0ad2648a14ab4786f9f0ca
+      internalID: -378788367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_packed_383
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 97
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbb1510664ce94147836c5f035277631
+      internalID: 1906253778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_packed_384
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 52
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7135e5134011d4348b03bfeb4895fb52
+      internalID: -2041565157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -8283,6 +8388,7 @@ TextureImporter:
       tilemap_packed_187: 2088084449
       tilemap_packed_356: 511708685
       tilemap_packed_68: 1995244074
+      tilemap_packed_381: 922804601
       tilemap_packed_163: 377933360
       tilemap_packed_165: -1011761130
       tilemap_packed_219: -1807999844
@@ -8307,6 +8413,7 @@ TextureImporter:
       tilemap_packed_287: 1907022839
       tilemap_packed_125: 504802516
       tilemap_packed_158: -1821857925
+      tilemap_packed_384: -2041565157
       tilemap_packed_66: -99965271
       tilemap_packed_212: 1540634170
       tilemap_packed_76: 1674004469
@@ -8324,6 +8431,7 @@ TextureImporter:
       tilemap_packed_256: 1967641072
       tilemap_packed_237: -1143059952
       tilemap_packed_319: -1768806850
+      tilemap_packed_382: -378788367
       tilemap_packed_136: 921404301
       tilemap_packed_92: 2055084906
       tilemap_packed_218: -1922608450
@@ -8372,6 +8480,7 @@ TextureImporter:
       tilemap_packed_349: 867453587
       tilemap_packed_89: -67695130
       tilemap_packed_369: -2101860102
+      tilemap_packed_380: -1712655523
       tilemap_packed_153: 576179465
       tilemap_packed_251: 22676094
       tilemap_packed_289: 1766110714
@@ -8383,6 +8492,7 @@ TextureImporter:
       tilemap_packed_150: -1830474707
       tilemap_packed_343: -934526968
       tilemap_packed_202: -250600443
+      tilemap_packed_383: 1906253778
       tilemap_packed_86: -775046140
       tilemap_packed_227: 1558398683
       tilemap_packed_41: 1989642793

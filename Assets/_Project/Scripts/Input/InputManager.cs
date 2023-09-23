@@ -1,7 +1,11 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
+    public event Action<ControlType> OnControlTypeChange;
     private PlayerInputs _controls;
 
     [Header("Input Buffer")]
@@ -12,6 +16,12 @@ public class InputManager : Singleton<InputManager>
     [Header("Awake")]
     [SerializeField] private float awakeUpDelay = 0.3f;
     private float _awakeUpTimer;
+
+    public enum ControlType
+    {
+        KeyboardMouse,
+        Gamepad
+    }
 
     protected override void SingletonAwake()
     {
@@ -41,6 +51,7 @@ public class InputManager : Singleton<InputManager>
 
     private void Update()
     {
+        CheckControlType();
         if (_awakeUpTimer > 0)
         {
             _awakeUpTimer -= Time.deltaTime;
@@ -61,6 +72,31 @@ public class InputManager : Singleton<InputManager>
             _jumpBuffered = true;
             _jumpBufferTimer = jumpBufferWindow;
         }
+    }
+
+    private void CheckControlType()
+    {
+        var activeLayout = GetLayout(_controls.Bit.Walk);
+        if (activeLayout != null) { GetControlType(activeLayout); return; }
+        activeLayout = GetLayout(_controls.Bit.Jump);
+        if (activeLayout != null) { GetControlType(activeLayout); return; }
+        activeLayout = GetLayout(_controls.Bit.SwapColor);
+        if (activeLayout != null) { GetControlType(activeLayout); return; }
+        activeLayout = GetLayout(_controls.Bit.Grab);
+        if (activeLayout != null) { GetControlType(activeLayout); return; }
+        activeLayout = GetLayout(_controls.Bit.Interact);
+        if (activeLayout != null) { GetControlType(activeLayout); return; }
+    }
+
+    private String GetLayout(InputAction action)
+    {
+        return action.activeControl?.layout;
+    }
+
+    private void GetControlType(String layout)
+    {
+        var currentType = layout == "Button" ? ControlType.Gamepad : ControlType.KeyboardMouse;
+        OnControlTypeChange?.Invoke(currentType);
     }
 
     private void GameManager_OnPause(bool isPaused)
